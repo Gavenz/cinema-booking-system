@@ -1,0 +1,21 @@
+# OS / system files
+.DS_Store
+Thumbs.db
+
+# IDE / editor folders
+.vscode/
+.idea/
+
+# PHP dependencies (if composer is used later)
+vendor/
+
+# Environment and config files
+.env
+config.php
+
+# Logs and temp files
+*.log
+*.tmp
+
+# XAMPP specific cache
+xamppfiles/temp/
