@@ -5,32 +5,33 @@ This is a school project demonstrating client-side + server-side web development
 ---
 
 ## 📂 Project Structure
+```text
 cinema-booking-system/
 ├─ assets/
-│ ├─ styles.css # external stylesheet (≥4 styles)
-│ ├─ app.js # vanilla JavaScript for client-side v
-│ └─ images/ # posters, banners
+│  ├─ styles.css           # external stylesheet (≥4 styles)
+│  ├─ app.js               # vanilla JavaScript for client-side validation
+│  └─ images/              # posters, banners
 ├─ includes/
-│ ├─ db.php # PDO database connection
-│ ├─ header.php # shared header + navigation
-│ └─ footer.php # shared footer
+│  ├─ db.php               # PDO database connection
+│  ├─ header.php           # shared header + navigation
+│  └─ footer.php           # shared footer
 ├─ pages/
-| ├─ account.php # My bookings (SELECT, table display,  inline update form)
-| ├─ book.php # Booking form (≥4 fields, client validation)
-| ├─ index.php # Home page
-│ ├─ db.php # PDO database connection
-| ├─ movie.php # Movie details + showtimes table
-│ └─ movies.php # All movies (server-side generated page, SELECT)
+│  ├─ index.php            # Home page
+│  ├─ movies.php           # All movies (server-side generated page, SELECT)
+│  ├─ movie.php            # Movie details + showtimes table
+│  ├─ book.php             # Booking form (≥4 fields, client validation)
+│  └─ account.php          # My bookings (SELECT, table display, inline update form)
+├─ actions/
+│  ├─ process_booking.php  # Form handler (INSERT booking)
+│  └─ update_booking.php   # Update booking (UPDATE)
 ├─ sql/
-│ ├─ schema.sql # database structure (tables)
-│ └─ seed.sql # initial data (sample movies/showtimes)
-├─ .gitattributes
+│  ├─ schema.sql           # database structure (tables)
+│  └─ seed.sql             # initial data (sample movies/showtimes)
 ├─ .gitignore
 ├─ LICENSE
-├─ process_booking.php # Form handler (INSERT booking)
-├─ README.md
-└─  update_booking.php # Update booking (UPDATE)
+└─ README.md
 
+---
 
 ## How to run with XAMPP
 1. Install [XAMPP]
