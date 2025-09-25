@@ -30,7 +30,7 @@ cinema-booking-system/
 ├─ .gitignore
 ├─ LICENSE
 └─ README.md
-
+```
 ---
 
 ## How to run with XAMPP
@@ -49,9 +49,6 @@ File path:
 > http://localhost/cinema-booking-system/
 7. Or (windowOS):
 >http://localhost:8000/cinema-booking-system/
-
----
-
 
 ---
 
