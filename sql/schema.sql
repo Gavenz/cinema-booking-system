@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 27, 2025 at 09:27 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost
+-- Generation Time: Oct 04, 2025 at 02:10 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,9 +33,27 @@ CREATE TABLE `booking` (
   `showtime_id` int(10) UNSIGNED NOT NULL,
   `qty` int(10) UNSIGNED NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `booking_status` enum('pending','confirmed') NOT NULL DEFAULT 'pending',
+  `booking_status` enum('pending','confirmed','expired','cancelled') NOT NULL DEFAULT 'pending',
+  `expires_at` datetime DEFAULT NULL,
+  `paid_at` datetime DEFAULT NULL,
+  `payment_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`id`, `user_id`, `showtime_id`, `qty`, `total_amount`, `booking_status`, `expires_at`, `paid_at`, `payment_id`, `created_at`) VALUES
+(4, 1, 1, 2, 16.00, 'confirmed', NULL, '2025-10-01 22:49:21', 1, '2025-10-01 13:49:15'),
+(5, 1, 1, 2, 16.00, 'confirmed', NULL, '2025-10-01 23:04:46', 2, '2025-10-01 14:04:43'),
+(6, 1, 1, 2, 16.00, 'confirmed', NULL, '2025-10-01 23:12:25', 3, '2025-10-01 14:12:20'),
+(7, 1, 1, 2, 16.00, 'confirmed', NULL, '2025-10-01 23:13:44', 4, '2025-10-01 14:13:40'),
+(8, 1, 2, 3, 24.00, 'confirmed', NULL, '2025-10-03 00:19:10', 5, '2025-10-02 15:17:28'),
+(9, 1, 3, 2, 16.00, 'confirmed', NULL, '2025-10-03 00:27:06', 6, '2025-10-02 15:27:04'),
+(10, 1, 2, 2, 24.00, 'confirmed', NULL, '2025-10-03 00:27:48', 7, '2025-10-02 15:27:45'),
+(11, 1, 2, 2, 16.00, 'confirmed', NULL, '2025-10-03 00:31:06', 8, '2025-10-02 15:31:05'),
+(12, 1, 2, 1, 12.00, 'confirmed', NULL, '2025-10-03 10:51:24', 9, '2025-10-03 01:51:22');
 
 -- --------------------------------------------------------
 
@@ -51,6 +69,30 @@ CREATE TABLE `booking_items` (
   `price_id` int(10) UNSIGNED NOT NULL,
   `line_amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking_items`
+--
+
+INSERT INTO `booking_items` (`id`, `booking_id`, `showtime_id`, `seat_id`, `price_id`, `line_amount`) VALUES
+(9, 4, 1, 43, 3, 8.00),
+(10, 4, 1, 44, 3, 8.00),
+(11, 5, 1, 3, 3, 8.00),
+(12, 5, 1, 4, 3, 8.00),
+(13, 6, 1, 13, 3, 8.00),
+(14, 6, 1, 14, 3, 8.00),
+(15, 7, 1, 33, 3, 8.00),
+(16, 7, 1, 34, 3, 8.00),
+(17, 8, 2, 4, 3, 8.00),
+(18, 8, 2, 5, 3, 8.00),
+(19, 8, 2, 6, 3, 8.00),
+(20, 9, 3, 3, 3, 8.00),
+(21, 9, 3, 13, 3, 8.00),
+(22, 10, 2, 44, 1, 12.00),
+(23, 10, 2, 45, 1, 12.00),
+(24, 11, 2, 24, 3, 8.00),
+(25, 11, 2, 34, 3, 8.00),
+(26, 12, 2, 14, 1, 12.00);
 
 -- --------------------------------------------------------
 
@@ -95,6 +137,37 @@ CREATE TABLE `movies` (
 INSERT INTO `movies` (`id`, `title`, `description`, `runtime_min`, `rating`, `poster_url`, `created_at`) VALUES
 (1, 'F1: The Movie', 'A Formula One driver comes out of retirement to mentor and team up with a younger driver.', 155, 'PG-13', 'assets/images/f1movie.jpg', '2025-09-26 04:09:33'),
 (2, 'The Conjuring: Last Rites', 'Paranormal investigators Ed and Lorraine Warren take on one last terrifying case involving mysterious entities they must confront.', 135, 'NC-16', 'assets/images/theconjuring.jpg', '2025-09-26 04:12:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `booking_id` int(10) UNSIGNED NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `status` enum('initiated','succeeded','failed') NOT NULL DEFAULT 'initiated',
+  `transaction_ref` varchar(128) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `booking_id`, `amount`, `method`, `status`, `transaction_ref`, `created_at`) VALUES
+(1, 4, 16.00, 'card_visa', 'succeeded', 'TESTTX-d4890e3ccf70', '2025-10-01 13:49:21'),
+(2, 5, 16.00, 'google_pay', 'succeeded', 'TESTTX-f3f95a9f183c', '2025-10-01 14:04:46'),
+(3, 6, 16.00, 'card_master', 'succeeded', 'TESTTX-5266dfabb345', '2025-10-01 14:12:25'),
+(4, 7, 16.00, 'google_pay', 'succeeded', 'TESTTX-e240bac48eca', '2025-10-01 14:13:44'),
+(5, 8, 24.00, 'apple_pay', 'succeeded', 'TESTTX-3c41d71a30eb', '2025-10-02 15:19:10'),
+(6, 9, 16.00, 'apple_pay', 'succeeded', 'TESTTX-bc978c713efa', '2025-10-02 15:27:06'),
+(7, 10, 24.00, 'apple_pay', 'succeeded', 'TESTTX-23c7da48a1b4', '2025-10-02 15:27:48'),
+(8, 11, 16.00, 'apple_pay', 'succeeded', 'TESTTX-cada20c27bd4', '2025-10-02 15:31:06'),
+(9, 12, 12.00, 'apple_pay', 'succeeded', 'TESTTX-0777e747a50e', '2025-10-03 01:51:24');
 
 -- --------------------------------------------------------
 
@@ -226,6 +299,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `role`, `created_at`) VALUES
+(1, 'demo', 'demo@example.com', '$2y$10$DMzFt2AYY/iyGcsKneY9.u48wJwlCY3tpoMz/LAhPp1VIDtHSRIca', 'user', '2025-09-29 15:42:04');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -235,7 +315,9 @@ CREATE TABLE `users` (
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`id`),
   ADD KEY `showtime_id` (`showtime_id`),
-  ADD KEY `idx_bookings_users_time` (`user_id`,`created_at`) USING BTREE;
+  ADD KEY `idx_bookings_users_time` (`user_id`,`created_at`) USING BTREE,
+  ADD KEY `idx_booking_status` (`booking_status`) USING BTREE,
+  ADD KEY `idx_booking_expires` (`expires_at`) USING BTREE;
 
 --
 -- Indexes for table `booking_items`
@@ -260,6 +342,14 @@ ALTER TABLE `halls`
 ALTER TABLE `movies`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_movies_title` (`title`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_pay_status` (`status`),
+  ADD KEY `fk_pay_booking` (`booking_id`);
 
 --
 -- Indexes for table `pricing`
@@ -298,10 +388,16 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `booking`
+--
+ALTER TABLE `booking`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `booking_items`
 --
 ALTER TABLE `booking_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `halls`
@@ -314,6 +410,12 @@ ALTER TABLE `halls`
 --
 ALTER TABLE `movies`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pricing`
@@ -337,7 +439,7 @@ ALTER TABLE `showtimes`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -358,6 +460,12 @@ ALTER TABLE `booking_items`
   ADD CONSTRAINT `fk_bi_price` FOREIGN KEY (`price_id`) REFERENCES `pricing` (`id`),
   ADD CONSTRAINT `fk_bi_seats` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`id`),
   ADD CONSTRAINT `fk_bi_showtime` FOREIGN KEY (`showtime_id`) REFERENCES `showtimes` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_pay_booking` FOREIGN KEY (`booking_id`) REFERENCES `booking` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `seats`
