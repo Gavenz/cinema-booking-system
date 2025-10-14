@@ -108,7 +108,7 @@
     .chev { opacity: .7; transform: translateY(1px); transition: transform .15s ease; }
     .has-dropdown:hover .chev, .has-dropdown:focus-within .chev { transform: translateY(1px) rotate(180deg); }
 
-    /* Hero */
+    /* ===== Hero (base style reused per slide) ===== */
     .hero {
       position: relative; isolation: isolate; max-width: 1300px; margin: 24px auto; padding: 20px; border-radius: var(--radius);
       background:
@@ -123,6 +123,54 @@
     .hero p { margin: 0 0 16px; color: #d9d9e7; line-height: 1.5; }
     .hero-cta { display: flex; gap: 12px; align-items: center; }
     .hero .btn.secondary { background: rgba(255,255,255,.1); box-shadow: none; border: 1px solid rgba(255,255,255,.16) }
+
+    /* === Hero carousel additions === */
+    .hero-wrap {
+      position: relative;
+      max-width: 1300px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+    .hero-track {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 100%;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      border-radius: var(--radius);
+    }
+    .hero-track::-webkit-scrollbar { height: 10px; }
+    .hero-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 999px; }
+
+    .hero-slide { scroll-snap-align: start; }
+    /* Override base .hero spacing when used in the carousel */
+    .hero-slide.hero {
+      min-height: 56vh;
+      margin: 0;             /* override base margin */
+      max-width: unset;      /* take full width of track */
+      border-radius: var(--radius);
+      display: grid;
+      align-content: end;
+    }
+
+    .hero-ctrl {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 42px; height: 42px; display: grid; place-items: center;
+      border-radius: 999px; background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.12); cursor: pointer; z-index: 3;
+    }
+    .hero-ctrl:hover { filter: brightness(1.2); }
+    .hero-ctrl.prev { left: 28px; }
+    .hero-ctrl.next { right: 28px; }
+
+    .hero-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+    .hero-dot {
+      width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.35);
+      border: 1px solid rgba(255,255,255,.5);
+    }
+    .hero-dot.active { background: #fff; }
 
     /* Rows */
     .section { max-width: 1300px; margin: 0 auto; padding: 8px 20px 24px; }
@@ -214,17 +262,14 @@
     </div>
   </header>
 
-  <section class="hero" aria-label="Featured movie">
-    <div class="hero-content">
-      <span class="badge"><span aria-hidden>🍿</span> Featured</span>
-      <h1 id="heroTitle">F1: The Movie</h1>
-      <p id="heroOverview">Experience the high-octane world of Formula 1 in this blockbuster movie starring Brad Pitt as a retired driver forced back into the sport to race against a new generation of talent.</p>
-      <div class="hero-cta">
-        <button class="btn" id="playHero">▶ Play Trailer</button>
-        <button class="btn secondary" id="addHero">＋ Add to Watchlist</button>
-        <span class="pill" id="heroMeta">2h 35m • Action • Sports</span>
-      </div>
+  <!-- ===== Hero carousel (replaces single hero) ===== -->
+  <section class="hero-wrap" aria-label="Featured movies">
+    <button class="hero-ctrl prev" aria-label="Previous featured">◀</button>
+    <div class="hero-track" id="heroTrack" tabindex="0" aria-label="Featured movies carousel">
+      <!-- Slides injected by JS -->
     </div>
+    <button class="hero-ctrl next" aria-label="Next featured">▶</button>
+    <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
   </section>
 
   <main id="movies" tabindex="-1">
@@ -366,7 +411,97 @@
       renderAllRows();
     };
 
-    // ======== Rendering ========
+    // ======== HERO CAROUSEL ========
+    const HEROES = [
+      {
+        title: 'F1: The Movie',
+        overview: 'Experience the high-octane world of Formula 1 in this blockbuster movie starring Brad Pitt as a retired driver forced back into the sport to race against a new generation of talent.',
+        meta: '2h 35m • Action • Sports',
+        trailer: '8yh9BPUBbbQ',
+        bg: '../assets/images/f1_movie_poster16x9.jpg'
+      },
+      {
+        title: 'The Conjuring: Last Rites',
+        overview: 'The Warrens face their darkest case yet as a malevolent force threatens to tear their world apart.',
+        meta: '2h 15m • Horror • Thriller',
+        trailer: 'bMgfsdYoEEo',
+        bg: '../assets/images/theconjuringlastritesposter16x9.jpg'
+      }
+    ];
+
+    function heroSlideTemplate(h) {
+      return `
+        <section class="hero hero-slide" aria-label="${h.title}"
+          style="background:
+            linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.7)),
+            url('${h.bg}');
+            background-size: cover; background-position: center;">
+          <div class="hero-content">
+            <span class="badge"><span aria-hidden>🍿</span> Featured</span>
+            <h1>${h.title}</h1>
+            <p>${h.overview}</p>
+            <div class="hero-cta">
+              <button class="btn" data-hero-trailer="${h.trailer}">▶ Play Trailer</button>
+              <button class="btn secondary" data-hero-add>＋ Add to Watchlist</button>
+              <span class="pill">${h.meta}</span>
+            </div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderHeroCarousel() {
+      const track = document.getElementById('heroTrack');
+      const dots = document.getElementById('heroDots');
+      track.innerHTML = HEROES.map(heroSlideTemplate).join('');
+      dots.innerHTML = HEROES.map((_, i) => `<span class="hero-dot${i===0?' active':''}"></span>`).join('');
+    }
+
+    function setupHeroCarousel() {
+      const track = document.getElementById('heroTrack');
+      const prev = document.querySelector('.hero-ctrl.prev');
+      const next = document.querySelector('.hero-ctrl.next');
+      const dotsWrap = document.getElementById('heroDots');
+
+      function slideWidth() { return track.clientWidth; }
+
+      prev.addEventListener('click', () => {
+        track.scrollBy({ left: -slideWidth(), behavior: 'smooth' });
+      });
+      next.addEventListener('click', () => {
+        track.scrollBy({ left: slideWidth(), behavior: 'smooth' });
+      });
+
+      // Update dots on scroll
+      track.addEventListener('scroll', () => {
+        const idx = Math.round(track.scrollLeft / slideWidth());
+        [...dotsWrap.children].forEach((dot, i) => {
+          dot.classList.toggle('active', i === idx);
+        });
+      });
+
+      // Delegate clicks inside hero slides
+      track.addEventListener('click', (e) => {
+        const t = e.target;
+        if (t.matches('[data-hero-trailer]')) {
+          openTrailer(t.getAttribute('data-hero-trailer'));
+        }
+        if (t.matches('[data-hero-add]')) {
+          const idx = Math.round(track.scrollLeft / slideWidth());
+          const title = HEROES[idx]?.title;
+          const movie = MOVIES.find(m => m.title === title) || MOVIES[0];
+          if (movie) toggleWatchlist(movie.id);
+        }
+      });
+
+      // Keyboard support (arrow keys when track focused)
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { next.click(); }
+        if (e.key === 'ArrowLeft') { prev.click(); }
+      });
+    }
+
+    // ======== Rows Rendering ========
     function movieCard(m) {
       const wl = inWatchlist(m.id);
       const btnLabel = wl ? '✓ In Watchlist' : '＋ Add';
@@ -399,7 +534,7 @@
       renderRow($('#row-action'), rows.action);
     }
 
-    // ======== Interactions ========
+    // ======== Interactions for rows ========
     function setupCarouselControls() {
       $$('.ctrl').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -445,8 +580,7 @@
     const player = document.getElementById('ytPlayer');
     const closeModal = document.getElementById('closeModal');
     function openTrailer(videoId) {
-      // Use the provided videoId so any Trailer button works
-      const id = videoId || '8yh9BPUBbbQ'; // fallback to F1 trailer if none provided
+      const id = videoId || '8yh9BPUBbbQ'; // fallback
       player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
       if (typeof modal.showModal === 'function') { modal.showModal(); }
       else { alert('Your browser does not support the trailer modal.'); }
@@ -481,10 +615,6 @@
       });
     })();
 
-    // Hero actions (use the F1 trailer as primary)
-    document.getElementById('playHero').addEventListener('click', () => openTrailer('8yh9BPUBbbQ'));
-    document.getElementById('addHero').addEventListener('click', () => toggleWatchlist(MOVIES[0].id));
-
     // Login modal logic
     (function setupLogin(){
       const loginBtn = document.getElementById('loginBtn');
@@ -510,7 +640,7 @@
       });
     })();
 
-    // Keyboard shortcuts for carousels
+    // Keyboard shortcuts for content carousels
     document.addEventListener('keydown', (e) => {
       if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
       const activeRow = document.activeElement?.classList.contains('row') ? document.activeElement : document.getElementById('row-trending');
@@ -519,6 +649,9 @@
     });
 
     // Init
+    renderHeroCarousel();
+    setupHeroCarousel();
+
     renderAllRows();
     setupCarouselControls();
     setupRowDelegates();
