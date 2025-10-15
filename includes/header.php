@@ -1,25 +1,82 @@
-<?php if(!isset($pageTitle)) $pageTitle='Cinema Booking System'; ?>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title><?= htmlspecialchars($pageTitle) ?></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="/cinema-booking-system/assets/styles.css">
-</head>
-<body>
-<header>
-  <h1>Cinema Booking System</h1>
-<nav>
-  <a href="/cinema-booking-system/pages/showtimes.php">Movies</a>
-  <?php if (!isset($_SESSION['user_id'])): ?>
-    <a href="/cinema-booking-system/pages/register.php">Register</a>
-    <a href="/cinema-booking-system/pages/login.php">Login</a>
-  <?php else: ?>
-    <a href="/cinema-booking-system/pages/my_bookings.php">My Bookings</a>
-    <span>Hi, <?= htmlspecialchars($_SESSION['username']) ?></span>
-    <a href="/cinema-booking-system/pages/logout.php">Logout</a>
-  <?php endif; ?>
-</nav>
+<?php
+require_once __DIR__ . '/init.php';
+require_once __DIR__ . '/flash.php';
+
+$activeNav = $activeNav ?? 'movies';
+$isAuthed  = isset($_SESSION['user']);
+$userName  = $isAuthed
+  ? ($_SESSION['user']['username'] ?? $_SESSION['user']['email'] ?? 'User')
+  : null;
+?>
+<header class="nav" role="banner">
+  <div class="nav-inner">
+    <a class="brand" href="<?= url('') ?>" aria-label="Big Premiere Point Home">
+      <div class="logo" aria-hidden="true"></div>
+      <div class="brand-title">Big Premiere Point</div>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <a href="<?= url('') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
+      <a href="<?= url('') ?>#theatres" class="<?= $activeNav==='theatres' ? 'active' : '' ?>">Find a Theatre</a>
+      <a href="<?= url('') ?>#food"     class="<?= $activeNav==='food'     ? 'active' : '' ?>">Food &amp; Drinks</a>
+
+      <div class="has-dropdown" aria-haspopup="true">
+        <button class="more-trigger" aria-expanded="false" aria-controls="more-menu">
+          More
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div id="more-menu" class="dropdown" role="menu" aria-label="More">
+          <a role="menuitem" href="<?= url('') ?>#merch">Merchandise</a>
+          <a role="menuitem" href="<?= url('') ?>#gifts">Gift Cards</a>
+          <a role="menuitem" href="<?= url('') ?>#about">About Us</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="search-wrap" role="search">
+      <svg class="icon" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="searchInput" type="search" placeholder="Search movies, genres…" aria-label="Search movies" />
+    </div>
+
+    <div>
+      <?php if ($isAuthed): ?>
+        <span style="margin-right:8px; color: var(--muted); font-weight:700;">
+          Hi, <?= htmlspecialchars($userName) ?>
+        </span>
+        <a href="<?= url('pages/bookings.php') ?>" class="btn ghost" aria-label="View my bookings">My Bookings</a>
+        <form action="<?= url('auth/logout.php') ?>" method="post" style="display:inline">
+          <button class="btn" type="submit" aria-label="Log out">Logout</button>
+        </form>
+      <?php else: ?>
+        <a class="btn" href="<?= url('pages/login.php') ?>" aria-label="Open login">Login</a>
+      <?php endif; ?>
+    </div>
+  </div>
 </header>
-<main>
+
+<!-- Minimal, shared flash styles (safe to keep here so all pages get them) -->
+<style>
+  .flash-wrap{max-width:960px;margin:12px auto 0;padding:0 20px}
+  .flash{
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:10px;
+    padding:10px 12px;
+    margin:8px 0;
+    background:rgba(255,255,255,.06);
+    color:#f3f3f8;
+    font-weight:700;
+  }
+  .flash.success{border-color:rgba(52,199,89,.35);background:rgba(52,199,89,.18)}
+  .flash.error{border-color:rgba(255,69,58,.35);background:rgba(255,69,58,.18)}
+  .flash.info{border-color:rgba(100,210,255,.35);background:rgba(100,210,255,.18)}
+</style>
+
+<div class="flash-wrap" aria-live="polite">
+  <?php flash_render(); ?>
+</div>

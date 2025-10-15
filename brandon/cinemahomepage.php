@@ -1,9 +1,11 @@
+<?php require_once __DIR__ ."/../includes/init.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Big Premiere Point — Student Cinema</title>
+  <base href ="<?= rtrim(BASE_URL, '/') ?>/" />
   <meta name="description" content="A student-built cinema site inspired by Netflix and AMC." />
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
   <style>
@@ -113,7 +115,7 @@
       position: relative; isolation: isolate; max-width: 1300px; margin: 24px auto; padding: 20px; border-radius: var(--radius);
       background:
         linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.7)),
-        url("../assets/images/f1_movie_poster16x9.jpg");
+        url("assets/images/f1_movie_poster16x9.jpg");
       background-size: cover; background-position: center; min-height: 46vh; display: grid; align-content: end;
       box-shadow: var(--shadow);
     }
@@ -226,42 +228,8 @@
   </style>
 </head>
 <body>
-  <header class="nav" role="banner">
-    <div class="nav-inner">
-      <a class="brand" href="#" aria-label="Big Premiere Point Home">
-        <div class="logo" aria-hidden="true"></div>
-        <div class="brand-title">Big Premiere Point</div>
-      </a>
-
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#movies" class="active">Movies</a>
-        <a href="#theatres">Find a Theatre</a>
-        <a href="#food">Food &amp; Drinks</a>
-
-        <!-- More dropdown -->
-        <div class="has-dropdown" aria-haspopup="true">
-          <button class="more-trigger" aria-expanded="false" aria-controls="more-menu">
-            More
-            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div id="more-menu" class="dropdown" role="menu" aria-label="More">
-            <a role="menuitem" href="#merch">Merchandise</a>
-            <a role="menuitem" href="#gifts">Gift Cards</a>
-            <a role="menuitem" href="#about">About Us</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Top-right button swapped to Login -->
-      <div>
-        <button id="loginBtn" class="btn" aria-label="Open login">Login</button>
-      </div>
-    </div>
-  </header>
-
+  <!-- Modular inputs for header -->
+  <?php include __DIR__ ."/../includes/header.php"; ?>
   <!-- ===== Hero carousel (replaces single hero) ===== -->
   <section class="hero-wrap" aria-label="Featured movies">
     <button class="hero-ctrl prev" aria-label="Previous featured">◀</button>
@@ -326,11 +294,8 @@
       <p style="color: var(--muted)">Big Premiere Point is a student cinema project — built with plain HTML, CSS &amp; JS.</p>
     </div>
   </main>
-
-  <footer>
-    <small>© <span id="year"></span> Big Premiere Point — Student Cinema Project</small>
-    <small>Built with plain HTML, CSS &amp; JS</small>
-  </footer>
+  <!-- Modular inputs for footer -->
+  <?php include __DIR__ ."/../includes/footer.php"; ?>
 
   <!-- Trailer Modal -->
   <dialog id="trailerModal" aria-labelledby="modalTitle">
@@ -371,7 +336,7 @@
     const sample = (seed, w=400, h=600) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
 
     const MOVIES = [
-      { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller', poster: "../assets/images/theconjuring.jpg", trailer: 'bMgfsdYoEEo' },
+      { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller', poster: "assets/images/theconjuring.jpg", trailer: 'bMgfsdYoEEo' },
       { id: 2, title: 'Skybound', year: 2024, runtime: 128, rating: 8.7, genre: 'Action', poster: sample('sky'), trailer: 'aqz-KE-bpKQ' },
       { id: 3, title: 'Echoes of Time', year: 2023, runtime: 116, rating: 8.9, genre: 'Drama', poster: sample('echo'), trailer: 'tAGnKpE4NCI' },
       { id: 4, title: 'Quantum Heist', year: 2025, runtime: 134, rating: 8.5, genre: 'Sci-Fi', poster: sample('heist'), trailer: '48rz8udZBmQ' },
@@ -418,14 +383,14 @@
         overview: 'Experience the high-octane world of Formula 1 in this blockbuster movie starring Brad Pitt as a retired driver forced back into the sport to race against a new generation of talent.',
         meta: '2h 35m • Action • Sports',
         trailer: '8yh9BPUBbbQ',
-        bg: '../assets/images/f1_movie_poster16x9.jpg'
+        bg: 'assets/images/f1_movie_poster16x9.jpg'
       },
       {
         title: 'The Conjuring: Last Rites',
         overview: 'The Warrens face their darkest case yet as a malevolent force threatens to tear their world apart.',
         meta: '2h 15m • Horror • Thriller',
         trailer: 'bMgfsdYoEEo',
-        bg: '../assets/images/theconjuringlastritesposter16x9.jpg'
+        bg: 'assets/images/theconjuringlastritesposter16x9.jpg'
       }
     ];
 
