@@ -3,15 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-// --- Flash messages (store in session, read once) ---
-function flash_set(string $msg, string $type = 'info'): void {
-  $_SESSION['__flash'][] = ['m' => $msg, 't' => $type];
-}
-function flash_get(): array {
-  $msgs = $_SESSION['__flash'] ?? [];
-  unset($_SESSION['__flash']);
-  return $msgs;
-}
+
 
 // Your app is under the parent docroot, so use the folder:
 //usage: href= "<?= url('pages/bookings.php')?">
@@ -30,4 +22,7 @@ $pdo = new PDO($dsn, $user, $pass, [
   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
   PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ]);
+
+//Flash helpers from flash.php
+require_once __DIR__ .'/flash.php';
 ?>

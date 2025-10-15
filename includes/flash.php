@@ -1,28 +1,30 @@
 <?php
 // includes/flash.php
 if (session_status() === PHP_SESSION_NONE) {
-  session_start();
+    session_start();
 }
 
-/**
- * Set a flash message to show on the next request (after redirect).
- * $key is just a namespace so you can overwrite a category if needed.
- * Types: info | success | error (you can add more in CSS)
- */
-function flash_set(string $key, string $message, string $type='info'): void {
-  $_SESSION['flash'][$key] = ['msg' => $message, 'type' => $type];
-}
-
-/**
- * Render and clear all flash messages.
- * Call once in your layout (we do it in header.php).
- */
+// Set a flash message to be shown on the next request.
+if (!function_exists('flash_set')) {
+function flash_set(string $key, string $message, string $type = 'info'): void {
+    $_SESSION['flash'][$key] = ['m' => $message, 't' => $type]; // m=message, t=type
+}}
+ 
+// Get all flashes (and clear them). Returns an array like:
+// [ ['m'=>'Welcome back!','t'=>'success'], ... ]
+if (!function_exists('flash_get')) {
+function flash_get(): array {
+    $out = array_values($_SESSION['flash'] ?? []);
+    unset($_SESSION['flash']);
+    return $out;
+}}
+ 
+// Convenience renderer if you ever want to echo directly.
+if (!function_exists('flash_render')) {
 function flash_render(): void {
-  if (empty($_SESSION['flash'])) return;
-  foreach ($_SESSION['flash'] as $key => $data) {
-    $cls = htmlspecialchars($data['type']); // info|success|error
-    $msg = htmlspecialchars($data['msg']);
-    echo "<div class=\"flash {$cls}\">{$msg}</div>";
-    unset($_SESSION['flash'][$key]);
-  }
-}
+    foreach (flash_get() as $f) {
+        $t = htmlspecialchars($f['t']);
+        $m = htmlspecialchars($f['m']);
+        echo "<div class=\"flash {$t}\">{$m}</div>";
+    }
+}}
