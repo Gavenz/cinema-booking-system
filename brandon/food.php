@@ -1,4 +1,7 @@
-<?php /* food.php — Cinema Food & Drinks */ ?>
+<?php 
+require_once __DIR__ ."/../includes/init.php"; 
+require_once __DIR__ . '/../includes/flash.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -140,45 +143,8 @@
   </style>
 </head>
 <body>
-  <!-- ===== Header ===== -->
-  <header class="nav" role="banner">
-    <div class="nav-inner">
-      <a class="brand" href="index.php" aria-label="Big Premiere Point Home">
-        <div class="logo" aria-hidden="true"></div>
-        <div class="brand-title">Big Premiere Point</div>
-      </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="index.php#movies">Movies</a>
-        <a class="active" href="food.php">Food &amp; Drinks</a>
-        <a href="index.php#theatres">Find a Theatre</a>
-
-        <div class="has-dropdown" aria-haspopup="true">
-          <button class="more-trigger" aria-expanded="false" aria-controls="more-menu">
-            More
-            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div id="more-menu" class="dropdown" role="menu" aria-label="More">
-            <a role="menuitem" href="merch.php">Merchandise</a>
-            <a role="menuitem" href="gifts.php">Gift Cards</a>
-            <a role="menuitem" href="about.php">About Us</a>
-          </div>
-        </div>
-      </nav>
-
-      <div class="search-wrap" role="search">
-        <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <input id="searchInput" placeholder="Search snacks..." aria-label="Search snacks" />
-      </div>
-
-      <a href="../pages/login.php" class="btn" aria-label="Login">Login</a>
-    </div>
-  </header>
+  <?php include __DIR__ . '/../includes/header.php'; ?>  
 
   <!-- ===== Hero ===== -->
   <section class="hero" aria-label="Cinema Snacks Hero">
