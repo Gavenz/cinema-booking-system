@@ -31,7 +31,7 @@ $userName  = $isAuthed
         <div id="more-menu" class="dropdown" role="menu" aria-label="More">
           <a role="menuitem" href="<?= url('') ?>#merch">Merchandise</a>
           <a role="menuitem" href="<?= url('') ?>#gifts">Gift Cards</a>
-          <a role="menuitem" href="<?= url('') ?>#about">About Us</a>
+          <a role="menuitem" href="<?= url('brandon/aboutus.php') ?>#about">About Us</a>
         </div>
       </div>
     </nav>
