@@ -176,7 +176,7 @@
         <input id="searchInput" placeholder="Search snacks..." aria-label="Search snacks" />
       </div>
 
-      <a href="login.php" class="btn" aria-label="Login">Login</a>
+      <a href="../pages/login.php" class="btn" aria-label="Login">Login</a>
     </div>
   </header>
 
