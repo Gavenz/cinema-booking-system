@@ -244,6 +244,7 @@
     });
 
     const ITEMS = [
+      // item (no., name, sub-category, price, cals, tag, picture)
       item(1,'Classic Salted Popcorn','Popcorn',4.5,350,['shareable'],'popcorn'),
       item(2,'Caramel Popcorn','Popcorn',5.5,420,['shareable'],'caramel'),
       item(3,'Butter Popcorn','Popcorn',5.0,390,['shareable'],'butter'),
