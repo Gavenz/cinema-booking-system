@@ -1,3 +1,7 @@
+<?php 
+require_once __DIR__ ."/../includes/init.php"; 
+require_once __DIR__ . '/../includes/flash.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -134,40 +138,9 @@
   </style>
 </head>
 <body>
-  <!-- ===== Header ===== -->
-  <header class="nav" role="banner">
-    <div class="nav-inner">
-      <a class="brand" href="./index.html" aria-label="Big Premiere Point Home">
-        <div class="logo" aria-hidden="true"></div>
-        <div class="brand-title">Big Premiere Point</div>
-      </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="./index.html#movies">Movies</a>
-        <a href="./index.html#theatres">Find a Theatre</a>
-        <a href="./index.html#food">Food &amp; Drinks</a>
-
-        <div class="has-dropdown" aria-haspopup="true">
-          <button class="more-trigger" aria-expanded="false" aria-controls="more-menu">
-            More
-            <svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div id="more-menu" class="dropdown" role="menu" aria-label="More">
-            <a role="menuitem" href="./index.html#merch">Merchandise</a>
-            <a role="menuitem" href="./index.html#gifts">Gift Cards</a>
-            <a class="active" role="menuitem" href="./about.html">About Us</a>
-          </div>
-        </div>
-      </nav>
-
-      <!-- Login now links to login.php directly -->
-      <a id="loginBtn" class="btn" href="../pages/login.php" aria-label="Go to login">Login</a>
-    </div>
-  </header>
-
+  <?php include __DIR__ . '/../includes/header.php'; ?>  
+  
   <!-- ===== HERO ===== -->
   <section class="hero" aria-label="About Big Premiere Point">
     <div class="hero-content">
