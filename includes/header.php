@@ -17,7 +17,7 @@ $userName  = $isAuthed
 
     <nav class="nav-links" aria-label="Primary">
       <a href="<?= url('') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
-      <a href="<?= url('') ?>#theatres" class="<?= $activeNav==='theatres' ? 'active' : '' ?>">Find a Theatre</a>
+      <a href="<?= url('pages/showtimes.php') ?>" class="<?= $activeNav==='showtimes' ? 'active' : '' ?>">Showtimes</a>
       <a href="<?= url('') ?>#food"     class="<?= $activeNav==='food'     ? 'active' : '' ?>">Food &amp; Drinks</a>
 
       <div class="has-dropdown" aria-haspopup="true">

@@ -25,4 +25,39 @@ $pdo = new PDO($dsn, $user, $pass, [
 
 //Flash helpers from flash.php
 require_once __DIR__ .'/flash.php';
+
+
+// includes/init.php (early in the file)
+date_default_timezone_set('Asia/Singapore');
+$pdo->exec("SET time_zone = '+08:00'");
+// --- Timezone used for display (keep in one place) ---
+$APP_TZ = 'Asia/Singapore';
+
+function local_time_label(string $dt, string $fmt = 'g:i A'): string {
+  return date($fmt, strtotime($dt));
+}
+
+// Fetch showtimes for a specific calendar day (local day)
+function db_showtimes_by_day(PDO $pdo, string $dayYmd): array {
+  // If your DB timestamps are already in local time, you can simplify WHERE to DATE(s.starts_at) = :d
+  $sql = "
+    SELECT 
+      s.id           AS showtime_id,
+      s.starts_at    AS starts_at,
+      m.id           AS movie_id,
+      m.title        AS title,
+      m.poster_url   AS poster_url,
+      m.runtime_min  AS runtime_min,
+      m.rating       AS age_rating
+    FROM showtimes s
+    JOIN movies    m ON m.id = s.movies_id
+    WHERE DATE(s.starts_at) = :d
+    ORDER BY m.title, s.starts_at
+  ";
+  $st = $pdo->prepare($sql);
+  $st->execute([':d' => $dayYmd]);
+  return $st->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
+
+
