@@ -115,7 +115,7 @@
       position: relative; isolation: isolate; max-width: 1300px; margin: 24px auto; padding: 20px; border-radius: var(--radius);
       background:
         linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.7)),
-        url("assets/images/f1_movie_poster16x9.jpg");
+        url("../assets/images/f1_movie_poster16x9.jpg");
       background-size: cover; background-position: center; min-height: 46vh; display: grid; align-content: end;
       box-shadow: var(--shadow);
     }

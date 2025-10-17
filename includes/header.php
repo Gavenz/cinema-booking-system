@@ -2,7 +2,7 @@
 require_once __DIR__ . '/init.php';
 require_once __DIR__ . '/flash.php';
 
-$activeNav = $activeNav ?? 'movies';
+$activeNav = $activeNav ?? null;
 $isAuthed  = isset($_SESSION['user']);
 $userName  = $isAuthed
   ? ($_SESSION['user']['username'] ?? $_SESSION['user']['email'] ?? 'User')
@@ -10,7 +10,7 @@ $userName  = $isAuthed
 ?>
 <header class="nav" role="banner">
   <div class="nav-inner">
-    <a class="brand" href="<?= url('') ?>" aria-label="Big Premiere Point Home">
+    <a class="brand" href="<?= url('brandon/cinemahomepage.php') ?>" aria-label="Big Premiere Point Home">
       <div class="logo" aria-hidden="true"></div>
       <div class="brand-title">Big Premiere Point</div>
     </a>
@@ -18,7 +18,7 @@ $userName  = $isAuthed
     <nav class="nav-links" aria-label="Primary">
       <a href="<?= url('') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
       <a href="<?= url('pages/showtimes.php') ?>" class="<?= $activeNav==='showtimes' ? 'active' : '' ?>">Showtimes</a>
-      <a href="<?= url('') ?>#food"     class="<?= $activeNav==='food'     ? 'active' : '' ?>">Food &amp; Drinks</a>
+      <a href="<?= url('brandon/food.php') ?>" class="<?= $activeNav==='food' ? 'active' : '' ?>">Food &amp; Drinks</a>
 
       <div class="has-dropdown" aria-haspopup="true">
         <button class="more-trigger" aria-expanded="false" aria-controls="more-menu">
@@ -31,7 +31,7 @@ $userName  = $isAuthed
         <div id="more-menu" class="dropdown" role="menu" aria-label="More">
           <a role="menuitem" href="<?= url('') ?>#merch">Merchandise</a>
           <a role="menuitem" href="<?= url('') ?>#gifts">Gift Cards</a>
-          <a role="menuitem" href="<?= url('') ?>#about">About Us</a>
+          <a role="menuitem" href="<?= url('brandon/aboutus.php') ?>#about">About Us</a>
         </div>
       </div>
     </nav>
