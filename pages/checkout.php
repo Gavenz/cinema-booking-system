@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/mail.php';
+
 
 if (!isset($_SESSION['user'])) {
   flash_set('auth','Please log in first.','warning');
@@ -145,23 +147,15 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && (isset($_POST['confirm']) || isset($_
   try {
     $pdo->beginTransaction();
 
-    // Booking status depends on flow
-    $status  = isset($_POST['confirm']) ? 'confirmed' : 'pending';
-    $expires = isset($_POST['confirm']) ? null : "DATE_ADD(NOW(), INTERVAL 15 MINUTE)";
+    $status  = isset($_POST['confirm']) ? 'pending' : 'pending'; // both routes go pending
+    $expires = "DATE_ADD(NOW(), INTERVAL 15 MINUTE)";
 
-    if ($status === 'confirmed') {
-      $sqlB = "INSERT INTO booking (user_id, showtime_id, qty, total_amount, booking_status, created_at)
-               VALUES (:uid, :sid, :qty, :total, 'confirmed', NOW())";
-      $insB = $pdo->prepare($sqlB);
-      $insB->execute([':uid'=>$uid, ':sid'=>$showtimeId, ':qty'=>$qty, ':total'=>$total]);
-    } else {
-      $sqlB = "INSERT INTO booking (user_id, showtime_id, qty, total_amount, booking_status, expires_at, created_at)
-               VALUES (:uid, :sid, :qty, :total, 'pending', $expires, NOW())";
-      $insB = $pdo->prepare($sqlB);
-      $insB->execute([':uid'=>$uid, ':sid'=>$showtimeId, ':qty'=>$qty, ':total'=>$total]);
-    }
+    $sqlB = "INSERT INTO booking (user_id, showtime_id, qty, total_amount, booking_status, expires_at, created_at)
+            VALUES (:uid, :sid, :qty, :total, 'pending', $expires, NOW())";
+    $insB = $pdo->prepare($sqlB);
+    $insB->execute([':uid'=>$uid, ':sid'=>$showtimeId, ':qty'=>$qty, ':total'=>$total]);
 
-    $bookingId = (int)$pdo->lastInsertId();
+$bookingId = (int)$pdo->lastInsertId();
 
     // Lines: per-seat price
     $insI = $pdo->prepare("
@@ -191,13 +185,13 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && (isset($_POST['confirm']) || isset($_
 
     $pdo->commit();
 
-    if ($status === 'confirmed') {
-      flash_set('ok','Booking confirmed!','success');
-      header('Location: ' . url('pages/bookings.php'));
-    } else {
-      flash_set('ok','Added to your list. You can confirm it from the cart.','success');
-      header('Location: ' . url('pages/cart.php'));
+        // If user clicked "Confirm & Pay", go straight to payment for the created booking
+    if (isset($_POST['confirm'])) {
+      header('Location: ' . url('pages/payment.php?booking_id='.$bookingId));
+      exit;
     }
+      flash_set('ok','Added to your list. You can confirm it from the cart.','success');
+    header('Location: ' . url('pages/cart.php'));
     exit;
 
   } catch (PDOException $e) {

@@ -1,95 +1,87 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
+
 if (!isset($_SESSION['user'])) {
   flash_set('auth','Please log in first.','warning');
   header('Location: ' . url('pages/login.php?next='.urlencode(url('pages/cart.php'))));
   exit;
 }
-$uid = (int)$_SESSION['user']['id'];
+$uid       = (int)$_SESSION['user']['id'];
 $activeNav = 'showtimes';
 
+// CSRF
 if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16));
 $CSRF = $_SESSION['csrf'];
 
-// --- POST handlers ---
-if ($_SERVER['REQUEST_METHOD']==='POST') {
+// ---- POST handlers ---------------------------------------------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
     flash_set('err','Bad CSRF token.','error');
     header('Location: ' . url('pages/cart.php'));
     exit;
   }
-  $ids = array_filter(array_map('intval', $_POST['ids'] ?? []));
 
-  // Remove selected
-  if (isset($_POST['remove']) && $ids) {
-    $in = implode(',', array_fill(0, count($ids), '?'));
-    $sql = "DELETE b FROM booking b
-            WHERE b.user_id = ? AND b.booking_status='pending'
-              AND (b.expires_at IS NULL OR b.expires_at > NOW())
-              AND b.id IN ($in)";
+  // Normalize selected ids from checkboxes
+  $ids = array_values(array_unique(array_filter(array_map('intval', $_POST['ids'] ?? []))));
+
+  // Remove selected (0..many)
+  if (isset($_POST['remove'])) {
+    if (!$ids) {
+      flash_set('err','Select at least one booking to remove.','error');
+      header('Location: ' . url('pages/cart.php'));
+      exit;
+    }
+
+    $in   = implode(',', array_fill(0, count($ids), '?'));
+    $sql  = "DELETE b FROM booking b
+             WHERE b.user_id = ?
+               AND b.booking_status = 'pending'
+               AND (b.expires_at IS NULL OR b.expires_at > NOW())
+               AND b.id IN ($in)";
     $args = array_merge([$uid], $ids);
+
     $st = $pdo->prepare($sql);
     $st->execute($args);
+
     flash_set('ok','Removed from your list.','success');
     header('Location: ' . url('pages/cart.php'));
     exit;
   }
 
-  // Confirm selected
-  if (isset($_POST['confirm']) && $ids) {
-    try {
-      $pdo->beginTransaction();
-
-      // Lock & fetch the rows we’ll confirm
-      $in = implode(',', array_fill(0, count($ids), '?'));
-      $sel = $pdo->prepare("
-        SELECT b.id, b.total_amount
-        FROM booking b
-        WHERE b.user_id = ?
-          AND b.booking_status='pending'
-          AND (b.expires_at IS NULL OR b.expires_at > NOW())
-          AND b.id IN ($in)
-        FOR UPDATE
-      ");
-      $sel->execute(array_merge([$uid], $ids));
-      $rows = $sel->fetchAll(PDO::FETCH_ASSOC);
-      if (!$rows) {
-        $pdo->rollBack();
-        flash_set('err','Nothing to confirm. Holds may have expired.','error');
-        header('Location: ' . url('pages/cart.php'));
-        exit;
-      }
-
-      // Confirm each & create a (mock) payment
-      $upd = $pdo->prepare("UPDATE booking SET booking_status='confirmed', expires_at=NULL WHERE id=:id");
-      $insPay = $pdo->prepare("
-        INSERT INTO payments (booking_id, amount, method, status, transaction_ref)
-        VALUES (:bid, :amt, 'card_visa', 'succeeded', :ref)
-      ");
-      foreach ($rows as $r) {
-        $upd->execute([':id'=>$r['id']]);
-        $insPay->execute([
-          ':bid'=>$r['id'],
-          ':amt'=>$r['total_amount'],
-          ':ref'=>'TESTTX-'.bin2hex(random_bytes(6))
-        ]);
-      }
-
-      $pdo->commit();
-      flash_set('ok','Booking(s) confirmed!','success');
-      header('Location: ' . url('pages/bookings.php'));
-      exit;
-
-    } catch (PDOException $e) {
-      $pdo->rollBack();
-      flash_set('err','Could not confirm bookings. Please try again.','error');
+  // Confirm selected (must be exactly one)
+  if (isset($_POST['confirm'])) {
+    if (count($ids) !== 1) {
+      flash_set('err','Please select exactly one booking to pay.','error');
       header('Location: ' . url('pages/cart.php'));
       exit;
     }
+    $bid = (int)$ids[0];
+
+    // sanity-check still pending & not expired and belongs to user
+    $chk = $pdo->prepare("
+      SELECT b.id
+      FROM booking b
+      WHERE b.id = :bid
+        AND b.user_id = :uid
+        AND b.booking_status = 'pending'
+        AND (b.expires_at IS NULL OR b.expires_at > NOW())
+      LIMIT 1
+    ");
+    $chk->execute([':bid'=>$bid, ':uid'=>$uid]);
+
+    if (!$chk->fetch()) {
+      flash_set('err','That booking is no longer available to pay (maybe expired).','error');
+      header('Location: ' . url('pages/cart.php'));
+      exit;
+    }
+
+    // hand off to payment page
+    header('Location: ' . url('pages/payment.php?booking_id=' . $bid));
+    exit;
   }
 }
 
-// --- GET: list pending items ---
+// ---- GET: list pending items ----------------------------------------------
 $sql = "
   SELECT b.id, b.qty, b.total_amount, b.expires_at,
          s.starts_at, h.name AS hall_name,
@@ -106,7 +98,6 @@ $sql = "
 $st = $pdo->prepare($sql);
 $st->execute([':uid'=>$uid]);
 $items = $st->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 <!doctype html>
 <html lang="en">
@@ -126,10 +117,9 @@ $items = $st->fetchAll(PDO::FETCH_ASSOC);
           background:rgba(255,255,255,.06);border-radius:999px;padding:6px 10px;font-weight:800;margin-right:6px}
     .pill.gold{background:#2a2a07;border-color:rgba(245,197,24,.25);color:#f5c518}
     .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
-    .muted{color:#8b8ba1}
+    .empty{margin:16px 0;color:#8b8ba1}
     .rowtop{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
     .grow{flex:1}
-    .empty{margin:16px 0;color:#8b8ba1}
   </style>
 </head>
 <body>
@@ -146,10 +136,13 @@ $items = $st->fetchAll(PDO::FETCH_ASSOC);
       <?php else: ?>
         <div class="list">
           <?php foreach ($items as $it): ?>
-            <label class="item">
+            <?php $bid = (int)$it['id']; $cid = 'c_'.$bid; ?>
+            <div class="item">
               <div class="rowtop">
-                <input type="checkbox" name="ids[]" value="<?= (int)$it['id'] ?>">
-                <div class="title"><?= htmlspecialchars($it['title']) ?></div>
+                <input type="checkbox" id="<?= $cid ?>" name="ids[]" value="<?= $bid ?>" class="rowBox">
+                <label for="<?= $cid ?>" class="title" style="cursor:pointer;">
+                  <?= htmlspecialchars($it['title']) ?>
+                </label>
                 <span class="pill gold"><?= htmlspecialchars($it['rating'] ?? '') ?></span>
                 <span class="pill"><?= (int)$it['runtime_min'] ?>m</span>
               </div>
@@ -163,14 +156,29 @@ $items = $st->fetchAll(PDO::FETCH_ASSOC);
                   <span class="pill">Hold until: <?= local_time_label($it['expires_at'], 'g:i A') ?></span>
                 <?php endif; ?>
               </div>
-            </label>
+            </div>
           <?php endforeach; ?>
         </div>
 
         <div class="actions">
-          <button class="btn ghost" name="remove" value="1" type="submit">Remove Selected</button>
-          <button class="btn" name="confirm" value="1" type="submit">Confirm Selected</button>
+          <button class="btn ghost" id="rmBtn"  name="remove"  value="1" type="submit" disabled>Remove Selected</button>
+          <button class="btn"       id="payBtn" name="confirm" value="1" type="submit" disabled>Confirm Selected</button>
         </div>
+
+        <script>
+          // Enable/disable buttons based on how many boxes are checked
+          const boxes  = Array.from(document.querySelectorAll('.rowBox'));
+          const rmBtn  = document.getElementById('rmBtn');
+          const payBtn = document.getElementById('payBtn');
+
+          function updateButtons(){
+            const n = boxes.filter(b => b.checked).length;
+            rmBtn.disabled  = n === 0;  // need at least one to remove
+            payBtn.disabled = n !== 1;  // exactly one to confirm/pay
+          }
+          boxes.forEach(b => b.addEventListener('change', updateButtons));
+          updateButtons();
+        </script>
       <?php endif; ?>
     </form>
   </div>

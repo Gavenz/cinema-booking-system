@@ -1,7 +1,0 @@
-{
-    "require": {
-        "phpmailer/phpmailer": "^6.11",
-        "endroid/qr-code": "^6.0",
-        "chillerlan/php-qrcode": "^5.0"
-    }
-}

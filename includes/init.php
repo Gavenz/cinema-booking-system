@@ -1,10 +1,25 @@
-<!-- Start a session and create connection to database -->
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// ----- CSRF helpers -----
+if (empty($_SESSION['csrf'])) {
+  $_SESSION['csrf'] = bin2hex(random_bytes(32));
+}
 
+if (!function_exists('csrf_token')) {
+  function csrf_token(): string {
+    return $_SESSION['csrf'] ?? '';
+  }
+}
+
+if (!function_exists('csrf_field')) {
+  function csrf_field(): string {
+    return '<input type="hidden" name="csrf" value="' .
+           htmlspecialchars(csrf_token(), ENT_QUOTES) . '">';
+  }
+}
 // Your app is under the parent docroot, so use the folder:
 //usage: href= "<?= url('pages/bookings.php')?">
 
@@ -57,7 +72,33 @@ function db_showtimes_by_day(PDO $pdo, string $dayYmd): array {
   $st = $pdo->prepare($sql);
   $st->execute([':d' => $dayYmd]);
   return $st->fetchAll(PDO::FETCH_ASSOC);
-}
+
+}// --- Housekeep: flip overdue pending bookings to 'expired' (run at most 1/min per session)
+function housekeep_expired_bookings(PDO $pdo): void {
+  // throttle per session to avoid running on every single request
+  $now = time();
+  if (!empty($_SESSION['last_housekeep']) && ($now - $_SESSION['last_housekeep'] < 60)) {
+    return;
+  }
+  $_SESSION['last_housekeep'] = $now;
+    $pdo->exec("
+    UPDATE booking
+       SET booking_status = 'expired'
+     WHERE booking_status = 'pending'
+       AND expires_at IS NOT NULL
+       AND expires_at <= NOW()
+  ");
+
+    $pdo->exec("
+      DELETE bi
+        FROM booking_items bi
+        JOIN booking b ON b.id = bi.booking_id
+      WHERE b.booking_status = 'expired'
+    ");
+    ;
+    }
+
+housekeep_expired_bookings($pdo);
 ?>
 
 

@@ -12,11 +12,16 @@ $uid = (int)($_SESSION['user']['id'] ?? 0);
 // pull recent bookings for the user
 $sql = "
   SELECT b.id, b.qty, b.total_amount, b.booking_status, b.created_at,
-         s.starts_at, m.title
+         s.starts_at, m.title, h.name AS hall_name, GROUP_CONCAT(CONCAT(se.row_label, se.col_num)
+                      ORDER BY se.row_label, se.col_num SEPARATOR ', ') AS seat_labels
   FROM booking b
   JOIN showtimes s ON s.id = b.showtime_id
   JOIN movies m    ON m.id = s.movies_id
+  JOIN halls h ON h.id = s.hall_id
+  JOIN booking_items bi on bi.booking_id = b.id
+  JOIN seats se ON se.id = bi.seat_id
   WHERE b.user_id = :uid
+  GROUP BY b.id
   ORDER BY b.created_at DESC
 ";
 $st = $pdo->prepare($sql);
@@ -99,6 +104,8 @@ $activeNav = 'null'; // or set to null if you don't want any tab highlighted
             <span class="pill pill--booked">
               Booked: <?= local_time_label($r['created_at'], 'D, j M Y • g:i A') ?>
             </span>
+            <span class="pill">Seats: <?= htmlspecialchars($r['seat_labels'] ?: '—') ?></span>
+            <span class="pill">Hall: <?= htmlspecialchars($r['hall_name']) ?></span>
           </div>
         </article>
       <?php endforeach; endif; ?>
