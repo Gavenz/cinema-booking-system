@@ -16,8 +16,13 @@ $userName  = $isAuthed
     </a>
 
     <nav class="nav-links" aria-label="Primary">
+<<<<<<< HEAD
       <a href="<?= url('brandon/movie.php') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
       <a href="<?= url('') ?>#theatres" class="<?= $activeNav==='theatres' ? 'active' : '' ?>">Find a Theatre</a>
+=======
+      <a href="<?= url('') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
+      <a href="<?= url('pages/showtimes.php') ?>" class="<?= $activeNav==='showtimes' ? 'active' : '' ?>">Showtimes</a>
+>>>>>>> 9e28267f66d47b442b75a9a6d7d9c7a933c9600a
       <a href="<?= url('brandon/food.php') ?>" class="<?= $activeNav==='food' ? 'active' : '' ?>">Food &amp; Drinks</a>
 
       <div class="has-dropdown" aria-haspopup="true">
@@ -44,20 +49,39 @@ $userName  = $isAuthed
       <input id="searchInput" type="search" placeholder="Search movies, genres…" aria-label="Search movies" />
     </div>
 
-    <div>
+    <?php
+      $csrf = $_SESSION['csrf'] ?? '';
+    ?>
+    <div class="user-area has-dropdown" aria-haspopup="true">
       <?php if ($isAuthed): ?>
-        <span style="margin-right:8px; color: var(--muted); font-weight:700;">
+        <button class="more-trigger" aria-expanded="false" aria-controls="user-menu">
           Hi, <?= htmlspecialchars($userName) ?>
-        </span>
-        <a href="<?= url('pages/bookings.php') ?>" class="btn ghost" aria-label="View my bookings">My Bookings</a>
-        <form action="<?= url('auth/logout.php') ?>" method="post" style="display:inline">
-          <button class="btn" type="submit" aria-label="Log out">Logout</button>
-        </form>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div id="user-menu" class="dropdown" role="menu" aria-label="Account">
+          <a role="menuitem" href="<?= url('pages/bookings.php') ?>">My Bookings</a>
+          <a role="menuitem" href="<?= url('pages/cart.php') ?>">Cart</a>
+          <a role="menuitem" href="<?= url('pages/payments.php') ?>">Payment History</a>
+          <!-- optional extras -->
+          <!-- <a role="menuitem" href="<?= url('pages/profile.php') ?>">Profile & Settings</a> -->
+
+          <div style="border-top:1px solid rgba(255,255,255,.08); margin:6px 0;"></div>
+
+          <form action="<?= url('pages/logout.php') ?>" method="post" role="menuitem">
+            <?php if ($csrf): ?>
+              <input type="hidden" name="csrf" value="<?= htmlspecialchars($csrf) ?>">
+            <?php endif; ?>
+            <button class="btn small" type="submit" style="width:100%; text-align:center">Logout</button>
+          </form>
+        </div>
       <?php else: ?>
-        <a class="btn" href="<?= url('pages/login.php') ?>" aria-label="Open login">Login</a>
+        <a class="btn" href="<?= url('pages/login.php') ?>">Login</a>
       <?php endif; ?>
     </div>
-  </div>
 </header>
 
 <!-- Minimal, shared flash styles (safe to keep here so all pages get them) -->

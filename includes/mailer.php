@@ -1,47 +1,54 @@
 <?php
 // includes/mailer.php
+
+require_once __DIR__ . '/PHPMailer/src/Exception.php';
+require_once __DIR__ . '/PHPMailer/src/PHPMailer.php';
+require_once __DIR__ . '/PHPMailer/src/SMTP.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/mail_config.php';
-
-function sendBookingEmail(string $to, string $subject, string $htmlBody, ?string $attachmentPath=null): bool {
+/**
+ * Return a preconfigured PHPMailer instance (centralized SMTP config).
+ */
+function make_mailer(): PHPMailer {
     $mail = new PHPMailer(true);
 
-    // Debug logging to PHP error log
-    $mail->SMTPDebug  = 2; 
-    $mail->Debugoutput = function ($str) {
-        error_log('PHPMailer: ' . trim($str));
-    };
+    // === Mercury/Thunderbird local SMTP ===
+    $mail->isSMTP();
+    $mail->Host        = 'localhost';  // Mercury SMTP
+    $mail->Port        = 25;           // default Mercury SMTP port
+    $mail->SMTPAuth    = false;        // usually off for localhost
+    $mail->SMTPAutoTLS = false;        // don’t force TLS locally
+    $mail->SMTPSecure  = false;        // no SSL/TLS
 
+    // Default sender
+    $mail->setFrom('f31ee@cinema.local', 'Big Premiere Point');
+    // Important: UTF-8 email
+    $mail->CharSet  = 'UTF-8';
+    $mail->Encoding = 'base64'; // or 'quoted-printable'
+    // Defaults
+    $mail->isHTML(true);
+    $mail->Hostname = 'cinema.local';
+    return $mail;
+}
+
+/**
+ * Send a simple HTML email using the centralized mailer.
+ */
+function send_via_mailer(string $to, string $subject, string $htmlBody, ?string $toName=null): bool {
+    if (!$to) return false;
+
+    $mail = make_mailer();
     try {
-        // === MailHog-friendly SMTP settings ===
-        $mail->isSMTP();
-        $mail->Host        = SMTP_HOST;    // defined in mail_config.php
-        $mail->Port        = SMTP_PORT;    // 1025 for MailHog
-        $mail->SMTPAuth    = false;        // no auth for MailHog
-        $mail->SMTPAutoTLS = false;        // don’t force TLS
-        $mail->SMTPSecure  = false;        // no SSL/TLS
-
-        // From/To
-        $mail->setFrom(SMTP_FROM, SMTP_FROM_NAME);
-        $mail->addAddress($to);
-
-        // Content
-        $mail->isHTML(true);
+        $mail->clearAddresses();
+        $mail->addAddress($to, $toName ?? '');
         $mail->Subject = $subject;
         $mail->Body    = $htmlBody;
-
-        if ($attachmentPath && file_exists($attachmentPath)) {
-            $mail->addAttachment($attachmentPath);
-        }
-
-        $mail->send();
-        return true;
-
+        $mail->AltBody = strip_tags(str_replace(['<br>','<br/>','<br />'], "\n", $htmlBody));
+        return $mail->send();
     } catch (Exception $e) {
-        error_log("Mailer Error: " . $mail->ErrorInfo);
+        error_log('Mailer error: ' . $mail->ErrorInfo);
         return false;
     }
 }
