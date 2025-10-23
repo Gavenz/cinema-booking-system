@@ -268,32 +268,6 @@
       </div>
     </div>
 
-    <!-- Anchor targets for new nav items -->
-    <div class="section" id="theatres">
-      <h2>Find a Theatre</h2>
-      <p style="color: var(--muted)">Coming soon: search by city, map view, and showtimes.</p>
-    </div>
-
-    <div class="section" id="food">
-      <h2>Food &amp; Drinks</h2>
-      <p style="color: var(--muted)">Coming soon: menu highlights, bundles, and student deals.</p>
-    </div>
-
-    <div class="section" id="merch">
-      <h2>Merchandise</h2>
-      <p style="color: var(--muted)">Hoodies, tees, posters — student-designed drops.</p>
-    </div>
-
-    <div class="section" id="gifts">
-      <h2>Gift Cards</h2>
-      <p style="color: var(--muted)">Digital &amp; physical cards for the movie lovers in your life.</p>
-    </div>
-
-    <div class="section" id="about">
-      <h2>About Us</h2>
-      <p style="color: var(--muted)">Big Premiere Point is a student cinema project — built with plain HTML, CSS &amp; JS.</p>
-    </div>
-  </main>
   <!-- Modular inputs for footer -->
   <?php include __DIR__ ."/../includes/footer.php"; ?>
 
