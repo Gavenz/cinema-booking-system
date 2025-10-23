@@ -16,7 +16,7 @@ $userName  = $isAuthed
     </a>
 
     <nav class="nav-links" aria-label="Primary">
-      <a href="<?= url('') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
+      <a href="<?= url('brandon/movie.php') ?>#movies"   class="<?= $activeNav==='movies'   ? 'active' : '' ?>">Movies</a>
       <a href="<?= url('') ?>#theatres" class="<?= $activeNav==='theatres' ? 'active' : '' ?>">Find a Theatre</a>
       <a href="<?= url('brandon/food.php') ?>" class="<?= $activeNav==='food' ? 'active' : '' ?>">Food &amp; Drinks</a>
 
