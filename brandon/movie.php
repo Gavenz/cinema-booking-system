@@ -102,9 +102,22 @@
 
     /* Showtimes */
     .controls { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+
+    /* General input base */
     .input, select { width:100%; padding:10px 12px; border-radius:10px; background: rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.15); color: var(--text); outline:none; }
     .input:focus, select:focus { box-shadow: var(--ring); border-color: rgba(255,255,255,.35); }
+
+    /* === Requested changes === */
+    /* Make the FORMAT dropdown words (Standard 2D, Dolby Atmos, IMAX) black */
+    #formatSelect { color:#000; background:#fff; border-color: rgba(255,255,255,.15); }
+    #formatSelect option { color:#000; background:#fff; }
+
+    /* Dates and timings readable in white */
+    .date-tab { color:#fff; }              /* date buttons (e.g., Mon 7 Oct) */
+    .date-tab.active { color:#fff; }       /* keep white when active */
+    .time { color:#fff; }                  /* individual showtime chips */
+
     .date-tabs { display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0 10px; }
     .date-tab { padding:8px 12px; border-radius:999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); cursor:pointer; }
     .date-tab.active { background: var(--accent); border-color: transparent; }
@@ -288,7 +301,7 @@
     // ===== Movie constants =====
     const MOVIE = { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Horror, Thriller', trailerId: 'bMgfsdYoEEo' };
 
-    // ===== Watchlist (same key as homepage) =====
+    // ===== Watchlist =====
     const WATCHLIST_KEY = 'bigpremiere_watchlist';
     const getWatchlist = () => JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]');
     const setWatchlist = list => localStorage.setItem(WATCHLIST_KEY, JSON.stringify(list));
@@ -317,7 +330,7 @@
     document.getElementById('closeModal').addEventListener('click', () => { player.src = ''; modal.close(); });
     modal.addEventListener('close', () => { player.src = ''; });
 
-    // ===== Dropdown accessibility sync (matches homepage behavior) =====
+    // ===== Dropdown a11y sync =====
     (function setupMoreMenu(){
       const container = document.querySelector('.has-dropdown');
       if (!container) return;
@@ -334,15 +347,12 @@
       });
     })();
 
-    // ===== Search hookup (optional for this page; harmless if unused) =====
+    // ===== Search hookup (optional) =====
     (function setupSearch(){
       const input = document.getElementById('searchInput');
       if (!input) return;
       input.addEventListener('keydown', (e) => {
-        // Example: submit to /index.php and let homepage JS filter
-        if (e.key === 'Enter') {
-          window.location.href = 'index.php#trending';
-        }
+        if (e.key === 'Enter') { window.location.href = 'index.php#trending'; }
       });
     })();
 
