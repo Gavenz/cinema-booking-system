@@ -350,7 +350,7 @@
       renderAllRows();
     };
 
-    // ======== HERO CAROUSEL ========
+    // ======== MOVIE CAROUSEL / BANNER ========
     const HEROES = [
       {
         title: 'F1: The Movie',
