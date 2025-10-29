@@ -129,9 +129,10 @@
     /* === Hero carousel additions === */
     .hero-wrap {
       position: relative;
-      max-width: 1300px;
-      margin: 24px auto;
-      padding: 0 20px;
+      width: 100vw;            /* full screen width */
+      max-width: none;
+      margin: 16px 0 10px;     /* small gap below nav */
+      padding: 0;              /* no page gutters */
     }
     .hero-track {
       display: grid;
@@ -148,13 +149,21 @@
 
     .hero-slide { scroll-snap-align: start; }
     /* Override base .hero spacing when used in the carousel */
-    .hero-slide.hero {
-      min-height: 56vh;
-      margin: 0;             /* override base margin */
-      max-width: unset;      /* take full width of track */
-      border-radius: var(--radius);
+    .hero-slide.hero{
+      height: min(calc(100vw * 9 / 16), 90dvh);  /* 16:9 from width, capped at ~full height */
+      margin: 0;
+      max-width: 100vw;
+      border-radius: 0;
       display: grid;
       align-content: end;
+      padding: 32px 24px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    /* Make content a bit wider on big screens (optional) */
+    @media (min-width: 1200px){
+    .hero-slide .hero-content{ max-width: 900px; }
     }
 
     .hero-ctrl {
