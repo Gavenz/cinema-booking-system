@@ -171,6 +171,7 @@
       width: 42px; height: 42px; display: grid; place-items: center;
       border-radius: 999px; background: rgba(0,0,0,.45);
       border: 1px solid rgba(255,255,255,.12); cursor: pointer; z-index: 3;
+      color: #fff;
     }
     .hero-ctrl:hover { filter: brightness(1.2); }
     .hero-ctrl.prev { left: 28px; }
@@ -320,20 +321,20 @@
 
     const MOVIES = [
       { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller', poster: "assets/images/theconjuring.jpg", trailer: 'bMgfsdYoEEo' },
-      { id: 2, title: 'Skybound', year: 2024, runtime: 128, rating: 8.7, genre: 'Action', poster: sample('sky'), trailer: 'aqz-KE-bpKQ' },
-      { id: 3, title: 'Echoes of Time', year: 2023, runtime: 116, rating: 8.9, genre: 'Drama', poster: sample('echo'), trailer: 'tAGnKpE4NCI' },
-      { id: 4, title: 'Quantum Heist', year: 2025, runtime: 134, rating: 8.5, genre: 'Sci-Fi', poster: sample('heist'), trailer: '48rz8udZBmQ' },
-      { id: 5, title: 'Crimson Roads', year: 2022, runtime: 104, rating: 7.8, genre: 'Action', poster: sample('crimson'), trailer: '2g811Eo7K8U' },
-      { id: 6, title: 'Moonlit Harbor', year: 2024, runtime: 98, rating: 7.9, genre: 'Romance', poster: sample('moon'), trailer: '3fumBcKC6RE' },
-      { id: 7, title: 'Atlas Rising', year: 2021, runtime: 140, rating: 8.6, genre: 'Adventure', poster: sample('atlas'), trailer: 'dQw4w9WgXcQ' },
-      { id: 8, title: 'Silent Signal', year: 2023, runtime: 111, rating: 7.6, genre: 'Thriller', poster: sample('signal'), trailer: '6_b7RDuLwcI' },
-      { id: 9, title: 'Solar Drift', year: 2022, runtime: 125, rating: 8.2, genre: 'Sci-Fi', poster: sample('solar'), trailer: 'aqz-KE-bpKQ' },
-      { id: 10, title: 'Vortex Run', year: 2025, runtime: 107, rating: 8.1, genre: 'Action', poster: sample('vortex'), trailer: 'rUWxSEwctFU' },
-      { id: 11, title: 'Paper Planets', year: 2021, runtime: 95, rating: 7.4, genre: 'Family', poster: sample('paper'), trailer: 'xvFZjo5PgG0' },
-      { id: 12, title: 'Shadow Circuit', year: 2023, runtime: 118, rating: 8.0, genre: 'Action', poster: sample('circuit'), trailer: '9bZkp7q19f0' },
-      { id: 13, title: 'Wild Meridian', year: 2024, runtime: 101, rating: 7.7, genre: 'Adventure', poster: sample('meridian'), trailer: 'fJ9rUzIMcZQ' },
-      { id: 14, title: 'Aria of Steel', year: 2022, runtime: 113, rating: 7.9, genre: 'Action', poster: sample('aria'), trailer: 'Zi_XLOBDo_Y' },
-      { id: 15, title: 'Last Matinee', year: 2020, runtime: 102, rating: 7.2, genre: 'Horror', poster: sample('matinee'), trailer: 'g3hBYTbQ71Y' }
+      { id: 2,  title:'Tron: Ares',                year:2025, runtime:119, rating:6.6, genre:'Action',     poster: "assets/images/tronares.jpg",      trailer:'YShVEXb7-ic' },
+      { id: 3, title: 'Echoes of Time',            year: 2023, runtime: 116, rating: 8.9, genre: 'Drama', poster: sample('echo'), trailer: 'tAGnKpE4NCI' },
+      { id: 4, title: 'Quantum Heist',             year: 2025, runtime: 134, rating: 8.5, genre: 'Sci-Fi', poster: sample('heist'), trailer: '48rz8udZBmQ' },
+      { id: 5, title: 'Crimson Roads',             year: 2022, runtime: 104, rating: 7.8, genre: 'Action', poster: sample('crimson'), trailer: '2g811Eo7K8U' },
+      { id: 6, title: 'Moonlit Harbor',            year: 2024, runtime: 98, rating: 7.9, genre: 'Romance', poster: sample('moon'), trailer: '3fumBcKC6RE' },
+      { id: 7, title: 'Atlas Rising',              year: 2021, runtime: 140, rating: 8.6, genre: 'Adventure', poster: sample('atlas'), trailer: 'dQw4w9WgXcQ' },
+      { id: 8, title: 'Silent Signal',             year: 2023, runtime: 111, rating: 7.6, genre: 'Thriller', poster: sample('signal'), trailer: '6_b7RDuLwcI' },
+      { id: 9, title: 'Solar Drift',               year: 2022, runtime: 125, rating: 8.2, genre: 'Sci-Fi', poster: sample('solar'), trailer: 'aqz-KE-bpKQ' },
+      { id:10,  title:'F1: The Movie',             year:2025, runtime:155, rating:7.7, genre:'Action',     poster: "assets/images/f1movie.jpg",   trailer:'8yh9BPUBbbQ' },
+      { id: 11, title: 'Paper Planets',            year: 2021, runtime: 95, rating: 7.4, genre: 'Family', poster: sample('paper'), trailer: 'xvFZjo5PgG0' },
+      { id: 12, title: 'Shadow Circuit',           year: 2023, runtime: 118, rating: 8.0, genre: 'Action', poster: sample('circuit'), trailer: '9bZkp7q19f0' },
+      { id: 13, title: 'Wild Meridian',            year: 2024, runtime: 101, rating: 7.7, genre: 'Adventure', poster: sample('meridian'), trailer: 'fJ9rUzIMcZQ' },
+      { id: 14, title: 'Aria of Steel',            year: 2022, runtime: 113, rating: 7.9, genre: 'Action', poster: sample('aria'), trailer: 'Zi_XLOBDo_Y' },
+      { id: 15, title: 'Last Matinee',             year: 2020, runtime: 102, rating: 7.2, genre: 'Horror', poster: sample('matinee'), trailer: 'g3hBYTbQ71Y' }
     ];
 
     const rows = {
