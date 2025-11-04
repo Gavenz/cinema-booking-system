@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../includes/init.php';
 
 if (!isset($_SESSION['user'])) {
-  flash_set('auth','Please log in to view your bookings','warning');
+  flash_warn('Please log in to view your bookings');
   header('Location: ' . url('pages/login.php?next='.urlencode(url('pages/bookings.php'))));
   exit;
 }

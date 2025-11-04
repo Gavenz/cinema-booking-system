@@ -33,18 +33,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email'    => $u['email'] ?? null,
         'role'     => $u['role'] ?? 'user',
       ];
-
-      flash_set('auth', 'Welcome back, '.($u['username'] ?? 'user').'!', 'success');
-
+      
+      if ($ok)
+      {
+        flash_success('Welcome back, '.$u['username'].'!');
+      }
       // Prevent open redirect: ensure we only redirect to a local path
-      $nextPath = parse_url($next, PHP_URL_PATH) ?: url('pages/showtimes.php');
-      header('Location: ' . $nextPath);
+      if (($_SESSION['user']['role'] ?? 'user') === 'admin') {
+        header('Location: ' . url('pages/admin.php'));
+      } else {
+        header('Location: ' . url('pages/showtimes.php'));
       exit;
+      } 
     } else {
-      $errors[] = 'Invalid email/username or password.';
-      // Optional: also show a flash without redirect
-      // flash_set('auth', 'Login failed. Check your credentials.', 'error');
-    }
+      flash_now('error', 'Invalid email/username or password.');
+      }
   }
 }
 ?>

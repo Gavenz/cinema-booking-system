@@ -2,7 +2,32 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+function current_user(): ?array {
+  return $_SESSION['user'] ?? null;
+}
 
+function is_admin(): bool {
+  return isset($_SESSION['user']) && ($_SESSION['user']['role'] ?? 'user') === 'admin';
+}
+
+function is_user(): bool {
+  return isset($_SESSION['user']) && ($_SESSION['user']['role'] ?? 'user') === 'user';
+}
+function require_login(): void {
+  if (!current_user()) {
+    header('Location: ' . url('pages/login.php'));
+    exit;
+  }
+}
+
+function require_admin(): void {
+  require_login();
+  if (!is_admin()) {
+    http_response_code(403);
+    echo "Forbidden: admin only.";
+    exit;
+  }
+}
 // ----- CSRF helpers -----
 if (empty($_SESSION['csrf'])) {
   $_SESSION['csrf'] = bin2hex(random_bytes(32));
@@ -20,6 +45,63 @@ if (!function_exists('csrf_field')) {
            htmlspecialchars(csrf_token(), ENT_QUOTES) . '">';
   }
 }
+
+// ---- CSRF verifier ----
+if (!function_exists('csrf_check')) {
+  /**
+   * Verify CSRF token for the current request.
+   * Looks in POST['csrf'], then GET['csrf'], then X-CSRF-Token header.
+   * Rotates the session token on success.
+   */
+  function csrf_check(?string $method = null): void {
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+      session_start();
+    }
+    $sessionToken = $_SESSION['csrf'] ?? '';
+    if ($sessionToken === '') {
+      http_response_code(419);
+      echo 'CSRF token missing from session.';
+      exit;
+    }
+
+    $method = strtoupper($method ?? ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+    $token  = '';
+
+    // Forms (POST/GET)
+    if ($method === 'POST') {
+      $token = $_POST['csrf'] ?? '';
+    } elseif ($method === 'GET') {
+      $token = $_GET['csrf'] ?? '';
+    }
+
+    // AJAX/fetch header fallback
+    if ($token === '' && isset($_SERVER['HTTP_X_CSRF_TOKEN'])) {
+      $token = $_SERVER['HTTP_X_CSRF_TOKEN'];
+    }
+
+    if (!is_string($token) || !hash_equals($sessionToken, $token)) {
+      http_response_code(419);
+      echo 'CSRF token mismatch.';
+      exit;
+    }
+
+    // Optional: rotate token after a successful check
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+  }
+}
+
+// (Optional) tiny helper to assert POST + CSRF in handlers
+if (!function_exists('require_post_with_csrf')) {
+  function require_post_with_csrf(): void {
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+      http_response_code(405);
+      echo 'Method Not Allowed';
+      exit;
+    }
+    csrf_check('POST');
+  }
+}
+
 // Your app is under the parent docroot, so use the folder:
 //usage: href= "<?= url('pages/bookings.php')?">
 

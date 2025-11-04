@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../includes/init.php';
 
 if (!isset($_SESSION['user'])) {
-  flash_set('auth','Please log in to select seats','warning');
+  flash_warn('Please log in to select seats');
   header('Location: ' . url('pages/login.php?next='.urlencode($_SERVER['REQUEST_URI'] ?? url('pages/showtimes.php'))));
   exit;
 }
@@ -13,7 +13,7 @@ $uid = (int)$_SESSION['user']['id'];
 // --- Read showtime_id ---
 $showtimeId = isset($_GET['showtime_id']) ? (int)$_GET['showtime_id'] : 0;
 if ($showtimeId <= 0) {
-  flash_set('error','Missing or invalid showtime','error');
+  flash_error('Missing or invalid showtime');
   header('Location: ' . url('pages/showtimes.php'));
   exit;
 }
@@ -32,7 +32,7 @@ $st = $pdo->prepare("
 $st->execute([':sid' => $showtimeId]);
 $show = $st->fetch(PDO::FETCH_ASSOC);
 if (!$show) {
-  flash_set('error','Showtime not found','error');
+  flash_error('Showtime not found');
   header('Location: ' . url('pages/showtimes.php'));
   exit;
 }
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $pdo->commit();
-        flash_set('success', 'Booking confirmed! 🎉', 'success');
+        flash_success('Booking confirmed! 🎉');
         header('Location: ' . url('pages/bookings.php'));
         exit;
 

@@ -3,7 +3,7 @@ require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/mail.php';
 
 if (!isset($_SESSION['user'])) {
-  flash_set('auth','Please log in first.','warning');
+  flash_warn('Please log in first.');
   header('Location: ' . url('pages/login.php'));
   exit;
 }
@@ -17,7 +17,7 @@ $CSRF = $_SESSION['csrf'];
 // booking_id comes from checkout OR cart
 $bookingId = (int)($_GET['booking_id'] ?? $_GET['id'] ?? $_POST['booking_id'] ?? 0);
 if ($bookingId <= 0) {
-  flash_set('err','Missing booking.','error');
+  flash_error('Missing booking.');
   header('Location: ' . url('pages/cart.php'));
   exit;
 }
@@ -38,21 +38,21 @@ $st = $pdo->prepare("
 $st->execute([':bid'=>$bookingId, ':uid'=>$uid]);
 $bk = $st->fetch(PDO::FETCH_ASSOC);
 if (!$bk) {
-  flash_set('err','Booking not found.','error');
+  flash_error('Booking not found.');
   header('Location: ' . url('pages/cart.php'));
   exit;
 }
 
 // If already processed, bounce gracefully
 if ($bk['booking_status'] !== 'pending') {
-  flash_set('info','This booking is already processed.','info');
+  flash_info('This booking is already processed.');
   header('Location: ' . url('pages/bookings.php'));
   exit;
 }
 
 // Expired? (soft check for GET)
 if (!empty($bk['expires_at']) && strtotime($bk['expires_at']) <= time()) {
-  flash_set('err','This pending booking has expired. Please reselect seats.','error');
+  flash_error('This pending booking has expired. Please reselect seats.');
   header('Location: ' . url('pages/booking.php?showtime_id='.$bk['showtime_id']));
   exit;
 }
@@ -74,7 +74,7 @@ $items = $it->fetchAll(PDO::FETCH_ASSOC);
 /* ----------------------------- POST: pay/confirm ------------------------------ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay'])) {
   if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
-    flash_set('err','Bad CSRF token.','error');
+    flash_error('Bad CSRF token.');
     header('Location: ' . url('pages/payment.php?booking_id='.$bookingId));
     exit;
   }
@@ -144,14 +144,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay'])) {
       send_booking_email($pdo, $bookingId, $toEmail, $toName);
     }
 
-    flash_set('ok','Payment successful. Booking confirmed!','success');
+    flash_success('Payment successful. Booking confirmed!');
     header('Location: ' . url('pages/bookings.php'));
     exit;
 
   } catch (Throwable $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
     error_log('PAYMENT ERROR: '.$e->getMessage());
-    flash_set('err',$e->getMessage(), 'error');
+    flash_error($e->getMessage(),);
     header('Location: ' . url('pages/payment.php?booking_id='.$bookingId));
     exit;
   }

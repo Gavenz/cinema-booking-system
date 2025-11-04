@@ -4,7 +4,7 @@ require_once __DIR__ . '/../includes/mail.php';
 
 
 if (!isset($_SESSION['user'])) {
-  flash_set('auth','Please log in first.','warning');
+  flash_warn('Please log in first.');
   header('Location: ' . url('pages/login.php?next='.urlencode(url('pages/checkout.php'))));
   exit;
 }
@@ -22,7 +22,7 @@ $seatIds      = array_values(array_filter(array_map('intval', (array)$seatIdsPar
 
 // If we arrive here without seats (GET or initial POST), send them back
 if (!$seatIds && !isset($_POST['confirm']) && !isset($_POST['add_to_cart'])) {
-  flash_set('err','Please select at least one seat first.','error');
+  flash_error('Please select at least one seat first.');
   header('Location: ' . url('pages/booking.php?showtime_id='.$showtimeId));
   exit;
 }
@@ -31,7 +31,7 @@ if (!$seatIds && !isset($_POST['confirm']) && !isset($_POST['add_to_cart'])) {
 // ---- Load pricing options ----
 $prices = $pdo->query("SELECT id, ticket_type, amount FROM pricing WHERE is_active=1 ORDER BY id")->fetchAll(PDO::FETCH_ASSOC);
 if (!$prices) {
-  flash_set('err','No pricing configured.','error');
+  flash_error('No pricing configured.');
   header('Location: ' . url('pages/showtimes.php'));
   exit;
 }
@@ -50,7 +50,7 @@ $st = $pdo->prepare("
 $st->execute([':sid'=>$showtimeId]);
 $show = $st->fetch(PDO::FETCH_ASSOC);
 if (!$show) {
-  flash_set('err','Showtime not found.','error');
+  flash_error('Showtime not found.');
   header('Location: ' . url('pages/showtimes.php'));
   exit;
 }
@@ -113,12 +113,12 @@ $total = compute_total($seatPrice, $priceMap);
 // ---- POST: Confirm & Pay / Add to Cart ----
 if ($_SERVER['REQUEST_METHOD']==='POST' && (isset($_POST['confirm']) || isset($_POST['add_to_cart']))) {
   if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
-    flash_set('err','Bad CSRF token.','error');
+    flash_error('Bad CSRF token.');
     header('Location: ' . url('pages/checkout.php?showtime_id='.$showtimeId));
     exit;
   }
   if (!$seatIds) {
-    flash_set('err','Please select at least one seat.','error');
+    flash_error('Please select at least one seat.');
     header('Location: ' . url('pages/booking.php?showtime_id='.$showtimeId));
     exit;
   }
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && (isset($_POST['confirm']) || isset($_
   // Validate every seat has a valid price
   foreach ($seatIds as $sid) {
     if (!isset($seatPrice[$sid]) || !isset($priceMap[(int)$seatPrice[$sid]])) {
-      flash_set('err','Invalid ticket type selection for one or more seats.','error');
+      flash_error('Invalid ticket type selection for one or more seats.');
       header('Location: ' . url('pages/checkout.php?showtime_id='.$showtimeId));
       exit;
     }
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && (isset($_POST['confirm']) || isset($_
   $taken = seats_taken($pdo, $showtimeId, $seatIds);
   if ($taken) {
     $labels = array_map(fn($x)=>$seatMap[(int)$x] ?? ('#'.$x), $taken);
-    flash_set('err','Some seats just got taken: '.implode(', ',$labels),'error');
+    flash_error('Some seats just got taken: '.implode(', ',$labels));
     header('Location: ' . url('pages/booking.php?showtime_id='.$showtimeId));
     exit;
   }
@@ -190,14 +190,14 @@ $bookingId = (int)$pdo->lastInsertId();
       header('Location: ' . url('pages/payment.php?booking_id='.$bookingId));
       exit;
     }
-      flash_set('ok','Added to your list. You can confirm it from the cart.','success');
+      flash_success('Added to your list. You can confirm it from the cart.');
     header('Location: ' . url('pages/cart.php'));
     exit;
 
   } catch (PDOException $e) {
     $pdo->rollBack();
     if (stripos($e->getMessage(), 'uq_showtime_seat') !== false) {
-      flash_set('err','One or more seats were just booked by someone else. Please pick again.','error');
+      flash_error('One or more seats were just booked by someone else. Please pick again.');
       header('Location: ' . url('pages/booking.php?showtime_id='.$showtimeId));
       exit;
     }

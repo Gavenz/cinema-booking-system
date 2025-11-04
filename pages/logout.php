@@ -19,7 +19,7 @@ session_destroy();
 
 // Fresh session for flash + new CSRF
 session_start();
-flash_set('ok', 'You have been logged out.', 'success');
+flash_success( 'You have been logged out.');
 
 // Optional: rotate the session id
 session_regenerate_id(true);

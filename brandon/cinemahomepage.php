@@ -537,32 +537,35 @@
     closeModal.addEventListener('click', () => { player.src = ''; modal.close(); });
     modal.addEventListener('close', () => { player.src = ''; });
 
-    // More dropdown: keep aria-expanded in sync with hover/focus behavior
-    (function setupMoreMenu(){
-      const container = document.querySelector('.has-dropdown');
-      if (!container) return;
-      const trigger = container.querySelector('.more-trigger');
+      // More dropdown: keep aria-expanded in sync with hover/focus behavior
+      (function setupMoreMenu(){
+    const container = document.querySelector('.has-dropdown');
+    if (!container) return;
+    const trigger = container.querySelector('.more-trigger');
+    if (!trigger) return; // not logged in → no dropdown, bail out safely
 
-      function openMenu() { trigger.setAttribute('aria-expanded', 'true'); }
-      function closeMenu() { trigger.setAttribute('aria-expanded', 'false'); }
+    function openMenu() { trigger.setAttribute('aria-expanded', 'true'); }
+    function closeMenu() { trigger.setAttribute('aria-expanded', 'false'); }
 
-      container.addEventListener('mouseenter', openMenu);
-      container.addEventListener('mouseleave', closeMenu);
-      trigger.addEventListener('focus', openMenu);
-      container.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') { closeMenu(); trigger.blur(); }
-      });
-      document.addEventListener('click', (e) => {
-        if (!container.contains(e.target)) closeMenu();
-      });
-      trigger.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          const expanded = trigger.getAttribute('aria-expanded') === 'true';
-          expanded ? closeMenu() : openMenu();
-        }
-      });
-    })();
+    container.addEventListener('mouseenter', openMenu);
+    container.addEventListener('mouseleave', closeMenu);
+    trigger.addEventListener('focus', openMenu);
+
+    container.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { closeMenu(); trigger.blur(); }
+    });
+    document.addEventListener('click', (e) => {
+      if (!container.contains(e.target)) closeMenu();
+    });
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        expanded ? closeMenu() : openMenu();
+      }
+    });
+  })();
+
 
     // Login modal logic
     (function setupLogin(){

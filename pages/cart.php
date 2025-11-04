@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../includes/init.php';
 
 if (!isset($_SESSION['user'])) {
-  flash_set('auth','Please log in first.','warning');
+  flash_warn('Please log in first.');
   header('Location: ' . url('pages/login.php?next='.urlencode(url('pages/cart.php'))));
   exit;
 }
@@ -16,7 +16,7 @@ $CSRF = $_SESSION['csrf'];
 // ---- POST handlers ---------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
-    flash_set('err','Bad CSRF token.','error');
+    flash_error('Bad CSRF token.');
     header('Location: ' . url('pages/cart.php'));
     exit;
   }
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Remove selected (0..many)
   if (isset($_POST['remove'])) {
     if (!$ids) {
-      flash_set('err','Select at least one booking to remove.','error');
+      flash_error('Select at least one booking to remove.');
       header('Location: ' . url('pages/cart.php'));
       exit;
     }
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $st = $pdo->prepare($sql);
     $st->execute($args);
 
-    flash_set('ok','Removed from your list.','success');
+    flash_success('Removed from your list.');
     header('Location: ' . url('pages/cart.php'));
     exit;
   }
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Confirm selected (must be exactly one)
   if (isset($_POST['confirm'])) {
     if (count($ids) !== 1) {
-      flash_set('err','Please select exactly one booking to pay.','error');
+      flash_error('Please select exactly one booking to pay.');
       header('Location: ' . url('pages/cart.php'));
       exit;
     }
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $chk->execute([':bid'=>$bid, ':uid'=>$uid]);
 
     if (!$chk->fetch()) {
-      flash_set('err','That booking is no longer available to pay (maybe expired).','error');
+      flash_error('That booking is no longer available to pay (maybe expired).');
       header('Location: ' . url('pages/cart.php'));
       exit;
     }

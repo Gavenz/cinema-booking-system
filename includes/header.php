@@ -20,21 +20,7 @@ $userName  = $isAuthed
       <a href="<?= url('brandon/theatre.php') ?>" class="<?= $activeNav==='theatres' ? 'active' : '' ?>">Find a Theatre</a>
       <a href="<?= url('pages/showtimes.php') ?>" class="<?= $activeNav==='showtimes' ? 'active' : '' ?>">Showtimes</a>
       <a href="<?= url('brandon/food.php') ?>" class="<?= $activeNav==='food' ? 'active' : '' ?>">Food &amp; Drinks</a>
-
-      <div class="has-dropdown" aria-haspopup="true">
-        <button class="more-trigger" aria-expanded="false" aria-controls="more-menu">
-          More
-          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <div id="more-menu" class="dropdown" role="menu" aria-label="More">
-          <a role="menuitem" href="<?= url('') ?>#merch">Merchandise</a>
-          <a role="menuitem" href="<?= url('') ?>#gifts">Gift Cards</a>
-          <a role="menuitem" href="<?= url('brandon/aboutus.php') ?>#about">About Us</a>
-        </div>
-      </div>
+      <a href="<?= url('brandon/aboutus.php') ?>" class ="<?= $activeNav==="about" ? 'active': ''?>">About Us</a>
     </nav>
 
     <div class="search-wrap" role="search">
@@ -59,14 +45,19 @@ $userName  = $isAuthed
         </button>
 
         <div id="user-menu" class="dropdown" role="menu" aria-label="Account">
-          <a role="menuitem" href="<?= url('pages/bookings.php') ?>">My Bookings</a>
-          <a role="menuitem" href="<?= url('pages/cart.php') ?>">Cart</a>
-          <a role="menuitem" href="<?= url('pages/payments.php') ?>">Payment History</a>
-          <!-- optional extras -->
-          <!-- <a role="menuitem" href="<?= url('pages/profile.php') ?>">Profile & Settings</a> -->
+          <?php if (is_admin()):?>
+            <div style="border-top:1px solid rgba(255,255,255,.08); margin:6px 0;"></div>
+            <a role="menuitem" href="<?= url('pages/admin.php') ?>">Admin Dashboard</a>
+            <a role="menuitem" href="<?= url('pages/admin_movies.php?action=list') ?>">Manage Movies</a>
+            <a role="menuitem" href="<?= url('pages/admin_showtimes.php?action=list') ?>">Manage Showtimes</a>
+          <?php endif;?>
+          
+          <?php if (is_user()):?>
+            <a role="menuitem" href="<?= url('pages/bookings.php') ?>">My Bookings</a>
+            <a role="menuitem" href="<?= url('pages/cart.php') ?>">Cart</a>
+          <?php endif;?>
 
           <div style="border-top:1px solid rgba(255,255,255,.08); margin:6px 0;"></div>
-
           <form action="<?= url('pages/logout.php') ?>" method="post" role="menuitem">
             <?php if ($csrf): ?>
               <input type="hidden" name="csrf" value="<?= htmlspecialchars($csrf) ?>">
