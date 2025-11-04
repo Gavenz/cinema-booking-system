@@ -10,10 +10,6 @@ if (!isset($_SESSION['user'])) {
 $uid       = (int)$_SESSION['user']['id'];
 $activeNav = 'showtimes';
 
-// CSRF
-if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16));
-$CSRF = $_SESSION['csrf'];
-
 // booking_id comes from checkout OR cart
 $bookingId = (int)($_GET['booking_id'] ?? $_GET['id'] ?? $_POST['booking_id'] ?? 0);
 if ($bookingId <= 0) {
@@ -73,11 +69,7 @@ $items = $it->fetchAll(PDO::FETCH_ASSOC);
 
 /* ----------------------------- POST: pay/confirm ------------------------------ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay'])) {
-  if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
-    flash_error('Bad CSRF token.');
-    header('Location: ' . url('pages/payment.php?booking_id='.$bookingId));
-    exit;
-  }
+  csrf_check('POST');   // verify token centrally
 
   $method = $_POST['method'] ?? 'card_visa'; // card_visa|card_master|gpay|applepay
   $valid  = ['card_visa','card_master','gpay','applepay'];
@@ -210,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pay'])) {
       <div class="mt"><strong>Total:</strong> <span class="pill">$<?= number_format((float)$bk['total_amount'],2) ?></span></div>
 
       <form method="post" class="paybox">
-        <input type="hidden" name="csrf" value="<?= htmlspecialchars($CSRF) ?>">
+        <?= csrf_field() ?>
         <input type="hidden" name="booking_id" value="<?= (int)$bookingId ?>">
 
         <div class="method">

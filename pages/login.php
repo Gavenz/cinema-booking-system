@@ -8,6 +8,8 @@ $errors = [];
 $next   = $_GET['next'] ?? $_POST['next'] ?? url('pages/showtimes.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  csrf_check('POST');
+
   $id = trim($_POST['id'] ?? '');   // email or username
   $pw = $_POST['password'] ?? '';
 
@@ -33,11 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'email'    => $u['email'] ?? null,
         'role'     => $u['role'] ?? 'user',
       ];
-      
-      if ($ok)
-      {
-        flash_success('Welcome back, '.$u['username'].'!');
-      }
+  
+      flash_success('Welcome back, '.$u['username'].'!');
       // Prevent open redirect: ensure we only redirect to a local path
       if (($_SESSION['user']['role'] ?? 'user') === 'admin') {
         header('Location: ' . url('pages/admin.php'));
@@ -148,6 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="card auth-card">
         <form method="post">
+          <?= csrf_field() ?>
           <input type="hidden" name="next" value="<?= htmlspecialchars($next) ?>">
           <div class="form-row" style="display:grid;gap:10px">
             <label>
@@ -160,6 +160,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <input class="input" type="password" name="password" required autocomplete="current-password">
             </label>
             <button class="btn" type="submit" style="width:fit-content">Login</button>
+            <div style="margin-top:10px;color:var(--muted);font-size:.95rem">
+              New here?
+              <a href="<?= url('pages/register.php') ?>?next=<?= urlencode($next) ?>" style="color:var(--accent);font-weight:700;text-decoration:none">
+                Create an account
+              </a>
+            </div>
           </div>
         </form>
       </div>

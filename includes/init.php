@@ -30,24 +30,20 @@ function require_admin(): void {
 }
 // ----- CSRF helpers -----
 if (empty($_SESSION['csrf'])) {
-  $_SESSION['csrf'] = bin2hex(random_bytes(32));
+  $_SESSION['csrf'] = bin2hex(random_bytes(32)); // stable per-session token
 }
-
-if (!function_exists('csrf_token')) {
+// --- Return the CSRF token---
   function csrf_token(): string {
     return $_SESSION['csrf'] ?? '';
   }
-}
 
-if (!function_exists('csrf_field')) {
+// --- Echo the hidden input for forms ---
   function csrf_field(): string {
     return '<input type="hidden" name="csrf" value="' .
            htmlspecialchars(csrf_token(), ENT_QUOTES) . '">';
   }
-}
 
 // ---- CSRF verifier ----
-if (!function_exists('csrf_check')) {
   /**
    * Verify CSRF token for the current request.
    * Looks in POST['csrf'], then GET['csrf'], then X-CSRF-Token header.
@@ -84,23 +80,8 @@ if (!function_exists('csrf_check')) {
       echo 'CSRF token mismatch.';
       exit;
     }
-
-    // Optional: rotate token after a successful check
-    $_SESSION['csrf'] = bin2hex(random_bytes(32));
   }
-}
 
-// (Optional) tiny helper to assert POST + CSRF in handlers
-if (!function_exists('require_post_with_csrf')) {
-  function require_post_with_csrf(): void {
-    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
-      http_response_code(405);
-      echo 'Method Not Allowed';
-      exit;
-    }
-    csrf_check('POST');
-  }
-}
 
 // Your app is under the parent docroot, so use the folder:
 //usage: href= "<?= url('pages/bookings.php')?">

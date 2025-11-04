@@ -9,17 +9,9 @@ if (!isset($_SESSION['user'])) {
 $uid       = (int)$_SESSION['user']['id'];
 $activeNav = 'showtimes';
 
-// CSRF
-if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16));
-$CSRF = $_SESSION['csrf'];
-
 // ---- POST handlers ---------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
-    flash_error('Bad CSRF token.');
-    header('Location: ' . url('pages/cart.php'));
-    exit;
-  }
+  csrf_check('POST');
 
   // Normalize selected ids from checkboxes
   $ids = array_values(array_unique(array_filter(array_map('intval', $_POST['ids'] ?? []))));
@@ -129,7 +121,7 @@ $items = $st->fetchAll(PDO::FETCH_ASSOC);
     <h2>Your Cart</h2>
 
     <form method="post">
-      <input type="hidden" name="csrf" value="<?= htmlspecialchars($CSRF) ?>">
+      <?= csrf_field() ?>
 
       <?php if (!$items): ?>
         <div class="empty">Your list is empty. Add a showtime from the seat selection/checkout page.</div>

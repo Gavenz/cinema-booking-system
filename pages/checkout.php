@@ -11,9 +11,6 @@ if (!isset($_SESSION['user'])) {
 $uid = (int)$_SESSION['user']['id'];
 $activeNav = 'showtimes';
 
-// CSRF
-if (empty($_SESSION['csrf'])) $_SESSION['csrf'] = bin2hex(random_bytes(16));
-$CSRF = $_SESSION['csrf'];
 
 // Inputs
 $showtimeId = (int)($_GET['showtime_id'] ?? $_POST['showtime_id'] ?? 0);
@@ -112,11 +109,8 @@ $total = compute_total($seatPrice, $priceMap);
 
 // ---- POST: Confirm & Pay / Add to Cart ----
 if ($_SERVER['REQUEST_METHOD']==='POST' && (isset($_POST['confirm']) || isset($_POST['add_to_cart']))) {
-  if (!hash_equals($CSRF, $_POST['csrf'] ?? '')) {
-    flash_error('Bad CSRF token.');
-    header('Location: ' . url('pages/checkout.php?showtime_id='.$showtimeId));
-    exit;
-  }
+  csrf_check('POST');
+
   if (!$seatIds) {
     flash_error('Please select at least one seat.');
     header('Location: ' . url('pages/booking.php?showtime_id='.$showtimeId));
@@ -282,7 +276,7 @@ $bookingId = (int)$pdo->lastInsertId();
       </div>
 
       <form method="post" class="mt">
-        <input type="hidden" name="csrf" value="<?= htmlspecialchars($CSRF) ?>">
+        <?= csrf_field() ?>
         <input type="hidden" name="showtime_id" value="<?= (int)$showtimeId ?>">
         <?php foreach ($seatIds as $sid): ?>
           <input type="hidden" name="seats[]" value="<?= (int)$sid ?>">

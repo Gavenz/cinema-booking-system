@@ -235,6 +235,7 @@ $whenLabel = local_time_label($show['starts_at'], 'D, j M Y • g:i A' ?? 'Asia/
     <div class="screen">SCREEN</div>
 
 <form method="post" action="<?= url('pages/checkout.php') ?>">
+  <?= csrf_field()?>
   <!-- REQUIRED: tell checkout which showtime these seats belong to -->
   <input type="hidden" name="showtime_id" value="<?= (int)$showtimeId ?>">
 
