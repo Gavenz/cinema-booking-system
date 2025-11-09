@@ -148,7 +148,6 @@ require_once __DIR__ . '/../includes/flash.php';
       <h1>Movies, made magical for students</h1>
       <p class="lead">Big Premiere Point is a student-built cinema brand delivering blockbuster vibes on a student budget—crafted with care, community, and a whole lot of popcorn.</p>
       <div class="hero-cta" style="display:flex; gap:12px; align-items:center;">
-        <a class="btn" href="./index.html#movies">Browse Movies</a>
         <span class="pill">Founded 2025 • Singapore</span>
       </div>
     </div>
