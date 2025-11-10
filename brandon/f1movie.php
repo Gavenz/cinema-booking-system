@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Conjuring: Last Rites — Big Premiere Point</title>
+  <title>F1: The Movie — Big Premiere Point</title>
   <base href ="<?= rtrim(BASE_URL, '/') ?>/" />
-  <meta name="description" content="Movie details, cast, showtimes and reviews for The Conjuring: Last Rites." />
+  <meta name="description" content="Movie details, cast, showtimes and reviews for F1: The Movie." />
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
   <style>
-    :root {
+    :root{
       --bg:#0b0b0f; --panel:#12121a; --muted:#8b8ba1; --text:#f3f3f8;
       --accent:#e50914; --accent-2:#f5c518; --card:#1a1a24; --card-hover:#20202c;
       --ring:0 0 0 2px rgba(229,9,20,.45); --radius:16px; --shadow:0 10px 30px rgba(0,0,0,.45);
@@ -20,7 +20,7 @@
     body{
       margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
       color:var(--text);
-      /* Uniform, centered vignette like the F1 page */
+      /* keep nice vignette but even it out with a single centered gradient */
       background:
         radial-gradient(1200px 700px at 50% -20%, #1b1b28 0%, transparent 65%),
         var(--bg);
@@ -64,7 +64,7 @@
     /* Page Masthead */
     .mast{
       position:relative;isolation:isolate;max-width:1300px;margin:20px auto;padding:20px;border-radius:var(--radius);
-      background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7)),url("assets/images/theconjuringlastritesposter16x9.jpg");
+      background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7)),url("assets/images/f1_movie_poster16x9.jpg");
       background-size:cover;background-position:center;box-shadow:var(--shadow);
       display:grid;grid-template-columns:240px 1fr;gap:20px;
     }
@@ -83,7 +83,7 @@
     /* Content layout */
     .wrap{max-width:1300px;margin:0 auto 40px;padding:0 20px;display:grid;grid-template-columns:2fr 1fr;gap:20px;}
 
-    /* Opaque panels/cards for consistent background look */
+    /* Make panels/cards opaque to remove background color differences */
     .panel{
       background: var(--panel);
       border:1px solid rgba(255,255,255,.08);
@@ -97,7 +97,7 @@
       border-radius:12px;padding:12px;margin-bottom:12px;
     }
 
-    /* Cast list (new) */
+    /* Cast list */
     .cast-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
     .cast-item{padding:10px;border-radius:12px;background:#1a1a24;border:1px solid rgba(255,255,255,.08);}
     .cast-item .name{font-weight:800;}
@@ -141,19 +141,20 @@
 
   <!-- ===== Masthead ===== -->
   <header class="mast" aria-label="Movie header">
-    <img class="poster" src="assets/images/theconjuring.jpg" alt="The Conjuring: Last Rites poster" />
+    <img class="poster" src="assets/images/f1movie.jpg" alt="F1: The Movie poster" />
     <div class="meta">
-      <span class="badge">🍿 Now Showing</span>
-      <div class="title">The Conjuring: Last Rites</div>
+      <span class="badge">🎬 Now Showing</span>
+      <div class="title">F1: The Movie</div>
       <p class="sub">
-        The Warrens face their darkest case yet when a malevolent force ties a string of chilling hauntings together —
-        threatening to rip apart their faith, family, and everything they’ve saved before.
+        “The greatest that never was.” Once a 1990s F1 phenom, Sonny Hayes returns to the grid decades after a career-ending crash.
+        Recruited by old teammate-turned-owner Rubén Cervantes to help save underdog team APXGP, Sonny must mentor fiery rookie
+        Joshua Pearce while confronting the ghosts that pushed him off the track in the first place.
       </p>
       <div class="chips">
         <span class="chip">2025</span>
-        <span class="chip">2h 15m</span>
-        <span class="chip">Horror • Thriller</span>
-        <span class="chip rating">★ 8.3</span>
+        <span class="chip">2h 36m</span>
+        <span class="chip">Sports • Drama</span>
+        <span class="chip rating">★ 8.2</span>
       </div>
       <div class="cta">
         <button id="playTrailer" class="btn">▶ Play Trailer</button>
@@ -167,36 +168,22 @@
     <section class="panel" aria-labelledby="summary">
       <h2 id="summary">Summary</h2>
       <p class="muted">
-        When a secluded New England parish reports inexplicable phenomena and a cascade of possessions, Ed and Lorraine Warren
-        uncover an entity older than any they’ve confronted. To sever its hold, they must revisit a case they swore never to
-        open again — risking their bond and the lives of those who sought their help.
+        After an accident derailed his rise, Sonny Hayes has spent years drifting from series to series. When APXGP teeters on the brink,
+        team owner Rubén Cervantes persuades him to return to Formula 1 for one last run — pairing him with prodigious rookie Joshua Pearce
+        and hard-nosed technical director Kate McKenna. As the season unfolds, rivalries, redemption, and split-second decisions blaze toward
+        a final showdown that could save the team — or finish Sonny’s story for good.
       </p>
     </section>
 
-    <!-- NEW: Cast (added) -->
+    <!-- Cast -->
     <section class="panel" aria-labelledby="cast">
       <h2 id="cast">Cast</h2>
       <div class="cast-list">
-        <div class="cast-item">
-          <div class="name">Patrick Wilson</div>
-          <div class="role">as Ed Warren</div>
-        </div>
-        <div class="cast-item">
-          <div class="name">Vera Farmiga</div>
-          <div class="role">as Lorraine Warren</div>
-        </div>
-        <div class="cast-item">
-          <div class="name">Sterling Jerins</div>
-          <div class="role">as Judy Warren</div>
-        </div>
-        <div class="cast-item">
-          <div class="name">Shannon Kook</div>
-          <div class="role">as Drew Thomas</div>
-        </div>
-        <div class="cast-item">
-          <div class="name">Steve Coulter</div>
-          <div class="role">as Father Gordon</div>
-        </div>
+        <div class="cast-item"><div class="name">Brad Pitt</div><div class="role">as Sonny Hayes (veteran driver)</div></div>
+        <div class="cast-item"><div class="name">Damson Idris</div><div class="role">as Joshua Pearce (rookie, APXGP)</div></div>
+        <div class="cast-item"><div class="name">Javier Bardem</div><div class="role">as Rubén Cervantes (team owner)</div></div>
+        <div class="cast-item"><div class="name">Kerry Condon</div><div class="role">as Kate McKenna (technical director)</div></div>
+        <div class="cast-item"><div class="name">Tobias Menzies</div><div class="role">as Peter Banning (board member)</div></div>
       </div>
     </section>
 
@@ -204,16 +191,16 @@
       <div class="card">
         <strong>Details</strong>
         <div class="muted" style="margin-top:6px;">
-          Director: Michael Chaves<br/>
-          Writers: David Leslie Johnson-McGoldrick, James Wan<br/>
-          Distributor: New Line Cinema<br/>
+          Director: Joseph Kosinski<br/>
+          Writer: Ehren Kruger (screenplay); Story by Joseph Kosinski &amp; Ehren Kruger<br/>
+          Distributor: Warner Bros. Pictures (theatrical) • Apple Original Films (SVOD)<br/>
           Language: English<br/>
-          Rating: PG-13 (Fright/Intensity)
+          Rating: PG-13 (strong language &amp; action)
         </div>
       </div>
       <div class="card">
         <strong>Where to watch later</strong>
-        <p class="muted">After theatrical run, expected on select streamers. Follow our socials for updates.</p>
+        <p class="muted">Streaming on Apple TV starting <strong>December 12, 2025</strong> after the theatrical run.</p>
       </div>
     </aside>
 
@@ -252,7 +239,7 @@
   <!-- Trailer Modal -->
   <dialog id="trailerModal" aria-labelledby="modalTitle">
     <div class="modal-header">
-      <strong id="modalTitle">Trailer — The Conjuring: Last Rites</strong>
+      <strong id="modalTitle">Trailer — F1: The Movie</strong>
       <button id="closeModal" class="btn small ghost" aria-label="Close trailer">✕</button>
     </div>
     <div class="modal-body">
@@ -264,7 +251,15 @@
 
   <script>
     // ===== Movie constants =====
-    const MOVIE = { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Horror, Thriller', trailerId: 'bMgfsdYoEEo' };
+    const MOVIE = {
+      id: 1,
+      title: 'F1: The Movie',
+      year: 2025,
+      runtime: 156,
+      rating: 8.2,
+      genre: 'Sports, Drama',
+      trailerId: 'CT2_P2DZBR0'
+    };
 
     // ===== Trailer modal =====
     const modal = document.getElementById('trailerModal');

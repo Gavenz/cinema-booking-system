@@ -1,7 +1,3 @@
-<?php 
-require_once __DIR__ ."/../includes/init.php"; 
-require_once __DIR__ . '/../includes/flash.php';
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +26,7 @@ require_once __DIR__ . '/../includes/flash.php';
       overflow-x:hidden;
     }
 
-    /* ===== Top Nav ===== */
+    /* ===== Inline header/nav styles ===== */
     .nav{
       position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.1) blur(6px);
       background:linear-gradient(180deg,rgba(10,10,14,.85),rgba(10,10,14,.55) 40%,transparent);
@@ -46,41 +42,27 @@ require_once __DIR__ . '/../includes/flash.php';
     .brand-title{font-weight:800;letter-spacing:.4px;font-size:1.1rem;color:#fff}
 
     .nav-links{display:flex;gap:14px;align-items:center;flex:1}
-    .nav-links a,.more-trigger{
+    .nav-links a{
       color:var(--muted);text-decoration:none;font-weight:700;font-size:.95rem;
-      padding:6px 10px;border-radius:10px
+      padding:6px 10px;border-radius:10px;transition:background .2s,color .2s
     }
-    .nav-links a.active,.nav-links a:hover,.more-trigger:hover,
-    .has-dropdown:focus-within .more-trigger{color:#fff;background:rgba(255,255,255,.06)}
+    .nav-links a.active,.nav-links a:hover{color:#fff;background:rgba(255,255,255,.06)}
 
     .search-wrap{
-      display:flex;gap:10px;align-items:center;
-      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
-      border-radius:999px;padding:6px 10px;width:clamp(200px,35vw,380px)
+      display:flex;gap:10px;align-items:center;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:6px 10px;
+      width:clamp(200px,35vw,380px)
     }
     .search-wrap input{
       background:transparent;border:0;outline:none;color:var(--text);flex:1;padding:6px 6px;font-size:.95rem
     }
-    .icon{opacity:.8}
 
     .btn{
       appearance:none;border:0;background:var(--accent);color:#fff;font-weight:700;
       padding:10px 14px;border-radius:999px;cursor:pointer;box-shadow:0 10px 20px rgba(229,9,20,.25)
     }
-    .btn:hover{filter:brightness(1.05)}
     .btn.small{font-size:.9rem;padding:8px 10px}
-    .btn.ghost{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)}
-
-    /* Dropdown (More) */
-    .has-dropdown{position:relative;display:flex;align-items:center}
-    .more-trigger{display:inline-flex;align-items:center;gap:6px;background:transparent;border:0;cursor:pointer}
-    .dropdown{
-      position:absolute;top:calc(100% + 8px);right:0;min-width:220px;z-index:60;
-      background:var(--panel);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:8px;display:none
-    }
-    .dropdown a{display:block;padding:10px 12px;border-radius:8px;text-decoration:none;color:var(--text);font-weight:600;font-size:.95rem}
-    .dropdown a:hover{background:rgba(255,255,255,.06)}
-    .has-dropdown:hover .dropdown,.has-dropdown:focus-within .dropdown{display:block}
+    .btn:hover{filter:brightness(1.05)}
 
     /* ===== Page Head ===== */
     .hero{
@@ -108,8 +90,7 @@ require_once __DIR__ . '/../includes/flash.php';
     .chip.active,.chip:hover{background:rgba(255,255,255,.14)}
     .select{
       width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.2);
-      background:#fff;color:#000; /* readable by default */
-      outline:none
+      background:#fff;color:#000;outline:none
     }
     .select:focus{box-shadow:var(--ring);border-color:rgba(255,255,255,.35)}
     .select option{color:#000;background:#fff}
@@ -133,18 +114,39 @@ require_once __DIR__ . '/../includes/flash.php';
     /* ===== Footer ===== */
     footer{max-width:1300px;margin:14px auto 40px;padding:0 20px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
 
+    /* ===== Responsive ===== */
     @media (max-width:1100px){ .card{grid-column:span 4} }
     @media (max-width:800px){
       .nav-links{display:none}
       .controls{grid-template-columns:1fr}
       .card{grid-column:span 6}
+      .search-wrap{width:clamp(160px,45vw,300px)}
     }
     @media (max-width:520px){ .card{grid-column:span 12} }
   </style>
 </head>
 <body>
 
-  <?php include __DIR__ . '/../includes/header.php'; ?>  
+  <!-- Inline header (logo now links to ../cinemahomepage.php) -->
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a class="brand" href="../brandon/cinemahomepage.php" aria-label="Go to homepage">
+        <span class="logo" aria-hidden="true"></span>
+        <span class="brand-title">Big Premiere Point</span>
+      </a>
+      <div class="nav-links" role="navigation">
+        <a href="movie.php">Movies</a>
+        <a href="../pages/showtimes.php">Showtimes</a>
+        <a href="food.php" class="active">Food & Drinks</a>
+        <a href="aboutus.php">About Us</a>
+      </div>
+      <div class="search-wrap">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="searchInput" type="search" placeholder="Search snacks..." aria-label="Search snacks" />
+      </div>
+      <button class="btn small">Login</button>
+    </div>
+  </nav>
 
   <!-- ===== Hero ===== -->
   <section class="hero" aria-label="Cinema Snacks Hero">
@@ -204,34 +206,47 @@ require_once __DIR__ . '/../includes/flash.php';
   </footer>
 
   <script>
-    // ===== Demo data =====
-    const item = (id, name, cat, price, cal, tags=[], seed='snack') => ({
-      id, name, category: cat, price, calories: cal, tags, img:`https://picsum.photos/seed/${seed}-${id}/800/500`
-    });
+    // ===== Image path handling =====
+    // Adjust as needed; this assumes your images are in ../assets/images/ relative to this file.
+    const IMG_BASE = '../assets/images/';
 
+    // Picsum by default; if filename given -> IMG_BASE + filename; if absolute/URL -> use as-is; else treat as Picsum seed.
+    const item = (id, name, cat, price, cal, tags = [], imgOrSeed = null) => {
+      let img;
+      if (!imgOrSeed) {
+        img = `https://picsum.photos/seed/snack-${id}/800/500`;
+      } else if (/^https?:\/\//i.test(imgOrSeed) || imgOrSeed.startsWith('/')) {
+        img = imgOrSeed;
+      } else if (/\.(png|jpe?g|webp|gif|avif|svg)$/i.test(imgOrSeed)) {
+        img = IMG_BASE + imgOrSeed;
+      } else {
+        img = `https://picsum.photos/seed/${imgOrSeed}-${id}/800/500`;
+      }
+      return { id, name, category: cat, price, calories: cal, tags, img };
+    };
+
+    // ===== Demo data =====
     const ITEMS = [
-      // item (no., name, sub-category, price, cals, tag, picture)
-      item(1,'Classic Salted Popcorn','Popcorn',4.5,350,['shareable'],'popcorn'),
-      item(2,'Caramel Popcorn','Popcorn',5.5,420,['shareable'],'caramel'),
-      item(3,'Butter Popcorn','Popcorn',5.0,390,['shareable'],'butter'),
-      item(4,'Nachos w/ Cheese','Hot Food',7.5,560,['shareable'],'nachos'),
-      item(5,'Hot Dog','Hot Food',6.5,520,[],'hotdog'),
-      item(6,'Chicken Bites','Hot Food',7.9,610,['shareable'],'chicken'),
-      item(7,'Coca-Cola (L)','Drinks',4.0,210,[],'cola'),
-      item(8,'Sprite (L)','Drinks',4.0,190,[],'sprite'),
-      item(9,'Iced Lemon Tea','Drinks',4.2,160,['low-cal'],'tea'),
-      item(10,'Mineral Water','Drinks',3.0,0,['low-cal','vegan','gluten-free'],'water'),
-      item(11,'M&M’s','Candy',4.3,240,[],'mms'),
-      item(12,'Skittles','Candy',4.0,230,['vegan','gluten-free'],'skittles'),
-      item(13,'Gummy Bears','Candy',3.9,210,['gluten-free'],'gummy'),
-      item(14,'Combo A: Popcorn + Drink','Combos',7.9,560,['shareable'],'comboA'),
-      item(15,'Combo B: Nachos + Drink','Combos',9.5,750,['shareable'],'comboB'),
-      item(16,'Combo C: Hot Dog + Drink','Combos',9.0,730,[],'comboC'),
+      item(1,'Classic Salted Popcorn','Popcorn',4.5,350,['shareable'],'saltedpopcorn.jpg'),
+      item(2,'Caramel Popcorn','Popcorn',5.5,420,['shareable'],'caramelpopcorn.jpg'),
+      item(3,'Butter Popcorn','Popcorn',5.0,390,['shareable'],'butterpopcorn.jpg'),
+      item(4,'Nachos w/ Cheese','Hot Food',7.5,560,['shareable'],'nachocheese.jpg'),
+      item(5,'Hot Dog','Hot Food',6.5,520,[],'hotdog.jpg'),
+      item(6,'Chicken Bites','Hot Food',7.9,610,['shareable'],'chickenbites.jpg'),
+      item(7,'Coca-Cola (L)','Drinks',4.0,210,[],'cola.jpg'),
+      item(8,'Sprite (L)','Drinks',4.0,190,[],'sprite.jpg'),
+      item(9,'Iced Lemon Tea','Drinks',4.2,160,['low-cal'],'tea.jpg'),
+      item(10,'Mineral Water','Drinks',3.0,0,['low-cal','vegan','gluten-free'],'water.jpg'),
+      item(11,'M&M’s','Candy',4.3,240,[],'mnms.jpg'),
+      item(12,'Skittles','Candy',4.0,230,['vegan','gluten-free'],'skittles.jpg'),
+      item(13,'Gummy Bears','Candy',3.9,210,['gluten-free'],'gummy.jpg'),
+      item(14,'Combo A: Popcorn + Drink','Combos',7.9,560,['shareable'],'comboA.jpg'),
+      item(15,'Combo B: Nachos + Drink','Combos',9.5,750,['shareable'],'comboB.jpg'),
+      item(16,'Combo C: Hot Dog + Drink','Combos',9.0,730,[],'comboC.jpg'),
     ];
 
     // ===== DOM helpers =====
     const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
 
     // ===== State =====
     const state = {
@@ -262,61 +277,47 @@ require_once __DIR__ . '/../includes/flash.php';
     function applyFilters(){
       let list = ITEMS.slice();
 
-      // text search
       if(state.q){
         const q = state.q.toLowerCase();
         list = list.filter(i => `${i.name} ${i.category} ${i.tags.join(' ')}`.toLowerCase().includes(q));
       }
 
-      // category
       if(state.category !== 'all'){
         list = list.filter(i => i.category === state.category);
       }
 
-      // chips (all selected must match)
       if(state.chips.size){
         list = list.filter(i => [...state.chips].every(tag => i.tags.includes(tag)));
       }
 
-      // sort
       switch(state.sort){
         case 'price-asc': list.sort((a,b)=>a.price-b.price); break;
         case 'price-desc': list.sort((a,b)=>b.price-a.price); break;
         case 'calories-asc': list.sort((a,b)=>a.calories-b.calories); break;
         case 'calories-desc': list.sort((a,b)=>b.calories-a.calories); break;
-        default: /* popular */ list.sort((a,b)=>a.id-b.id); break;
+        default: list.sort((a,b)=>a.id-b.id); break; // "popular" proxy
       }
 
-      // render
       $('#grid').innerHTML = list.map(cardTemplate).join('') || `<p class="muted">No items match your filters.</p>`;
     }
 
     // ===== Events =====
     function setup(){
-      // More dropdown a11y
-      (function moreMenu(){
-        const container = document.querySelector('.has-dropdown');
-        if(!container) return;
-        const trigger = container.querySelector('.more-trigger');
-        function set(open){ trigger.setAttribute('aria-expanded', open?'true':'false'); }
-        container.addEventListener('mouseenter', ()=>set(true));
-        container.addEventListener('mouseleave', ()=>set(false));
-        trigger.addEventListener('focus', ()=>set(true));
-        document.addEventListener('click', (e)=>{ if(!container.contains(e.target)) set(false); });
-        trigger.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); set(trigger.getAttribute('aria-expanded')!=='true'); }});
-      })();
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
 
-      $('#year').textContent = new Date().getFullYear();
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', e => {
+          state.q = e.target.value.trim();
+          applyFilters();
+        });
+      }
 
-      // search
-      $('#searchInput').addEventListener('input', e => { state.q = e.target.value.trim(); applyFilters(); });
+      document.getElementById('category').addEventListener('change', e => { state.category = e.target.value; applyFilters(); });
+      document.getElementById('sort').addEventListener('change', e => { state.sort = e.target.value; applyFilters(); });
 
-      // selects (already readable via CSS)
-      $('#category').addEventListener('change', e => { state.category = e.target.value; applyFilters(); });
-      $('#sort').addEventListener('change', e => { state.sort = e.target.value; applyFilters(); });
-
-      // chips
-      $('#chips').addEventListener('click', (e)=>{
+      document.getElementById('chips').addEventListener('click', (e)=>{
         const chip = e.target.closest('.chip'); if(!chip) return;
         const key = chip.dataset.chip;
         if(chip.classList.toggle('active')) state.chips.add(key); else state.chips.delete(key);

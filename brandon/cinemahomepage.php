@@ -322,19 +322,19 @@
     const MOVIES = [
       { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller', poster: "assets/images/theconjuring.jpg", trailer: 'bMgfsdYoEEo' },
       { id: 2,  title:'Tron: Ares',                year:2025, runtime:119, rating:6.6, genre:'Action',     poster: "assets/images/tronares.jpg",      trailer:'YShVEXb7-ic' },
-      { id: 3, title: 'Echoes of Time',            year: 2023, runtime: 116, rating: 8.9, genre: 'Drama', poster: sample('echo'), trailer: 'tAGnKpE4NCI' },
-      { id: 4, title: 'Quantum Heist',             year: 2025, runtime: 134, rating: 8.5, genre: 'Sci-Fi', poster: sample('heist'), trailer: '48rz8udZBmQ' },
-      { id: 5, title: 'Crimson Roads',             year: 2022, runtime: 104, rating: 7.8, genre: 'Action', poster: sample('crimson'), trailer: '2g811Eo7K8U' },
-      { id: 6, title: 'Moonlit Harbor',            year: 2024, runtime: 98, rating: 7.9, genre: 'Romance', poster: sample('moon'), trailer: '3fumBcKC6RE' },
-      { id: 7, title: 'Atlas Rising',              year: 2021, runtime: 140, rating: 8.6, genre: 'Adventure', poster: sample('atlas'), trailer: 'dQw4w9WgXcQ' },
-      { id: 8, title: 'Silent Signal',             year: 2023, runtime: 111, rating: 7.6, genre: 'Thriller', poster: sample('signal'), trailer: '6_b7RDuLwcI' },
-      { id: 9, title: 'Solar Drift',               year: 2022, runtime: 125, rating: 8.2, genre: 'Sci-Fi', poster: sample('solar'), trailer: 'aqz-KE-bpKQ' },
+      { id: 3, title: 'Parasite',                  year: 2019, runtime: 131, rating: 8.5, genre: 'Drama', poster: "assets/images/parasite.jpg", trailer: 'isOGD_7hNIY' },
+      { id: 4, title: 'Interstellar',              year: 2014, runtime: 169, rating: 8.7, genre: 'Sci-Fi', poster: "assets/images/interstellar.jpg", trailer: 'zSWdZVtXT7E' },
+      { id: 5, title: 'The Fanastic Four',         year: 2025, runtime: 115, rating: 7.0, genre: 'Action', poster: "assets/images/f4.jpg", trailer: 'pAsmrKyMqaA' },
+      { id: 6, title: 'Anyone but You',            year: 2025, runtime: 103, rating: 6.1, genre: 'Romance', poster: "assets/images/anyonebutyou.jpg", trailer: 'UtjH6Sk7Gxs' },
+      { id: 7, title: 'How to Train your Dragon',  year: 2010, runtime: 98, rating: 8.1, genre: 'Adventure', poster: "assets/images/httyd.jpg", trailer: '2AKsAxrhqgM' },
+      { id: 8, title: 'Inception',                 year: 2010, runtime: 162, rating: 8.8, genre: 'Thriller', poster: "assets/images/inception.jpg", trailer: 'YoHD9XEInc0' },
+      { id: 9, title: 'Avatar',                    year: 2022, runtime: 192, rating: 7.5, genre: 'Sci-Fi', poster: "assets/images/avatar.jpg", trailer: 'd9MyW72ELq0' },
       { id:10,  title:'F1: The Movie',             year:2025, runtime:155, rating:7.7, genre:'Action',     poster: "assets/images/f1movie.jpg",   trailer:'8yh9BPUBbbQ' },
-      { id: 11, title: 'Paper Planets',            year: 2021, runtime: 95, rating: 7.4, genre: 'Family', poster: sample('paper'), trailer: 'xvFZjo5PgG0' },
-      { id: 12, title: 'Shadow Circuit',           year: 2023, runtime: 118, rating: 8.0, genre: 'Action', poster: sample('circuit'), trailer: '9bZkp7q19f0' },
-      { id: 13, title: 'Wild Meridian',            year: 2024, runtime: 101, rating: 7.7, genre: 'Adventure', poster: sample('meridian'), trailer: 'fJ9rUzIMcZQ' },
-      { id: 14, title: 'Aria of Steel',            year: 2022, runtime: 113, rating: 7.9, genre: 'Action', poster: sample('aria'), trailer: 'Zi_XLOBDo_Y' },
-      { id: 15, title: 'Last Matinee',             year: 2020, runtime: 102, rating: 7.2, genre: 'Horror', poster: sample('matinee'), trailer: 'g3hBYTbQ71Y' }
+      { id: 11, title: 'Toy Story',                year: 1995, runtime: 81, rating: 8.3, genre: 'Family', poster: "assets/images/toystory.jpg", trailer: 'v-PjgYDrg70' },
+      { id: 12, title: '300',                      year: 2006, runtime: 117, rating: 7.6, genre: 'Action', poster: "assets/images/300.jpg", trailer: 'ZJ6yq-oVKPc' },
+      { id: 13, title: 'Gran Turismo',             year: 2023, runtime: 134, rating: 7.1, genre: 'Adventure', poster: "assets/images/gt.jpg", trailer: 'GVPzGBvPrzw' },
+      { id: 14, title: 'Skyfall',                  year: 2012, runtime: 143, rating: 7.8, genre: 'Action', poster: "assets/images/skyfall.jpg", trailer: '6kw1UVovByw' },
+      { id: 15, title: 'IT',                       year: 2017, runtime: 135, rating: 7.3, genre: 'Horror', poster: "assets/images/it.jpg", trailer: 'hAUTdjf9rko' }
     ];
 
     const rows = {
