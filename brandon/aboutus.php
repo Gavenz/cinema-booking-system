@@ -121,7 +121,6 @@ require_once __DIR__ . '/../includes/flash.php';
     .contact-card{grid-column:span 6}
     .contact-form{grid-column:span 6}
     .contact-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-    /* Updated link colors for readability */
     .contact-list a{color:var(--text);text-decoration:underline}
     .contact-list a:hover{color:var(--accent-2)}
 
@@ -129,7 +128,7 @@ require_once __DIR__ . '/../includes/flash.php';
     footer{max-width:1300px;margin:14px auto 40px;padding:0 20px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
 
     /* Responsive */
-    @media (max-width:1000px){.contact-card,.contact-form{grid-column:span 12}}
+    @media (max-width:1000px){.contact-card{grid-column:span 12}}
     @media (max-width:800px){
       .nav-links{display:none}
       .dropdown{position:fixed;top:60px;right:16px;left:16px}
@@ -155,7 +154,7 @@ require_once __DIR__ . '/../includes/flash.php';
 
   <!-- ===== SNAP EXPLAINER ===== -->
   <section class="section" id="snapshot">
-    <h2>What we do (the 10-second version)</h2>
+    <h2>What we do</h2>
     <p class="lead">
       We run student-friendly screenings with premium presentation—curated schedules, comfy seats, fair pricing, and a super-simple booking flow.
       Think <strong>big-premiere energy</strong> without the big-premiere cost.
@@ -167,7 +166,7 @@ require_once __DIR__ . '/../includes/flash.php';
     <h2>Meet the team</h2>
     <div class="grid" role="list">
       <article class="card" role="listitem" style="grid-column: span 6;">
-        <img class="avatar" src="https://picsum.photos/seed/team-alex/800/800" alt="Brandon Lam — Co-founder & Frontend Developer">
+        <img class="avatar" src="../assets/images/dude1.jpg" alt="Brandon Lam — Co-founder & Frontend Developer">
         <div class="card-body">
           <strong>Brandon Lam</strong>
           <div class="muted">Co-founder • Frontend Developer</div>
@@ -176,7 +175,7 @@ require_once __DIR__ . '/../includes/flash.php';
       </article>
 
       <article class="card" role="listitem" style="grid-column: span 6;">
-        <img class="avatar" src="https://picsum.photos/seed/team-maya/800/800" alt="Gaven Peh — Co-founder & Backend Developer">
+        <img class="avatar" src="../assets/images/dude2.jpg" alt="Gaven Peh — Co-founder & Backend Developer">
         <div class="card-body">
           <strong>Gaven Peh</strong>
           <div class="muted">Co-founder • Backend Developer</div>
@@ -225,52 +224,6 @@ require_once __DIR__ . '/../includes/flash.php';
     </div>
   </section>
 
-  <!-- ===== WHY WE STARTED (long version only) ===== -->
-  <section class="section" id="founders">
-    <h2>Why we started Big Premiere Point</h2>
-    <div class="grid" role="list">
-      <article class="card" role="listitem" style="grid-column: span 12;">
-        <img class="avatar" src="https://picsum.photos/seed/founders-2/1200/600" alt="Student screening night with a packed audience">
-        <div class="card-body">
-          <strong>The longer version</strong>
-          <p class="muted" style="margin-top:8px">
-            After running campus screenings and hearing the same pain points—price, clunky booking, inconsistent quality—we rebuilt the pipeline:
-            smarter scheduling, cleaner UX, and partnerships that pass savings to students while lifting presentation standards. We’re here to
-            connect people with films (and each other) in welcoming, affordable spaces.
-          </p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- ===== FUN SIDE ===== -->
-  <section class="section" id="fun">
-    <h2>Our fun side</h2>
-    <div class="grid">
-      <article class="card" style="grid-column: span 4;">
-        <img class="avatar" src="https://picsum.photos/seed/popcorn-lab/800/600" alt="Experimental popcorn flavors">
-        <div class="card-body">
-          <strong>🍿 Popcorn Lab</strong>
-          <p class="muted" style="margin-top:8px">Rotating flavors (mala? matcha?) voted by students every month.</p>
-        </div>
-      </article>
-      <article class="card" style="grid-column: span 4;">
-        <img class="avatar" src="https://picsum.photos/seed/midnight-premieres/800/600" alt="Midnight premiere crowd">
-        <div class="card-body">
-          <strong>🎞️ Midnight Premieres</strong>
-          <p class="muted" style="margin-top:8px">Fridays after 11pm, cult classics + costumes = prizes.</p>
-        </div>
-      </article>
-      <article class="card" style="grid-column: span 4;">
-        <img class="avatar" src="https://picsum.photos/seed/student-spotlight/800/600" alt="Student filmmaker Q&A">
-        <div class="card-body">
-          <strong>🎬 Student Spotlight</strong>
-          <p class="muted" style="margin-top:8px">Show your short film before a feature. The crowd goes wild.</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
   <!-- ===== WHY CHOOSE US ===== -->
   <section class="section" id="why">
     <h2>Why choose Big Premiere Point?</h2>
@@ -296,11 +249,6 @@ require_once __DIR__ . '/../includes/flash.php';
           <p class="muted" style="margin-top:8px">Crisp projection, tuned audio, comfy seating. No compromises.</p>
         </div>
       </article>
-    </div>
-
-    <div style="display:flex; gap:12px; margin-top:16px;">
-      <a class="btn" href="./index.html#movies">Get Tickets</a>
-      <a class="btn ghost" href="./index.html#merch">Shop Merch</a>
     </div>
   </section>
 
@@ -332,11 +280,11 @@ require_once __DIR__ . '/../includes/flash.php';
     </div>
   </section>
 
-  <!-- ===== CONTACT ===== -->
+  <!-- ===== CONTACT (no form) ===== -->
   <section class="section" id="contact">
     <h2>Contact us</h2>
     <div class="contact-wrap">
-      <div class="card contact-card">
+      <div class="card contact-card" style="grid-column: span 12;">
         <div class="card-body">
           <strong>Reach out</strong>
           <ul class="contact-list">
@@ -347,28 +295,6 @@ require_once __DIR__ . '/../includes/flash.php';
           </ul>
         </div>
       </div>
-
-      <div class="card contact-form">
-        <div class="card-body">
-          <form id="contactForm">
-            <div style="display:grid; gap:10px;">
-              <label>
-                <span class="muted" style="display:block; margin-bottom:6px;">Name</span>
-                <input class="input" id="cName" required placeholder="Your name" />
-              </label>
-              <label>
-                <span class="muted" style="display:block; margin-bottom:6px;">Email</span>
-                <input class="input" id="cEmail" type="email" required placeholder="you@example.com" />
-              </label>
-              <label>
-                <span class="muted" style="display:block; margin-bottom:6px;">Message</span>
-                <textarea class="textarea" id="cMsg" rows="4" required placeholder="How can we help?"></textarea>
-              </label>
-              <button class="btn" type="submit" style="width:fit-content;">Send message</button>
-            </div>
-          </form>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -377,7 +303,7 @@ require_once __DIR__ . '/../includes/flash.php';
     <small>Built with plain HTML, CSS &amp; JS</small>
   </footer>
 
-  <!-- ===== Page Scripts (no login modal; Login goes to login.php) ===== -->
+  <!-- ===== Page Scripts (Login goes to login.php) ===== -->
   <script>
     // Dropdown aria-expanded sync
     (function setupMoreMenu(){
@@ -400,17 +326,7 @@ require_once __DIR__ . '/../includes/flash.php';
       });
     })();
 
-    // Contact form (demo only)
-    (function setupContact(){
-      const form = document.getElementById('contactForm');
-      if (!form) return;
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('cName').value.trim();
-        alert(`Thanks, ${name || 'friend'} — your message is on its way!`);
-        form.reset();
-      });
-    })();
+    // Removed contact form handler (no submission UI anymore)
 
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
