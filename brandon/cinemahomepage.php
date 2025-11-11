@@ -14,8 +14,8 @@
       --panel: #12121a;
       --muted: #8b8ba1;
       --text: #f3f3f8;
-      --accent: #e50914; /* Netflix-esque */
-      --accent-2: #f5c518; /* AMC/IMDb gold vibe for ratings */
+      --accent: #e50914;
+      --accent-2: #f5c518;
       --card: #1a1a24;
       --card-hover: #20202c;
       --ring: 0 0 0 2px rgba(229,9,20,.45);
@@ -28,9 +28,10 @@
     body {
       margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       color: var(--text);
-      background: radial-gradient(1200px 600px at 20% -10%, #1b1b28 0%, transparent 60%),
-                  radial-gradient(800px 500px at 100% 0%, #231c24 0%, transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, #1b1b28 0%, transparent 60%),
+        radial-gradient(800px 500px at 100% 0%, #231c24 0%, transparent 60%),
+        var(--bg);
       overflow-x: hidden;
     }
 
@@ -40,9 +41,7 @@
       background: linear-gradient(180deg, rgba(10,10,14,.85), rgba(10,10,14,.55) 40%, transparent);
       border-bottom: 1px solid rgba(255,255,255,.06);
     }
-    .nav-inner {
-      max-width: 1300px; margin: 0 auto; display: flex; gap: 16px; align-items: center; padding: 12px 20px;
-    }
+    .nav-inner { max-width: 1300px; margin: 0 auto; display: flex; gap: 16px; align-items: center; padding: 12px 20px; }
     .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo {
       width: 34px; height: 34px; border-radius: 8px; background:
@@ -52,23 +51,18 @@
     .brand-title { font-weight: 800; letter-spacing: .4px; font-size: 1.1rem; color: white; }
 
     .nav-links { display: flex; gap: 14px; align-items: center; flex: 1; }
-    .nav-links a,
-    .more-trigger {
+    .nav-links a, .more-trigger {
       color: var(--muted); text-decoration: none; font-weight: 700; font-size: .95rem; padding: 6px 10px; border-radius: 10px;
     }
-    .nav-links a.active,
-    .nav-links a:hover,
-    .more-trigger:hover,
-    .has-dropdown:focus-within .more-trigger { color: #fff; background: rgba(255,255,255,.06); }
+    .nav-links a.active, .nav-links a:hover, .more-trigger:hover, .has-dropdown:focus-within .more-trigger {
+      color:#fff; background: rgba(255,255,255,.06);
+    }
 
     .search-wrap {
       display: flex; gap: 10px; align-items: center;
       background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09); border-radius: 999px; padding: 6px 10px; width: clamp(200px, 35vw, 380px);
     }
-    .search-wrap input {
-      background: transparent; border: 0; outline: none; color: var(--text); flex: 1; padding: 6px 6px; font-size: .95rem;
-    }
-    .icon { opacity: .8 }
+    .search-wrap input { background: transparent; border: 0; outline: none; color: var(--text); flex: 1; padding: 6px 6px; font-size: .95rem; }
 
     .btn {
       appearance: none; border: 0; background: var(--accent); color: white; font-weight: 700; padding: 10px 14px; border-radius: 999px; cursor: pointer;
@@ -78,39 +72,48 @@
     .btn.small { font-size: .9rem; padding: 8px 10px; }
     .btn.ghost { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); }
 
-    /* Inputs (login form) */
-    .input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.15);
-      color: var(--text);
-      outline: none;
+    /* Compact, two-line Buy Tickets button */
+    .btn.tix{
+      background: linear-gradient(180deg, #ff2e38, #e50914);
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 10px 24px rgba(229,9,20,.28), inset 0 1px 0 rgba(255,255,255,.15);
+      border-radius: 999px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.05;
+      padding: 8px 10px;
+      font-weight: 800;
+      letter-spacing:.1px;
+      min-width: 90px;
+      white-space: normal;
     }
-    .input:focus { box-shadow: var(--ring); border-color: rgba(255,255,255,.35); }
+    .btn.tix:hover{
+      filter: none;
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(229,9,20,.34), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    .btn.tix:focus-visible{ outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,.35), 0 0 0 4px rgba(229,9,20,.55); }
+    .btn.tix .top{ font-size: .9rem; }
+    .btn.tix .bottom{ font-size: .9rem; }
 
     /* --- More dropdown --- */
     .has-dropdown { position: relative; display: flex; align-items: center; }
-    .more-trigger {
-      display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 0; cursor: pointer;
-    }
+    .more-trigger { display: inline-flex; align-items: center; gap: 6px; background: transparent; border: 0; cursor: pointer; }
     .dropdown {
       position: absolute; top: calc(100% + 8px); right: 0; min-width: 220px; z-index: 60;
       background: var(--panel); border: 1px solid rgba(255,255,255,.12); border-radius: 12px;
       box-shadow: var(--shadow); padding: 8px; display: none;
     }
-    .dropdown a {
-      display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none;
-      color: var(--text); font-weight: 600; font-size: .95rem;
-    }
+    .dropdown a { display: block; padding: 10px 12px; border-radius: 8px; text-decoration: none; color: var(--text); font-weight: 600; font-size: .95rem; }
     .dropdown a:hover { background: rgba(255,255,255,.06); }
-    .has-dropdown:hover .dropdown,
-    .has-dropdown:focus-within .dropdown { display: block; }
+    .has-dropdown:hover .dropdown, .has-dropdown:focus-within .dropdown { display: block; }
     .chev { opacity: .7; transform: translateY(1px); transition: transform .15s ease; }
     .has-dropdown:hover .chev, .has-dropdown:focus-within .chev { transform: translateY(1px) rotate(180deg); }
 
-    /* ===== Hero (base style reused per slide) ===== */
+    /* ===== Hero (base for slides) ===== */
     .hero {
       position: relative; isolation: isolate; max-width: 1300px; margin: 24px auto; padding: 20px; border-radius: var(--radius);
       background:
@@ -126,62 +129,36 @@
     .hero-cta { display: flex; gap: 12px; align-items: center; }
     .hero .btn.secondary { background: rgba(255,255,255,.1); box-shadow: none; border: 1px solid rgba(255,255,255,.16) }
 
-    /* === Hero carousel additions === */
-    .hero-wrap {
-      position: relative;
-      width: 100vw;            /* full screen width */
-      max-width: none;
-      margin: 16px 0 10px;     /* small gap below nav */
-      padding: 0;              /* no page gutters */
-    }
+    /* === Hero carousel === */
+    .hero-wrap { position: relative; width: 100vw; max-width: none; margin: 16px 0 10px; padding: 0; }
     .hero-track {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 100%;
-      gap: 16px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      border-radius: var(--radius);
+      display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
+      gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; border-radius: var(--radius);
     }
     .hero-track::-webkit-scrollbar { height: 10px; }
     .hero-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,.08); border-radius: 999px; }
 
     .hero-slide { scroll-snap-align: start; }
-    /* Override base .hero spacing when used in the carousel */
     .hero-slide.hero{
-      height: min(calc(100vw * 9 / 16), 90dvh);  /* 16:9 from width, capped at ~full height */
-      margin: 0;
-      max-width: 100vw;
-      border-radius: 0;
-      display: grid;
-      align-content: end;
-      padding: 32px 24px;
-      background-size: cover;
-      background-position: center;
+      height: min(calc(100vw * 9 / 16), 90dvh);
+      margin: 0; max-width: 100vw; border-radius: 0;
+      display: grid; align-content: end; padding: 32px 24px;
+      background-size: cover; background-position: center;
     }
-    
-    /* Make content a bit wider on big screens (optional) */
-    @media (min-width: 1200px){
-    .hero-slide .hero-content{ max-width: 900px; }
-    }
+    @media (min-width: 1200px){ .hero-slide .hero-content{ max-width: 900px; } }
 
     .hero-ctrl {
       position: absolute; top: 50%; transform: translateY(-50%);
       width: 42px; height: 42px; display: grid; place-items: center;
       border-radius: 999px; background: rgba(0,0,0,.45);
-      border: 1px solid rgba(255,255,255,.12); cursor: pointer; z-index: 3;
-      color: #fff;
+      border: 1px solid rgba(255,255,255,.12); cursor: pointer; z-index: 3; color: #fff;
     }
     .hero-ctrl:hover { filter: brightness(1.2); }
     .hero-ctrl.prev { left: 28px; }
     .hero-ctrl.next { right: 28px; }
 
     .hero-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
-    .hero-dot {
-      width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.35);
-      border: 1px solid rgba(255,255,255,.5);
-    }
+    .hero-dot { width: 8px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.35); border: 1px solid rgba(255,255,255,.5); }
     .hero-dot.active { background: #fff; }
 
     /* Rows */
@@ -209,15 +186,6 @@
 
     .card-actions { display: flex; gap: 8px; margin-top: 10px; }
 
-    /* Carousel controls */
-    .ctrl {
-      position: absolute; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 42px; height: 42px;
-      border-radius: 999px; background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.12); cursor: pointer; z-index: 2;
-    }
-    .ctrl:hover { filter: brightness(1.2); }
-    .prev { left: 8px; }
-    .next { right: 8px; }
-
     /* Modal */
     dialog { border: none; border-radius: 16px; width: min(920px, 92vw); background: #0e0e14; color: var(--text); box-shadow: var(--shadow); }
     dialog::backdrop { background: rgba(0,0,0,.6); }
@@ -238,14 +206,12 @@
   </style>
 </head>
 <body>
-  <!-- Modular inputs for header -->
   <?php include __DIR__ ."/../includes/header.php"; ?>
-  <!-- ===== Hero carousel (replaces single hero) ===== -->
+
+  <!-- ===== Hero carousel ===== -->
   <section class="hero-wrap" aria-label="Featured movies">
     <button class="hero-ctrl prev" aria-label="Previous featured">◀</button>
-    <div class="hero-track" id="heroTrack" tabindex="0" aria-label="Featured movies carousel">
-      <!-- Slides injected by JS -->
-    </div>
+    <div class="hero-track" id="heroTrack" tabindex="0" aria-label="Featured movies carousel"></div>
     <button class="hero-ctrl next" aria-label="Next featured">▶</button>
     <div class="hero-dots" id="heroDots" aria-hidden="true"></div>
   </section>
@@ -278,7 +244,6 @@
       </div>
     </div>
 
-  <!-- Modular inputs for footer -->
   <?php include __DIR__ ."/../includes/footer.php"; ?>
 
   <!-- Trailer Modal -->
@@ -316,25 +281,23 @@
   </dialog>
 
   <script>
-    // ======== Demo Data (no API key needed) ========
-    const sample = (seed, w=400, h=600) => `https://picsum.photos/seed/${seed}/${w}/${h}`;
-
+    // ======== Demo Data ========
     const MOVIES = [
-      { id: 1, title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller', poster: "assets/images/theconjuring.jpg", trailer: 'bMgfsdYoEEo' },
-      { id: 2,  title:'Tron: Ares',                year:2025, runtime:119, rating:6.6, genre:'Action',     poster: "assets/images/tronares.jpg",      trailer:'YShVEXb7-ic' },
-      { id: 3, title: 'Parasite',                  year: 2019, runtime: 131, rating: 8.5, genre: 'Drama', poster: "assets/images/parasite.jpg", trailer: 'isOGD_7hNIY' },
-      { id: 4, title: 'Interstellar',              year: 2014, runtime: 169, rating: 8.7, genre: 'Sci-Fi', poster: "assets/images/interstellar.jpg", trailer: 'zSWdZVtXT7E' },
-      { id: 5, title: 'The Fanastic Four',         year: 2025, runtime: 115, rating: 7.0, genre: 'Action', poster: "assets/images/f4.jpg", trailer: 'pAsmrKyMqaA' },
-      { id: 6, title: 'Anyone but You',            year: 2025, runtime: 103, rating: 6.1, genre: 'Romance', poster: "assets/images/anyonebutyou.jpg", trailer: 'UtjH6Sk7Gxs' },
-      { id: 7, title: 'How to Train your Dragon',  year: 2010, runtime: 98, rating: 8.1, genre: 'Adventure', poster: "assets/images/httyd.jpg", trailer: '2AKsAxrhqgM' },
-      { id: 8, title: 'Inception',                 year: 2010, runtime: 162, rating: 8.8, genre: 'Thriller', poster: "assets/images/inception.jpg", trailer: 'YoHD9XEInc0' },
-      { id: 9, title: 'Avatar',                    year: 2022, runtime: 192, rating: 7.5, genre: 'Sci-Fi', poster: "assets/images/avatar.jpg", trailer: 'd9MyW72ELq0' },
-      { id:10,  title:'F1: The Movie',             year:2025, runtime:155, rating:7.7, genre:'Action',     poster: "assets/images/f1movie.jpg",   trailer:'8yh9BPUBbbQ' },
-      { id: 11, title: 'Toy Story',                year: 1995, runtime: 81, rating: 8.3, genre: 'Family', poster: "assets/images/toystory.jpg", trailer: 'v-PjgYDrg70' },
-      { id: 12, title: '300',                      year: 2006, runtime: 117, rating: 7.6, genre: 'Action', poster: "assets/images/300.jpg", trailer: 'ZJ6yq-oVKPc' },
-      { id: 13, title: 'Gran Turismo',             year: 2023, runtime: 134, rating: 7.1, genre: 'Adventure', poster: "assets/images/gt.jpg", trailer: 'GVPzGBvPrzw' },
-      { id: 14, title: 'Skyfall',                  year: 2012, runtime: 143, rating: 7.8, genre: 'Action', poster: "assets/images/skyfall.jpg", trailer: '6kw1UVovByw' },
-      { id: 15, title: 'IT',                       year: 2017, runtime: 135, rating: 7.3, genre: 'Horror', poster: "assets/images/it.jpg", trailer: 'hAUTdjf9rko' }
+      { id: 1,  title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller',   poster: "assets/images/theconjuring.jpg",   trailer: 'bMgfsdYoEEo', url: 'pages/movies/theconjuring.php' },
+      { id: 2,  title:'Tron: Ares',                 year: 2025, runtime: 119, rating: 6.6, genre:'Action',     poster: "assets/images/tronares.jpg",       trailer:'YShVEXb7-ic', url: 'pages/movies/tronares.php' },
+      { id: 3,  title: 'Parasite',                  year: 2019, runtime: 131, rating: 8.5, genre: 'Drama',     poster: "assets/images/parasite.jpg",       trailer: 'isOGD_7hNIY', url: 'pages/movies/parasite.php' },
+      { id: 4,  title: 'Interstellar',              year: 2014, runtime: 169, rating: 8.7, genre: 'Sci-Fi',    poster: "assets/images/interstellar.jpg",   trailer: 'zSWdZVtXT7E', url: 'pages/movies/interstellar.php' },
+      { id: 5,  title: 'The Fanastic Four',         year: 2025, runtime: 115, rating: 7.0, genre: 'Action',    poster: "assets/images/f4.jpg",             trailer: 'pAsmrKyMqaA', url: 'pages/movies/fantasticfour.php' },
+      { id: 6,  title: 'Anyone but You',            year: 2025, runtime: 103, rating: 6.1, genre: 'Romance',   poster: "assets/images/anyonebutyou.jpg",   trailer: 'UtjH6Sk7Gxs', url: 'pages/movies/anyonebutyou.php' },
+      { id: 7,  title: 'How to Train your Dragon',  year: 2010, runtime: 98,  rating: 8.1, genre: 'Adventure', poster: "assets/images/httyd.jpg",          trailer: '2AKsAxrhqgM', url: 'pages/movies/httyd.php' },
+      { id: 8,  title: 'Inception',                 year: 2010, runtime: 162, rating: 8.8, genre: 'Thriller',  poster: "assets/images/inception.jpg",      trailer: 'YoHD9XEInc0', url: 'pages/movies/inception.php' },
+      { id: 9,  title: 'Avatar',                    year: 2022, runtime: 192, rating: 7.5, genre: 'Sci-Fi',    poster: "assets/images/avatar.jpg",         trailer: 'd9MyW72ELq0', url: 'pages/movies/avatar.php' },
+      { id:10,  title:'F1: The Movie',              year: 2025, runtime: 155, rating: 7.7, genre:'Action',     poster: "assets/images/f1movie.jpg",        trailer:'8yh9BPUBbbQ', url: 'pages/movies/f1.php' },
+      { id:11,  title: 'Toy Story',                 year: 1995, runtime: 81,  rating: 8.3, genre: 'Family',    poster: "assets/images/toystory.jpg",       trailer: 'v-PjgYDrg70', url: 'pages/movies/toystory.php' },
+      { id:12,  title: '300',                       year: 2006, runtime: 117, rating: 7.6, genre: 'Action',    poster: "assets/images/300.jpg",            trailer: 'ZJ6yq-oVKPc', url: 'pages/movies/300.php' },
+      { id:13,  title: 'Gran Turismo',              year: 2023, runtime: 134, rating: 7.1, genre: 'Adventure', poster: "assets/images/gt.jpg",             trailer: 'GVPzGBvPrzw', url: 'pages/movies/granturismo.php' },
+      { id:14,  title: 'Skyfall',                   year: 2012, runtime: 143, rating: 7.8, genre: 'Action',    poster: "assets/images/skyfall.jpg",        trailer: '6kw1UVovByw', url: 'pages/movies/skyfall.php' },
+      { id:15,  title: 'IT',                        year: 2017, runtime: 135, rating: 7.3, genre: 'Horror',    poster: "assets/images/it.jpg",             trailer: 'hAUTdjf9rko', url: 'pages/movies/it.php' }
     ];
 
     const rows = {
@@ -343,24 +306,11 @@
       action: MOVIES.filter(m => ['Action','Adventure','Sci-Fi'].includes(m.genre)).slice(0,10)
     };
 
-    // ======== Utilities ========
     const $ = (sel, root=document) => root.querySelector(sel);
     const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
     const mins = m => `${Math.floor(m/60)}h ${m%60}m`;
 
-    const WATCHLIST_KEY = 'bigpremiere_watchlist';
-    const getWatchlist = () => JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]');
-    const setWatchlist = list => localStorage.setItem(WATCHLIST_KEY, JSON.stringify(list));
-    const inWatchlist = id => getWatchlist().includes(id);
-    const toggleWatchlist = id => {
-      const list = getWatchlist();
-      const idx = list.indexOf(id);
-      if (idx >= 0) list.splice(idx, 1); else list.push(id);
-      setWatchlist(list);
-      renderAllRows();
-    };
-
-    // ======== MOVIE CAROUSEL / BANNER ========
+    // ======== HERO ========
     const HEROES = [
       {
         title: 'F1: The Movie',
@@ -391,8 +341,7 @@
             <p>${h.overview}</p>
             <div class="hero-cta">
               <button class="btn" data-hero-trailer="${h.trailer}">▶ Play Trailer</button>
-              <button class="btn secondary" data-hero-add>＋ Add to Watchlist</button>
-              <span class="pill">${h.meta}</span>
+              <span class="badge">${h.meta}</span>
             </div>
           </div>
         </section>
@@ -412,49 +361,30 @@
       const next = document.querySelector('.hero-ctrl.next');
       const dotsWrap = document.getElementById('heroDots');
 
-      function slideWidth() { return track.clientWidth; }
+      const slideWidth = () => track.clientWidth;
 
-      prev.addEventListener('click', () => {
-        track.scrollBy({ left: -slideWidth(), behavior: 'smooth' });
-      });
-      next.addEventListener('click', () => {
-        track.scrollBy({ left: slideWidth(), behavior: 'smooth' });
-      });
+      prev.addEventListener('click', () => track.scrollBy({ left: -slideWidth(), behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left:  slideWidth(), behavior: 'smooth' }));
 
-      // Update dots on scroll
       track.addEventListener('scroll', () => {
         const idx = Math.round(track.scrollLeft / slideWidth());
-        [...dotsWrap.children].forEach((dot, i) => {
-          dot.classList.toggle('active', i === idx);
-        });
+        [...dotsWrap.children].forEach((dot, i) => dot.classList.toggle('active', i === idx));
       });
 
-      // Delegate clicks inside hero slides
       track.addEventListener('click', (e) => {
         const t = e.target;
-        if (t.matches('[data-hero-trailer]')) {
-          openTrailer(t.getAttribute('data-hero-trailer'));
-        }
-        if (t.matches('[data-hero-add]')) {
-          const idx = Math.round(track.scrollLeft / slideWidth());
-          const title = HEROES[idx]?.title;
-          const movie = MOVIES.find(m => m.title === title) || MOVIES[0];
-          if (movie) toggleWatchlist(movie.id);
-        }
+        if (t.matches('[data-hero-trailer]')) openTrailer(t.getAttribute('data-hero-trailer'));
       });
 
-      // Keyboard support (arrow keys when track focused)
       track.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') { next.click(); }
-        if (e.key === 'ArrowLeft') { prev.click(); }
+        if (e.key === 'ArrowRight') next.click();
+        if (e.key === 'ArrowLeft')  prev.click();
       });
     }
 
-    // ======== Rows Rendering ========
+    // ======== Rows ========
     function movieCard(m) {
-      const wl = inWatchlist(m.id);
-      const btnLabel = wl ? '✓ In Watchlist' : '＋ Add';
-      const aria = wl ? 'Remove from Watchlist' : 'Add to Watchlist';
+      const url = m.url || `pages/movie.php?id=${m.id}`;
       return `
         <article class="card" data-id="${m.id}">
           <img class="poster" src="${m.poster}" alt="${m.title} poster" loading="lazy" />
@@ -466,24 +396,24 @@
             </div>
             <div class="card-actions">
               <button class="btn small" data-trailer="${m.trailer}" aria-label="Play trailer for ${m.title}">▶ Trailer</button>
-              <button class="btn small ghost" data-watchlist aria-label="${aria}">${btnLabel}</button>
+              <a class="btn tix small" href="${url}" aria-label="Buy tickets for ${m.title}">
+                <span class="top">Buy</span>
+                <span class="bottom">Tickets</span>
+              </a>
             </div>
-            <div class="pill" style="margin-top:8px">${m.genre}</div>
+            <div class="badge" style="margin-top:8px">${m.genre}</div>
           </div>
         </article>`;
     }
 
-    function renderRow(el, items) {
-      el.innerHTML = items.map(movieCard).join('');
-    }
-
+    function renderRow(el, items) { el.innerHTML = items.map(movieCard).join(''); }
     function renderAllRows() {
       renderRow($('#row-trending'), rows.trending);
       renderRow($('#row-top'), rows.top);
       renderRow($('#row-action'), rows.action);
     }
 
-    // ======== Interactions for rows ========
+    // Carousel controls
     function setupCarouselControls() {
       $$('.ctrl').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -500,20 +430,15 @@
         const row = document.getElementById(id);
         row.addEventListener('click', (e) => {
           const t = e.target;
-          if (t.matches('[data-trailer]')) {
-            openTrailer(t.getAttribute('data-trailer'));
-          }
-          if (t.closest('[data-watchlist]')) {
-            const card = t.closest('.card');
-            toggleWatchlist(Number(card.dataset.id));
-          }
+          if (t.matches('[data-trailer]')) openTrailer(t.getAttribute('data-trailer'));
         });
       });
     }
 
-    // Search (client-side)
+    // Search
     function setupSearch() {
       const input = document.getElementById('searchInput');
+      if (!input) return;
       input.addEventListener('input', () => {
         const q = input.value.trim().toLowerCase();
         if (!q) return renderAllRows();
@@ -524,66 +449,44 @@
       });
     }
 
-    // Trailer Modal
+    // Trailer modal
     const modal = document.getElementById('trailerModal');
     const player = document.getElementById('ytPlayer');
     const closeModal = document.getElementById('closeModal');
     function openTrailer(videoId) {
-      const id = videoId || '8yh9BPUBbbQ'; // fallback
+      const id = videoId || '8yh9BPUBbbQ';
       player.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
-      if (typeof modal.showModal === 'function') { modal.showModal(); }
-      else { alert('Your browser does not support the trailer modal.'); }
+      if (typeof modal.showModal === 'function') modal.showModal(); else alert('Your browser does not support the trailer modal.');
     }
     closeModal.addEventListener('click', () => { player.src = ''; modal.close(); });
     modal.addEventListener('close', () => { player.src = ''; });
 
-      // More dropdown: keep aria-expanded in sync with hover/focus behavior
-      (function setupMoreMenu(){
-    const container = document.querySelector('.has-dropdown');
-    if (!container) return;
-    const trigger = container.querySelector('.more-trigger');
-    if (!trigger) return; // not logged in → no dropdown, bail out safely
+    // Dropdown ARIA sync
+    (function setupMoreMenu(){
+      const container = document.querySelector('.has-dropdown');
+      if (!container) return;
+      const trigger = container.querySelector('.more-trigger');
+      if (!trigger) return;
+      const openMenu = () => trigger.setAttribute('aria-expanded','true');
+      const closeMenu= () => trigger.setAttribute('aria-expanded','false');
+      container.addEventListener('mouseenter', openMenu);
+      container.addEventListener('mouseleave', closeMenu);
+      trigger.addEventListener('focus', openMenu);
+      container.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeMenu(); trigger.blur(); }});
+      document.addEventListener('click', (e)=>{ if(!container.contains(e.target)) closeMenu(); });
+      trigger.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); (trigger.getAttribute('aria-expanded')==='true'?closeMenu:openMenu)(); }});
+    })();
 
-    function openMenu() { trigger.setAttribute('aria-expanded', 'true'); }
-    function closeMenu() { trigger.setAttribute('aria-expanded', 'false'); }
-
-    container.addEventListener('mouseenter', openMenu);
-    container.addEventListener('mouseleave', closeMenu);
-    trigger.addEventListener('focus', openMenu);
-
-    container.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { closeMenu(); trigger.blur(); }
-    });
-    document.addEventListener('click', (e) => {
-      if (!container.contains(e.target)) closeMenu();
-    });
-    trigger.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        const expanded = trigger.getAttribute('aria-expanded') === 'true';
-        expanded ? closeMenu() : openMenu();
-      }
-    });
-  })();
-
-
-    // Login modal logic
+    // Login modal
     (function setupLogin(){
-      const loginBtn = document.getElementById('loginBtn');
+      const loginBtn   = document.getElementById('loginBtn');
       const loginModal = document.getElementById('loginModal');
       const closeLogin = document.getElementById('closeLogin');
-      const loginForm = document.getElementById('loginForm');
-
+      const loginForm  = document.getElementById('loginForm');
       if (!loginBtn || !loginModal) return;
-
-      loginBtn.addEventListener('click', () => {
-        if (typeof loginModal.showModal === 'function') loginModal.showModal();
-        else alert('Your browser does not support the login modal.');
-      });
-
+      loginBtn.addEventListener('click', () => { if (typeof loginModal.showModal === 'function') loginModal.showModal(); else alert('Your browser does not support the login modal.'); });
       closeLogin.addEventListener('click', () => loginModal.close());
       loginModal.addEventListener('close', () => loginForm.reset());
-
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value.trim();
@@ -592,7 +495,7 @@
       });
     })();
 
-    // Keyboard shortcuts for content carousels
+    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
       if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
       const activeRow = document.activeElement?.classList.contains('row') ? document.activeElement : document.getElementById('row-trending');
@@ -603,7 +506,6 @@
     // Init
     renderHeroCarousel();
     setupHeroCarousel();
-
     renderAllRows();
     setupCarouselControls();
     setupRowDelegates();
