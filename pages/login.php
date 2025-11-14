@@ -1,12 +1,29 @@
 <?php
+/**
+ * login.php
+ *
+ * User and administrator login page.
+ *
+ * Responsibilities:
+ * - Displays a login form that accepts username/email and password.
+ * - Validates input and checks CSRF token on POST.
+ * - Verifies credentials against the users table using prepared statements.
+ * - Sets user session data on successful login and redirects to the requested page.
+ * - Shows validation errors using flash messages.
+ *
+ * Supports Functional Requirement F7 (Login Page).
+ */
+
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/flash.php';
 
 $errors = [];
+// --- Initialize form state and determine 'next' redirect URL ---
 $next   = $_GET['next'] ?? $_POST['next'] ?? url('pages/showtimes.php');
 
+// --- Handle POST: CSRF check and form validation ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   csrf_check('POST');
 
@@ -24,11 +41,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
     $stmt->execute([':id' => $id]);
     $u = $stmt->fetch(PDO::FETCH_ASSOC);
-
+// --- Authenticate user (lookup by username/email + password_verify) ---
     if ($u && password_verify($pw, $u['password_hash'])) {
       if (session_status() !== PHP_SESSION_ACTIVE) session_start();
       session_regenerate_id(true);
 
+      // --- On success: set session, redirect to next page -
       $_SESSION['user'] = [
         'id'       => (int)$u['id'],
         'username' => $u['username'],
@@ -44,7 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ' . url('pages/showtimes.php'));
       exit;
       } 
-    } else {
+    } else // --- On failure: add error messages and re-display form --
+    {
       flash_now('error', 'Invalid email/username or password.');
       }
   }

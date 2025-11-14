@@ -1,4 +1,19 @@
 <?php
+/**
+ * register.php
+ *
+ * User registration page.
+ *
+ * Responsibilities:
+ * - Displays a registration form (name, email, username, password, etc.).
+ * - Validates input and checks CSRF token on POST.
+ * - Ensures uniqueness of username/email and validates password rules.
+ * - Hashes the password securely before inserting into the users table.
+ * - Logs the user in automatically or redirects them to the login page.
+ *
+ * Supports Functional Requirement F8 (Register Page).
+ */
+
 ini_set('display_errors',1); ini_set('display_startup_errors',1); error_reporting(E_ALL);
 
 require_once __DIR__ . '/../includes/init.php';
@@ -8,7 +23,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 $errors = [];
 $next   = $_GET['next'] ?? $_POST['next'] ?? url('pages/showtimes.php');
-
+// --- Handle POST: CSRF check and basic form validation ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // CSRF
   if (function_exists('csrf_check')) { csrf_check(); }
@@ -37,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors[] = 'Username must be 3–32 chars (letters, numbers, _ or -).';
   }
 
-  // --- Uniqueness checks ---
+// --- Check for duplicate email/username in the database ---
   if (!$errors) {
     $st = $pdo->prepare("SELECT 1 FROM users WHERE email = ? OR username = ? LIMIT 1");
     $st->execute([$email, $username]);
@@ -48,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // --- Create user ---
   if (!$errors) {
+    // --- Insert new user with hashed password into users table ---
     $hash = password_hash($pw, PASSWORD_DEFAULT);
     $role = 'user';
 

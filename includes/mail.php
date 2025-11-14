@@ -1,4 +1,17 @@
 <?php
+/**
+ * mail.php
+ *
+ * Defines email-sending logic for booking and payment confirmations.
+ *
+ * Responsibilities:
+ * - Composes email subject and body (movie title, showtime, hall, seats, total).
+ * - Uses the configured PHPMailer instance from mailer.php to send emails.
+ *
+ * Supports Functional Requirement F14 (Payment Page) by sending a confirmation
+ * email to the user after successful booking/payment.
+ */
+
 // includes/mail.php
 require_once __DIR__ . '/mailer.php'; // central SMTP config lives here
 
@@ -48,7 +61,7 @@ function send_booking_email(PDO $pdo, int $bookingId, string $toEmail, string $t
     <td style="padding:6px 10px;border-bottom:1px solid #eee;">$'.number_format((float)$r['line_amount'],2).' </td> 
     </tr>'; 
 } 
-
+// --- Compose booking/payment confirmation email content ---
 $html = '
 <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;max-width:640px;margin:0 auto;color:#111"> 
 <h2 style="margin:0 0 10px">Your booking is confirmed 🎬</h2> 
@@ -77,6 +90,6 @@ $html = '
   $'.number_format((float)$b['total_amount'],2).'</p> <p style="color:#666">Booking ID: #'.$b['id'].' • Paid at: '.($b['paid_at'] ? date('D, j M Y • g:i A', strtotime($b['paid_at'])) : 'just now').'</p> 
   <p>If you need to make changes, visit <a href="'.htmlspecialchars(url('pages/bookings.php')).'">My Bookings</a>.</p> <p style="color:#666">— Big Premiere Point</p> </div>';
 
-  // finally send
+ // --- Send email using PHPMailer and handle potential failures ---
   send_email($toEmail, 'Your booking is confirmed — Big Premiere Point', $html, $toName);
 }

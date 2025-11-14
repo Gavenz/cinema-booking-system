@@ -1,4 +1,17 @@
 <?php
+/**
+ * admin.php
+ *
+ * Admin dashboard page.
+ *
+ * Responsibilities:
+ * - Restricts access to admin users only.
+ * - Provides an overview of key metrics (total bookings, upcoming showtimes, etc.).
+ * - Links to manage movies, showtimes and reports pages.
+ *
+ * Supports Functional Requirement F16 (Admin Dashboard Page).
+ */
+
 require_once __DIR__ . '/../includes/init.php';
 require_admin(); // blocks non-admins
 $activeNav = 'admin';

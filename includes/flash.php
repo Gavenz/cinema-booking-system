@@ -1,4 +1,18 @@
 <?php
+/**
+ * flash.php
+ *
+ * Provides helper functions for one-time "flash" messages stored in the session.
+ *
+ * Responsibilities:
+ * - Define flash_success(), flash_warn(), flash_error() to queue messages.
+ * - Define a render/consume function used by header/footer templates to display
+ *   notifications after redirects (e.g. login, logout, booking, payment).
+ *
+ * Supports user feedback across all Functional Requirements by providing a
+ * common way to show success/error/warning messages.
+ */
+
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
 /** Core setter (queued for next request) */

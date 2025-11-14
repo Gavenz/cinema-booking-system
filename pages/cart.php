@@ -1,4 +1,17 @@
 <?php
+/**
+ * cart.php
+ *
+ * Shopping cart page for cinema bookings.
+ *
+ * Responsibilities:
+ * - Shows all pending booking items in the user's cart.
+ * - Lets users adjust quantities/remove items.
+ * - Recalculates subtotals and total amount based on ticket types and pricing.
+ * - Provides a button to proceed to checkout/payment.
+ *
+ * Supports Functional Requirement F13 (Cart Page).
+ */
 require_once __DIR__ . '/../includes/init.php';
 
 if (!isset($_SESSION['user'])) {
@@ -23,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       header('Location: ' . url('pages/cart.php'));
       exit;
     }
-
+// --- Load current user's active cart/booking items from the database ---
     $in   = implode(',', array_fill(0, count($ids), '?'));
     $sql  = "DELETE b FROM booking b
              WHERE b.user_id = ?
@@ -34,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $st = $pdo->prepare($sql);
     $st->execute($args);
-
+// --- Handle updates: remove item ---
     flash_success('Removed from your list.');
     header('Location: ' . url('pages/cart.php'));
     exit;
