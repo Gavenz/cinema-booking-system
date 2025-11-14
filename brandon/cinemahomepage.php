@@ -281,9 +281,9 @@
   </dialog>
 
   <script>
-    // ======== Demo Data ========
+    // ======== Movie Data ========
     const MOVIES = [
-      { id: 1,  title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller',   poster: "assets/images/conjuring.jpg",   trailer: 'bMgfsdYoEEo', url: 'pages/movies/theconjuring.php' },
+      { id: 1,  title: 'The Conjuring: Last Rites', year: 2025, runtime: 135, rating: 8.3, genre: 'Thriller',   poster: "assets/images/theconjuring.jpg",   trailer: 'bMgfsdYoEEo', url: 'pages/movies/conjuring.php' },
       { id: 2,  title:'Tron: Ares',                 year: 2025, runtime: 119, rating: 6.6, genre:'Action',     poster: "assets/images/tronares.jpg",       trailer:'YShVEXb7-ic', url: 'pages/movies/tronares.php' },
       { id: 3,  title: 'Parasite',                  year: 2019, runtime: 131, rating: 8.5, genre: 'Drama',     poster: "assets/images/parasite.jpg",       trailer: 'isOGD_7hNIY', url: 'pages/movies/parasite.php' },
       { id: 4,  title: 'Interstellar',              year: 2014, runtime: 169, rating: 8.7, genre: 'Sci-Fi',    poster: "assets/images/interstellar.jpg",   trailer: 'zSWdZVtXT7E', url: 'pages/movies/interstellar.php' },
