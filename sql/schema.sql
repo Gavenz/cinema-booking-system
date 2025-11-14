@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 04, 2025 at 02:10 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Nov 14, 2025 at 04:41 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,7 +53,52 @@ INSERT INTO `booking` (`id`, `user_id`, `showtime_id`, `qty`, `total_amount`, `b
 (9, 1, 3, 2, 16.00, 'confirmed', NULL, '2025-10-03 00:27:06', 6, '2025-10-02 15:27:04'),
 (10, 1, 2, 2, 24.00, 'confirmed', NULL, '2025-10-03 00:27:48', 7, '2025-10-02 15:27:45'),
 (11, 1, 2, 2, 16.00, 'confirmed', NULL, '2025-10-03 00:31:06', 8, '2025-10-02 15:31:05'),
-(12, 1, 2, 1, 12.00, 'confirmed', NULL, '2025-10-03 10:51:24', 9, '2025-10-03 01:51:22');
+(12, 1, 2, 1, 12.00, 'confirmed', NULL, '2025-10-03 10:51:24', 9, '2025-10-03 01:51:22'),
+(13, 1, 1, 2, 24.00, 'confirmed', NULL, '2025-10-16 17:06:22', NULL, '2025-10-16 09:06:22'),
+(14, 1, 4, 1, 12.00, 'confirmed', NULL, '2025-10-16 17:24:59', NULL, '2025-10-16 09:24:59'),
+(15, 1, 2, 1, 12.00, 'confirmed', NULL, '2025-10-16 17:25:05', NULL, '2025-10-16 09:25:05'),
+(19, 1, 3, 2, 18.00, 'expired', '2025-10-17 10:12:39', NULL, NULL, '2025-10-17 01:57:39'),
+(20, 1, 2, 2, 24.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 01:57:55'),
+(21, 1, 2, 2, 18.00, 'expired', '2025-10-17 10:13:04', NULL, NULL, '2025-10-17 01:58:04'),
+(22, 1, 4, 2, 21.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 04:15:25'),
+(23, 1, 1, 2, 24.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 04:16:08'),
+(25, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:14:53'),
+(26, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:16:13'),
+(27, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:26:01'),
+(28, 1, 4, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:26:46'),
+(29, 1, 4, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:47:58'),
+(30, 1, 4, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:49:08'),
+(31, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 06:57:01'),
+(32, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 07:12:31'),
+(33, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 07:13:41'),
+(34, 1, 4, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 08:57:51'),
+(35, 1, 4, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 09:04:03'),
+(36, 1, 3, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 09:06:10'),
+(37, 1, 4, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 09:06:17'),
+(38, 1, 1, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 09:06:34'),
+(39, 1, 2, 1, 12.00, 'confirmed', NULL, NULL, NULL, '2025-10-17 09:06:44'),
+(40, 1, 2, 1, 12.00, 'expired', '2025-10-17 17:23:29', NULL, NULL, '2025-10-17 09:08:29'),
+(41, 1, 4, 1, 12.00, 'confirmed', '2025-10-17 18:45:23', '2025-10-17 18:30:31', NULL, '2025-10-17 10:30:23'),
+(42, 1, 2, 1, 12.00, 'expired', '2025-10-17 18:45:57', NULL, NULL, '2025-10-17 10:30:57'),
+(43, 1, 2, 1, 12.00, 'expired', '2025-10-17 18:46:06', NULL, NULL, '2025-10-17 10:31:06'),
+(44, 1, 4, 1, 12.00, 'expired', '2025-10-18 16:59:18', NULL, NULL, '2025-10-18 08:44:18'),
+(46, 1, 4, 1, 12.00, 'confirmed', '2025-10-19 16:46:23', '2025-10-19 16:31:33', NULL, '2025-10-19 08:31:23'),
+(49, 1, 4, 1, 12.00, 'expired', '2025-10-19 16:50:55', NULL, NULL, '2025-10-19 08:35:55'),
+(50, 1, 4, 1, 12.00, 'expired', '2025-10-19 18:33:58', NULL, NULL, '2025-10-19 10:18:58'),
+(55, 1, 4, 1, 12.00, 'expired', '2025-10-19 18:53:46', NULL, NULL, '2025-10-19 10:38:46'),
+(56, 1, 4, 1, 12.00, 'expired', '2025-10-19 19:40:49', NULL, NULL, '2025-10-19 11:25:49'),
+(57, 1, 4, 1, 12.00, 'expired', '2025-10-19 19:51:33', NULL, NULL, '2025-10-19 11:36:33'),
+(58, 1, 4, 1, 12.00, 'confirmed', NULL, '2025-10-19 20:16:51', NULL, '2025-10-19 12:16:49'),
+(65, 1, 4, 1, 12.00, 'confirmed', NULL, '2025-10-19 20:51:50', NULL, '2025-10-19 12:51:49'),
+(66, 1, 3, 1, 12.00, 'expired', '2025-10-29 20:02:57', NULL, NULL, '2025-10-29 11:47:57'),
+(67, 1, 1, 1, 12.00, 'confirmed', NULL, '2025-11-04 14:58:52', NULL, '2025-11-04 06:58:49'),
+(70, 1, 4, 1, 12.00, 'expired', '2025-11-04 16:39:48', NULL, NULL, '2025-11-04 08:24:48'),
+(73, 1, 2, 1, 12.00, 'confirmed', NULL, '2025-11-05 16:46:19', NULL, '2025-11-05 08:46:18'),
+(75, 1, 2, 1, 12.00, 'confirmed', NULL, '2025-11-05 19:32:34', NULL, '2025-11-05 11:30:17'),
+(78, 1, 2, 1, 12.00, 'expired', '2025-11-05 19:50:45', NULL, NULL, '2025-11-05 11:35:45'),
+(79, 1, 2, 1, 12.00, 'expired', '2025-11-05 19:51:02', NULL, NULL, '2025-11-05 11:36:02'),
+(84, 1, 2, 4, 41.00, 'confirmed', NULL, '2025-11-11 09:42:03', NULL, '2025-11-11 01:40:56'),
+(86, 1, 2, 4, 41.00, 'confirmed', NULL, '2025-11-11 09:58:49', NULL, '2025-11-11 01:58:17');
 
 -- --------------------------------------------------------
 
@@ -92,7 +137,47 @@ INSERT INTO `booking_items` (`id`, `booking_id`, `showtime_id`, `seat_id`, `pric
 (23, 10, 2, 45, 1, 12.00),
 (24, 11, 2, 24, 3, 8.00),
 (25, 11, 2, 34, 3, 8.00),
-(26, 12, 2, 14, 1, 12.00);
+(26, 12, 2, 14, 1, 12.00),
+(27, 13, 1, 25, 1, 12.00),
+(28, 13, 1, 26, 1, 12.00),
+(29, 14, 4, 5, 1, 12.00),
+(30, 15, 2, 16, 1, 12.00),
+(33, 20, 2, 27, 1, 12.00),
+(34, 20, 2, 28, 1, 12.00),
+(37, 22, 4, 48, 1, 12.00),
+(38, 22, 4, 49, 2, 9.00),
+(39, 23, 1, 49, 1, 12.00),
+(40, 23, 1, 50, 1, 12.00),
+(43, 25, 2, 50, 1, 12.00),
+(44, 26, 2, 49, 1, 12.00),
+(45, 27, 2, 26, 1, 12.00),
+(46, 28, 4, 50, 1, 12.00),
+(47, 29, 4, 47, 1, 12.00),
+(48, 30, 4, 46, 1, 12.00),
+(49, 31, 2, 48, 1, 12.00),
+(50, 32, 2, 47, 1, 12.00),
+(51, 33, 2, 41, 1, 12.00),
+(52, 34, 4, 45, 1, 12.00),
+(53, 35, 4, 44, 1, 12.00),
+(54, 36, 3, 1, 1, 12.00),
+(55, 37, 4, 1, 1, 12.00),
+(56, 38, 1, 1, 1, 12.00),
+(57, 39, 2, 1, 1, 12.00),
+(59, 41, 4, 43, 1, 12.00),
+(64, 46, 4, 41, 1, 12.00),
+(77, 58, 4, 42, 1, 12.00),
+(86, 65, 4, 34, 1, 12.00),
+(88, 67, 1, 36, 1, 12.00),
+(96, 73, 2, 42, 1, 12.00),
+(98, 75, 2, 3, 1, 12.00),
+(114, 84, 2, 37, 2, 9.00),
+(115, 84, 2, 38, 1, 12.00),
+(116, 84, 2, 39, 3, 8.00),
+(117, 84, 2, 40, 1, 12.00),
+(122, 86, 2, 17, 3, 8.00),
+(123, 86, 2, 18, 2, 9.00),
+(124, 86, 2, 19, 1, 12.00),
+(125, 86, 2, 20, 1, 12.00);
 
 -- --------------------------------------------------------
 
@@ -136,7 +221,8 @@ CREATE TABLE `movies` (
 
 INSERT INTO `movies` (`id`, `title`, `description`, `runtime_min`, `rating`, `poster_url`, `created_at`) VALUES
 (1, 'F1: The Movie', 'A Formula One driver comes out of retirement to mentor and team up with a younger driver.', 155, 'PG-13', 'assets/images/f1movie.jpg', '2025-09-26 04:09:33'),
-(2, 'The Conjuring: Last Rites', 'Paranormal investigators Ed and Lorraine Warren take on one last terrifying case involving mysterious entities they must confront.', 135, 'NC-16', 'assets/images/theconjuring.jpg', '2025-09-26 04:12:59');
+(2, 'The Conjuring: Last Rites', 'Paranormal investigators Ed and Lorraine Warren take on one last terrifying case involving mysterious entities they must confront.', 135, 'NC-16', 'assets/images/theconjuring.jpg', '2025-09-26 04:12:59'),
+(5, 'IE4727: Web app design', 'demo', 15, 'PG', NULL, '2025-11-11 02:00:15');
 
 -- --------------------------------------------------------
 
@@ -167,7 +253,34 @@ INSERT INTO `payments` (`id`, `booking_id`, `amount`, `method`, `status`, `trans
 (6, 9, 16.00, 'apple_pay', 'succeeded', 'TESTTX-bc978c713efa', '2025-10-02 15:27:06'),
 (7, 10, 24.00, 'apple_pay', 'succeeded', 'TESTTX-23c7da48a1b4', '2025-10-02 15:27:48'),
 (8, 11, 16.00, 'apple_pay', 'succeeded', 'TESTTX-cada20c27bd4', '2025-10-02 15:31:06'),
-(9, 12, 12.00, 'apple_pay', 'succeeded', 'TESTTX-0777e747a50e', '2025-10-03 01:51:24');
+(9, 12, 12.00, 'apple_pay', 'succeeded', 'TESTTX-0777e747a50e', '2025-10-03 01:51:24'),
+(10, 20, 24.00, 'card_visa', 'succeeded', 'TESTTX-a0d28c2d8b53', '2025-10-17 01:57:55'),
+(11, 22, 21.00, 'card_visa', 'succeeded', 'TESTTX-a2f9bf915c95', '2025-10-17 04:16:11'),
+(12, 23, 24.00, 'card_visa', 'succeeded', 'TESTTX-055ef7da8cd8', '2025-10-17 04:16:11'),
+(13, 25, 12.00, 'card_visa', 'succeeded', 'TESTTX-2a22f6ec8e5c', '2025-10-17 06:14:56'),
+(14, 26, 12.00, 'card_visa', 'succeeded', 'TESTTX-2dd41810aef2', '2025-10-17 06:16:13'),
+(15, 27, 12.00, 'card_visa', 'succeeded', 'TESTTX-f42977e6f9f4', '2025-10-17 06:26:01'),
+(16, 28, 12.00, 'card_visa', 'succeeded', 'TESTTX-784f6115599a', '2025-10-17 06:26:46'),
+(17, 29, 12.00, 'card_visa', 'succeeded', 'TESTTX-90ca9aae9b55', '2025-10-17 06:47:58'),
+(18, 30, 12.00, 'card_visa', 'succeeded', 'TESTTX-3bc06e344028', '2025-10-17 06:49:08'),
+(19, 31, 12.00, 'card_visa', 'succeeded', 'TESTTX-ec8ee32742b5', '2025-10-17 06:57:01'),
+(20, 32, 12.00, 'card_visa', 'succeeded', 'TESTTX-103315e1a2fe', '2025-10-17 07:12:31'),
+(21, 33, 12.00, 'card_visa', 'succeeded', 'TESTTX-39a28f65b07d', '2025-10-17 07:13:41'),
+(22, 34, 12.00, 'card_visa', 'succeeded', 'TESTTX-612142608aaa', '2025-10-17 08:57:51'),
+(23, 35, 12.00, 'card_visa', 'succeeded', 'TESTTX-bd5812862b8a', '2025-10-17 09:04:03'),
+(24, 36, 12.00, 'card_visa', 'succeeded', 'TESTTX-1e7e6dee8c2a', '2025-10-17 09:06:49'),
+(25, 37, 12.00, 'card_visa', 'succeeded', 'TESTTX-30eb2382fb1b', '2025-10-17 09:06:49'),
+(26, 38, 12.00, 'card_visa', 'succeeded', 'TESTTX-2b94a2323534', '2025-10-17 09:06:49'),
+(27, 39, 12.00, 'card_visa', 'succeeded', 'TESTTX-54900607a956', '2025-10-17 09:06:49'),
+(28, 41, 12.00, 'card_visa', 'succeeded', 'CARD_VISA-348c285cc5', '2025-10-17 10:30:31'),
+(29, 46, 12.00, 'gpay', 'succeeded', 'GPAY-6943455d5c', '2025-10-19 08:31:33'),
+(30, 58, 12.00, 'card_visa', 'succeeded', 'CARD_VISA-9fcb73b2fa', '2025-10-19 12:16:51'),
+(31, 65, 12.00, 'card_visa', 'succeeded', 'CARD_VISA-8f5118df67', '2025-10-19 12:51:50'),
+(32, 67, 12.00, 'gpay', 'succeeded', 'GPAY-2d9ca73b35', '2025-11-04 06:58:52'),
+(33, 73, 12.00, 'card_visa', 'succeeded', 'CARD_VISA-bf87dd6fe3', '2025-11-05 08:46:19'),
+(34, 75, 12.00, 'applepay', 'succeeded', 'APPLEPAY-e483bc0bbb', '2025-11-05 11:32:34'),
+(35, 84, 41.00, 'gpay', 'succeeded', 'GPAY-bcd19eacfc', '2025-11-11 01:42:03'),
+(36, 86, 41.00, 'applepay', 'succeeded', 'APPLEPAY-ce87c7ac9d', '2025-11-11 01:58:49');
 
 -- --------------------------------------------------------
 
@@ -278,10 +391,11 @@ CREATE TABLE `showtimes` (
 --
 
 INSERT INTO `showtimes` (`id`, `movies_id`, `hall_id`, `starts_at`) VALUES
-(1, 2, 1, '2025-10-06 19:30:00'),
-(2, 2, 1, '2025-10-06 22:00:00'),
-(3, 1, 1, '2025-10-07 11:00:00'),
-(4, 1, 1, '2025-10-07 13:00:00');
+(1, 2, 1, '2025-11-11 19:30:00'),
+(2, 2, 1, '2025-11-11 22:00:00'),
+(3, 1, 1, '2025-11-12 11:00:00'),
+(4, 1, 1, '2025-11-12 13:00:00'),
+(8, 5, 1, '2025-11-11 10:00:00');
 
 -- --------------------------------------------------------
 
@@ -303,7 +417,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password_hash`, `role`, `created_at`) VALUES
-(1, 'demo', 'demo@example.com', '$2y$10$DMzFt2AYY/iyGcsKneY9.u48wJwlCY3tpoMz/LAhPp1VIDtHSRIca', 'user', '2025-09-29 15:42:04');
+(1, 'demo', 'f32ee@cinema.local', '$2y$10$DMzFt2AYY/iyGcsKneY9.u48wJwlCY3tpoMz/LAhPp1VIDtHSRIca', 'user', '2025-09-29 15:42:04'),
+(2, 'admin', 'admin@cinema.local', '$2y$10$W3ECZM7xeOiILbDReb6g8OIi4dKD.lHy8wWXFi7BXQJ.L7Hv9u8XG', 'admin', '2025-11-03 06:04:32'),
+(3, 'gaven', 'gaven@cinema-local.com', '$2y$10$XzT8S4HMdWvKPDivugirs.1kiJI/FywsqEtWsTmOM7IhzwWbtD0Iq', 'user', '2025-11-04 02:56:18'),
+(4, 'gavenzz', 'gavenzz@cinema-local.com', '$2y$10$mgZynZg5jGmimOCKdBBYPOrmGkVO4.Y.2chTkpfglIamr2JjgIxY2', 'user', '2025-11-05 11:19:23'),
+(5, 'brandon', 'brandon@cinema-local.com', '$2y$10$./mhujih64Lxr4zUVlUDJ.gxgX9CaAbpp1F4MOXKWBbJOZg.j.JGi', 'user', '2025-11-11 02:01:52');
 
 --
 -- Indexes for dumped tables
@@ -325,9 +443,10 @@ ALTER TABLE `booking`
 ALTER TABLE `booking_items`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uq_booking_seat` (`booking_id`,`seat_id`) USING BTREE,
-  ADD UNIQUE KEY `uq_showtime_seat` (`showtime_id`,`seat_id`),
   ADD KEY `fk_bi_seats` (`seat_id`),
-  ADD KEY `fk_bi_price` (`price_id`);
+  ADD KEY `fk_bi_price` (`price_id`),
+  ADD KEY `idx_bi_showtime` (`showtime_id`),
+  ADD KEY `idx_bi_seat` (`seat_id`);
 
 --
 -- Indexes for table `halls`
@@ -391,13 +510,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `booking_items`
 --
 ALTER TABLE `booking_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 
 --
 -- AUTO_INCREMENT for table `halls`
@@ -409,13 +528,13 @@ ALTER TABLE `halls`
 -- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `pricing`
@@ -433,13 +552,13 @@ ALTER TABLE `seats`
 -- AUTO_INCREMENT for table `showtimes`
 --
 ALTER TABLE `showtimes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
