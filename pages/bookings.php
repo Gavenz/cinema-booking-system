@@ -1,4 +1,17 @@
 <?php
+/**
+ * bookings.php
+ *
+ * "My Bookings" page where users can view their past and upcoming bookings.
+ *
+ * Responsibilities:
+ * - Requires the user to be logged in.
+ * - Fetches all bookings for the current user (joined with showtimes, halls, movies).
+ * - Displays booking status, date/time, hall and seats for each record.
+ *
+ * Supports Functional Requirement F14 (My Booking Page).
+ */
+
 require_once __DIR__ . '/../includes/init.php';
 
 if (!isset($_SESSION['user'])) {

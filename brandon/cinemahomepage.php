@@ -1,4 +1,17 @@
-<?php require_once __DIR__ ."/../includes/init.php"; ?>
+<?php 
+/**
+ * cinemahomepage.php
+ *
+ * Public landing page and movie overview.
+ *
+ * Responsibilities:
+ * - Displays featured movies and basic details (poster, title, rating, synopsis).
+ * - Provides navigation to detailed movie information and showtimes.
+ *
+ * Supports Functional Requirement F6 (Movie Detail Page) by acting as the
+ * starting point for users to browse movies and proceed to showtimes.
+ */
+require_once __DIR__ ."/../includes/init.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,4 +1,17 @@
 <?php
+/**
+ * showtimes.php
+ *
+ * Showtimes listing page for selected movies.
+ *
+ * Responsibilities:
+ * - Lists upcoming showtimes for movies (date, time, hall, location).
+ * - Retrieves showtime data from the database using prepared statements.
+ * - Allows users to click through to the booking/seat selection page.
+ *
+ * Supports Functional Requirement F9 (Showtime Page).
+ */
+
 require_once __DIR__ . '/../includes/init.php';
 
 $activeNav = 'showtimes';
@@ -10,7 +23,7 @@ $base = new DateTimeImmutable('today', $tz);
 $day   = $_GET['day'] ?? $base->format('Y-m-d');
 $label = (new DateTimeImmutable($day, $tz))->format('D, j M Y');
 
-// Fetch rows for the selected day
+// --- Fetch showtimes (joined with movies and halls) from the database ---
 $rows = db_showtimes_by_day($pdo, $day);
 
 // Group by movie
@@ -130,7 +143,7 @@ foreach ($rows as $r) {
             <?php endif; ?>
             <span class="meta">• Choose a time</span>
           </div>
-
+          <!-- Render showtime cards/rows with 'Book' links to booking.php -!>
           <div class="chips">
             <?php foreach ($group['times'] as $t): ?>
               <?php $timeLabel = local_time_label($t['starts_at'], 'g:i A'); ?>

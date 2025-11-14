@@ -1,18 +1,33 @@
 <?php
+/**
+ * admin_movies.php
+ *
+ * Admin interface for managing movies.
+ *
+ * Responsibilities:
+ * - Restricts access to admin users only.
+ * - Lists existing movies with options to add, edit or delete records.
+ * - Handles form submissions for creating/updating movie details.
+ *
+ * Supports Functional Requirement F17 (Admin Manage Movies Page).
+ */
+
 require_once __DIR__ . '/../includes/init.php';
+// --- Guard: Allow access only to admin users ---
 require_admin();
 
 $action = $_GET['action'] ?? 'list';
 
-$RATINGS = ['G','PG','PG-13','NC-16','M18','R21'];
+$RATINGS = ['G','PG','PG-13','NC-16','M18','R21'];// --- Fetch all movies to display in management table ---
 
+// --- Fetch all movies to display in management table ---
 function movie_by_id(PDO $db, int $id): ?array {
   $st = $db->prepare("SELECT * FROM movies WHERE id=? LIMIT 1");
   $st->execute([$id]);
   $row = $st->fetch(PDO::FETCH_ASSOC);
   return $row ?: null;
 }
-
+// --- Handle POST for creating/updating/deleting movie records ---
 function handle_create(PDO $db, array $RATINGS) {
   if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
   csrf_check();

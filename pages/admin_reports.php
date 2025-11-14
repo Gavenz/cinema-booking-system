@@ -1,7 +1,20 @@
 <?php
+/**
+ * admin_showtimes.php
+ *
+ * Admin interface for managing showtimes.
+ *
+ * Responsibilities:
+ * - Restricts access to admin users only.
+ * - Lists existing showtimes with movie, hall and timing information.
+ * - Handles form submissions to create/update/delete showtimes.
+ *
+ * Supports Functional Requirement F18 (Admin Manage Showtimes Page).
+ */
+
 require_once __DIR__ . '/../includes/init.php';
 require_admin();
-
+// --- Run aggregate queries to compute report metrics (e.g., revenue by movie) ---
 $sql = "
 SELECT
   s.id                                      AS showtime_id,

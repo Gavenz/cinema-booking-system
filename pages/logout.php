@@ -1,4 +1,17 @@
 <?php
+/**
+ * logout.php
+ *
+ * Logs out the current user and clears the session.
+ *
+ * Responsibilities:
+ * - Accepts only POST requests with a valid CSRF token.
+ * - Clears all session data and destroys the session cookie.
+ * - Redirects user back to the homepage or login page with a flash message.
+ *
+ * Used across all Functional Requirements that require authentication (F7–F14, F16–F19).
+ */
+
 require_once __DIR__ . '/../includes/init.php'; // already pulls in flash.php
 
 // Only accept POST + valid CSRF

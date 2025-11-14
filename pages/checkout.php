@@ -1,8 +1,21 @@
 <?php
+/**
+ * checkout.php
+ *
+ * Checkout confirmation page before payment.
+ *
+ * Responsibilities:
+ * - Loads the current booking/cart for the logged-in user.
+ * - Shows movie title, showtime, hall, selected seats and ticket breakdown.
+ * - Displays the final price and any breakdown (ticket type x price).
+ * - Provides a button/form to continue to payment.php with the booking id.
+ *
+ * Supports Functional Requirement F11 (Checkout Page).
+ */
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/mail.php';
 
-
+// --- Guard: Require user to be logged in and have an active booking ---
 if (!isset($_SESSION['user'])) {
   flash_warn('Please log in first.');
   header('Location: ' . url('pages/login.php?next='.urlencode(url('pages/checkout.php'))));

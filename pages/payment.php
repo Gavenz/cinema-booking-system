@@ -1,4 +1,20 @@
 <?php
+/**
+ * payment.php
+ *
+ * Handles simulated payment and final booking confirmation.
+ *
+ * Responsibilities:
+ * - Validates that the booking belongs to the logged-in user and is payable.
+ * - Accepts selected payment method (e.g., Visa/Mastercard/PayNow).
+ * - Wraps operations in a database transaction:
+ *   - Inserts a new row into the payments table.
+ *   - Updates the booking status to 'paid/confirmed' and sets timestamps.
+ * - Triggers a confirmation email to the user via mail.php / PHPMailer.
+ * - Redirects to a confirmation / "My Bookings" page with a success message.
+ *
+ * Supports Functional Requirement F12 / F14 (Payment Page).
+ */
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/mail.php';
 

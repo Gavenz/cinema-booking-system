@@ -1,5 +1,17 @@
 <?php
-// includes/footer.php
+/**
+ * footer.php
+ *
+ * Shared layout file that renders the bottom HTML structure of every page.
+ *
+ * Responsibilities:
+ * - Closes main content containers and outputs the site footer.
+ * - Optionally renders flash messages at the bottom of the page, if configured.
+ *
+ * Used by: all user-facing and admin pages.
+ */
+
+
 $year = date('Y');
 ?>
 <footer>

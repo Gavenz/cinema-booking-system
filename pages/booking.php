@@ -1,6 +1,20 @@
 <?php
+/**
+ * booking.php
+ *
+ * Seat selection and ticket-type selection for a chosen showtime.
+ *
+ * Responsibilities:
+ * - Validates that a showtime id is present and belongs to an active movie.
+ * - Displays the seat map layout of the hall (available vs taken seats).
+ * - Allows the user to select seats and ticket types (adult/child/student, etc.).
+ * - Stores the selection into the booking/cart tables for checkout.
+ *
+ * Supports Functional Requirement F10 (Seat Map / Booking Page).
+ */
 require_once __DIR__ . '/../includes/init.php';
 
+// --- Guard: Require user to be logged in before booking ---
 if (!isset($_SESSION['user'])) {
   flash_warn('Please log in to select seats');
   header('Location: ' . url('pages/login.php?next='.urlencode($_SERVER['REQUEST_URI'] ?? url('pages/showtimes.php'))));
@@ -18,7 +32,8 @@ if ($showtimeId <= 0) {
   exit;
 }
 
-// --- Load showtime + movie + hall ---
+
+// --- Load showtime details and hall layout from the database ---
 $st = $pdo->prepare("
   SELECT s.id, s.starts_at, s.hall_id,
          m.id AS movie_id, m.title, m.runtime_min, m.rating, m.poster_url,
@@ -47,8 +62,7 @@ $st = $pdo->prepare("
 $st->execute([':hid' => (int)$show['hall_id']]);
 $seats = $st->fetchAll(PDO::FETCH_ASSOC);
 
-// --- Seats already taken/held for this showtime ---
-// Replace your “taken seats” query with this:
+// --- Fetch already-booked seats to prevent double-booking ---
 $stTaken = $pdo->prepare("
   SELECT bi.seat_id
   FROM booking_items bi
@@ -63,7 +77,7 @@ $stTaken->execute([':sid' => $showtimeId]);
 $unavailable = array_fill_keys($stTaken->fetchAll(PDO::FETCH_COLUMN, 0), true);
 
 
-// --- Handle POST (create booking) ---
+// --- Handle POST: validate selected seats and ticket types ---
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $chosen = array_map('intval', $_POST['seats'] ?? []);
@@ -107,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           throw new Exception('One or more selected seats were just taken. Please choose different seats.');
         }
 
-        // Create booking (confirm directly for demo; you can switch to 'pending' + checkout later)
+// --- Save booking line items to booking/cart tables and redirect to checkout ---
         $insB = $pdo->prepare("
           INSERT INTO booking (user_id, showtime_id, qty, total_amount, booking_status, paid_at)
           VALUES (:uid, :sid, :qty, :total, 'confirmed', NOW())

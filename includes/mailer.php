@@ -1,4 +1,16 @@
 <?php
+/**
+ * mailer.php
+ *
+ * Configures PHPMailer for sending transactional emails.
+ *
+ * Responsibilities:
+ * - Creates and configures a PHPMailer instance (SMTP host, port, auth, etc.).
+ * - Provides a function/helper that other files (e.g. mail.php) can call to send emails.
+ *
+ * Supports Functional Requirement F14 (Payment Page) by enabling confirmation
+ * emails after successful payments.
+ */
 // includes/mailer.php
 
 require_once __DIR__ . '/PHPMailer/src/Exception.php';

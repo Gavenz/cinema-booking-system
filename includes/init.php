@@ -1,7 +1,26 @@
 <?php
+/**
+ * init.php
+ *
+ * Global bootstrap for the cinema booking web application.
+ *
+ * Responsibilities:
+ * - Starts the PHP session and configures error reporting.
+ * - Loads environment configuration and establishes the PDO database connection.
+ * - Defines helper functions such as url(), csrf_field(), csrf_check(), etc.
+ * - Initializes the CSRF token used in forms across the site.
+ *
+ * This file underpins all Functional Requirements (F7–F14, F16–F19) because it is
+ * required by nearly every page to ensure consistent configuration and security.
+ */
+
+
+// --- Session & error reporting setup ---
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// --- Authentication helpers (current user, role checks) ---
 function current_user(): ?array {
   return $_SESSION['user'] ?? null;
 }
@@ -28,7 +47,7 @@ function require_admin(): void {
     exit;
   }
 }
-// ----- CSRF helpers -----
+// --- CSRF token generation and helper functions ---
 if (empty($_SESSION['csrf'])) {
   $_SESSION['csrf'] = bin2hex(random_bytes(32)); // stable per-session token
 }
@@ -83,7 +102,7 @@ if (empty($_SESSION['csrf'])) {
   }
 
 
-// Your app is under the parent docroot, so use the folder:
+// --- URL and path helper functions ---
 //usage: href= "<?= url('pages/bookings.php')?">
 
 define('BASE_URL', '/cinema-booking-system');
@@ -92,7 +111,8 @@ function url(string $path=''): string {
   return rtrim(BASE_URL,'/') . '/' . ltrim($path,'/');
 }
 
-// pdo connection
+
+// --- Database connection (PDO) ---
 $dsn = 'mysql:host=127.0.0.1;dbname=cinema;charset=utf8mb4';
 $user = 'root';
 $pass = '';

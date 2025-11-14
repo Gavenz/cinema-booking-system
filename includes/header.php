@@ -1,4 +1,18 @@
 <?php
+/**
+ * header.php
+ *
+ * Shared layout file that renders the top HTML structure of every page.
+ *
+ * Responsibilities:
+ * - Outputs the <head> section, global CSS (styles.css) and navigation bar.
+ * - Highlights the active navigation item based on $activeNav.
+ * - Begins the main page container for content.
+ *
+ * Used by: all user-facing pages (F6–F14) and admin pages (F16–F19) to ensure
+ * a consistent look and feel.
+ */
+
 require_once __DIR__ . '/init.php';
 require_once __DIR__ . '/flash.php';
 
@@ -8,6 +22,7 @@ $userName  = $isAuthed
   ? ($_SESSION['user']['username'] ?? $_SESSION['user']['email'] ?? 'User')
   : null;
 ?>
+<!--  Global navigation bar (user/admin links, active state) --!>
 <header class="nav" role="banner">
   <div class="nav-inner">
     <a class="brand" href="<?= url('brandon/cinemahomepage.php') ?>" aria-label="Big Premiere Point Home">
